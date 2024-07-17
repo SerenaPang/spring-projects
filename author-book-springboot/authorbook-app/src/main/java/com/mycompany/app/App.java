@@ -1,13 +1,14 @@
 package com.mycompany.app;
+import org.springframework.boot.SpringApplication;
 
 /**
- * Hello world!
- *
+ * run author book app
  */
 public class App 
 {
-    public static void main( String[] args )
+    public static void main(String[] args )
     {
-        System.out.println( "Hello World!" );
+        System.out.println( "Welcome to author book!" );
+        SpringApplication.run(App.class, args);
     }
 }
