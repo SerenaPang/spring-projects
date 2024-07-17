@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -51,9 +53,20 @@ public class BookController {
 		books.add(book);
 		System.out.println("The list of books is " + books);
 	}
-	
-	public void delete(int id) {
-		
+
+	// curl -H 'Content-Type: application/json' -X DELETE http://localhost:8080/deleteByBookId/1
+	@DeleteMapping(path = "/deleteByBookId/{idBook}")  
+	public Book deleteByBookId(@PathVariable(name = "idBook") Integer idBook) {
+		Book target = null;
+		for (int i = 0; i < books.size(); i++) {
+			if (idBook == books.get(i).getId()) {
+				target = books.get(i);
+				System.out.println("Deleting " + target.toString());
+				books.remove(i);
+				break;
+			}
+		}
+		return target;
 	}
 	
 	public void update(int id) {
