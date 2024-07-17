@@ -20,9 +20,10 @@ public class BookController {
 		books.add(yellow);
 	}
 	
-	// curl -X GET "http://localhost:8000/findById?id=0"
-	@GetMapping("/findById")
-	public Book findById(@RequestParam(value = "id", defaultValue = "0") int id) {
+	// curl -X GET "http://localhost:8000/findBookById?id=0"
+	@GetMapping("/findBookById")
+	public Book findBookById(@RequestParam(value = "id", defaultValue = "0") Integer id) {
+		System.out.println("BookController.findById() " + id);
 		Book resultBook = null;
 		for (int i = 0; i < books.size(); i++) {
 			if (id == books.get(i).getId()) {
