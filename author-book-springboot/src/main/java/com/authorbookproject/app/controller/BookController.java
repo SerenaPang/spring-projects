@@ -1,4 +1,4 @@
-package com.mycompany.app;
+package com.authorbookproject.app.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.mycompany.app.model.Book;
 
 @RestController
 public class BookController {
@@ -20,7 +22,7 @@ public class BookController {
 		books.add(yellow);
 	}
 	
-	// curl -X GET "http://localhost:8000/findBookById?id=0"
+	// curl -X GET "http://localhost:8080/findBookById?id=1"
 	@GetMapping("/findBookById")
 	public Book findBookById(@RequestParam(value = "id", defaultValue = "0") Integer id) {
 		System.out.println("BookController.findById() " + id);
