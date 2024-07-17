@@ -36,8 +36,10 @@ public class BookController {
 		return resultBook;
 	}
 	
-	public List<Book> findAll() {
-		return null;
+	// curl -X GET "http://localhost:8080/findAllBooks" 
+	@GetMapping("/findAllBooks")
+	public List<Book> findAllBooks() {
+		return books;
 	}
 	
 	public void save(Book book) {
