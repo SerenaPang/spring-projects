@@ -9,6 +9,11 @@ public class Book {
 	public String toString() {
 		return "Book [id=" + id + ", name=" + name + ", isbn=" + isbn + "]";
 	}
+	public Book(int id, String name, String isbn) {
+		this.id = id;
+		this.name = name;
+		this.isbn = isbn;
+	}
 	public int getId() {
 		return id;
 	}
