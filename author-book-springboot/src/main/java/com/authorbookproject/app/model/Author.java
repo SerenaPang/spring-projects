@@ -1,4 +1,4 @@
-package com.mycompany.app.model;
+package com.authorbookproject.app.model;
 
 import java.util.List;
 

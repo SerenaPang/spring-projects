@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mycompany.app.model.Author;
-import com.mycompany.app.model.Book;
+import com.authorbookproject.app.model.Author;
+import com.authorbookproject.app.model.Book;
 
 @RestController
 public class AuthorController {
@@ -55,5 +55,12 @@ public class AuthorController {
 		return authors;
 	}
 	
-
+	// curl -H 'Content-Type: application/json' -d '{ "id":"5", "name":"AAAB", "books":[{"id":"3", "name":"Pink", "isbn":"cvi-wcd56byd-23"}, {"id":"2", "name":"Black", "isbn":"he-jfv56we-v67"}] }' -X POST http://localhost:8080/saveAuthor
+	@PostMapping(path = "/saveAuthor", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public void saveAuthor(@RequestBody Author author) {
+		authors.add(author);
+		System.out.println("The list of authors is " + authors);
+	}
+	
+	
 }
