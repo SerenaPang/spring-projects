@@ -3,6 +3,7 @@ package com.authorbookproject.app.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,40 +16,30 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.authorbookproject.app.model.Author;
 import com.authorbookproject.app.model.Book;
+import com.authorbookproject.app.repository.BookRepository;
 
 @RestController
 public class BookController {
 
-	// TODO: Use authorRepository instead.
-	private List<Book> books = new ArrayList<>();
+	@Autowired
+	private BookRepository bookRepository;
 
 	public BookController() {
-		Book blue = new Book(0, "Blue", "fyg-y3g245-dg");
-		Book red = new Book(1, "Red", "bfd-io58qgh-ds");
-		Book yellow = new Book(2, "Yellow", "yfu-4g84f-re");
-		books.add(blue);
-		books.add(red);
-		books.add(yellow);
+		
 	}
 	
 	// curl -X GET "http://localhost:8080/findBookById?id=1"
 	@GetMapping("/findBookById")
 	public Book findBookById(@RequestParam(value = "id", defaultValue = "0") Integer id) {
 		System.out.println("BookController.findById() " + id);
-		Book resultBook = null;
-		for (int i = 0; i < books.size(); i++) {
-			if (id == books.get(i).getId()) {
-				resultBook = books.get(i);
-				break;
-			}
-		}
+		Book resultBook = bookRepository.findBookById(id);
 		return resultBook;
 	}
 	
 	// curl -X GET "http://localhost:8080/findAllBooks" 
 	@GetMapping("/findAllBooks")
 	public List<Book> findAllBooks() {
-		return books;
+		return bookRepository.findAllBooks();
 	}
 	
 	// curl -H 'Content-Type: application/json' -d '{ "id":"4", "name":"Pink", "isbn":"cvi-wcd56byd-23" }' -X POST http://localhost:8080/saveBook/3
