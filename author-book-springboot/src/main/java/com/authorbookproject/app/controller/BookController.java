@@ -13,12 +13,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.authorbookproject.app.model.Author;
 import com.authorbookproject.app.model.Book;
 
 @RestController
 public class BookController {
+	// TODO: remove this list.
 	private List<Book> books = new ArrayList<>();
-	
+
 	public BookController() {
 		Book blue = new Book(0, "Blue", "fyg-y3g245-dg");
 		Book red = new Book(1, "Red", "bfd-io58qgh-ds");
@@ -48,11 +50,18 @@ public class BookController {
 		return books;
 	}
 	
-	// curl -H 'Content-Type: application/json' -d '{ "id":"3", "name":"Pink", "isbn":"cvi-wcd56byd-23" }' -X POST http://localhost:8080/saveBook
-	@PostMapping(path = "/saveBook", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public void saveBook(@RequestBody Book book) {
-		books.add(book);
-		System.out.println("The list of books is " + books);
+	// curl -H 'Content-Type: application/json' -d '{ "id":"4", "name":"Pink", "isbn":"cvi-wcd56byd-23" }' -X POST http://localhost:8080/saveBook/3
+	@PostMapping(path = "/saveBook/{idAuthor}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public Author saveBook(@PathVariable(name = "idAuthor") Integer idAuthor, @RequestBody Book book) {
+		System.out.println("BookController.saveBook() idAuthor " + idAuthor);
+		for (Author author : AuthorController.authors) {
+			if (author.getId() == idAuthor) {
+				author.getBooks().add(book);
+				return author;
+			}
+		}
+
+		return null;
 	}
 
 	// curl -H 'Content-Type: application/json' -X DELETE http://localhost:8080/deleteByBookId/1

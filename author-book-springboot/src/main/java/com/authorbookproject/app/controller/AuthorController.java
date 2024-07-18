@@ -22,13 +22,13 @@ public class AuthorController {
 	private List<Book> melonBooks = new ArrayList<>();
 	private List<Book> cheeryBooks = new ArrayList<>();
 	private List<Book> appleBooks = new ArrayList<>();
-	private List<Author> authors = new ArrayList<>();
+	public static List<Author> authors = new ArrayList<>();
 
 	public AuthorController() {
-		Author peach = new Author(0, "Pink Peach", peachBooks);
-		Author melon = new Author(1, "Yellow Melon", melonBooks);
-		Author cheery = new Author(2, "Red Cheery", cheeryBooks);
-		Author apple = new Author(3, "Green Apple", appleBooks);
+		Author peach = new Author(0, "Haruki Murakami", peachBooks);
+		Author melon = new Author(1, "Sun Zi", melonBooks);
+		Author cheery = new Author(2, "Milan Kundera", cheeryBooks);
+		Author apple = new Author(3, "Natsuo Kirino", appleBooks);
 		authors.add(apple);
 		authors.add(cheery);
 		authors.add(peach);
