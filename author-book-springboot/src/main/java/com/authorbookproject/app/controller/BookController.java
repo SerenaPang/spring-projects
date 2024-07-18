@@ -52,22 +52,13 @@ public class BookController {
 				return author;
 			}
 		}
-
-		return null;
+		return book;
 	}
 
 	// curl -H 'Content-Type: application/json' -X DELETE http://localhost:8080/deleteByBookId/1
 	@DeleteMapping(path = "/deleteByBookId/{idBook}")  
 	public Book deleteByBookId(@PathVariable(name = "idBook") Integer idBook) {
-		Book target = null;
-		for (int i = 0; i < books.size(); i++) {
-			if (idBook == books.get(i).getId()) {
-				target = books.get(i);
-				System.out.println("Deleting " + target.toString());
-				books.remove(i);
-				break;
-			}
-		}
+		Book target = bookRepository.deleteByBookId(idBook);
 		return target;
 	}
 	

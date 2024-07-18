@@ -3,7 +3,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.PathVariable;
 
+import com.authorbookproject.app.controller.AuthorController;
 import com.authorbookproject.app.model.Author;
 import com.authorbookproject.app.model.Book;
 
@@ -36,5 +38,27 @@ public class BookRepository {
 		return books;
 	}
 	
-
+	public Book saveBook(Integer idAuthor, Book book) {
+		System.out.println("BookController.saveBook() idAuthor " + idAuthor);
+		for (Author author : AuthorRepository.authors) {
+			if (author.getId() == idAuthor) {
+				author.getBooks().add(book);
+				return author;
+			}
+		}
+		return book;
+	}
+	
+	public Book deleteByBookId(Integer idBook) {
+		Book target = null;
+		for (int i = 0; i < books.size(); i++) {
+			if (idBook == books.get(i).getId()) {
+				target = books.get(i);
+				System.out.println("Deleting " + target.toString());
+				books.remove(i);
+				break;
+			}
+		}
+		return target;
+	}
 }
