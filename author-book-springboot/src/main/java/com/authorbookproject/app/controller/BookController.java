@@ -18,7 +18,8 @@ import com.authorbookproject.app.model.Book;
 
 @RestController
 public class BookController {
-	// TODO: remove this list.
+
+	// TODO: Use authorRepository instead.
 	private List<Book> books = new ArrayList<>();
 
 	public BookController() {

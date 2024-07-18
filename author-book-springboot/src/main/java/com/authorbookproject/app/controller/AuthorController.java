@@ -3,6 +3,7 @@ package com.authorbookproject.app.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.authorbookproject.app.model.Author;
 import com.authorbookproject.app.model.Book;
+import com.authorbookproject.app.repository.AuthorRepository;
 
 @RestController
 public class AuthorController {
@@ -22,7 +24,11 @@ public class AuthorController {
 	private List<Book> melonBooks = new ArrayList<>();
 	private List<Book> cheeryBooks = new ArrayList<>();
 	private List<Book> appleBooks = new ArrayList<>();
+
+	// TODO: Use authorRepository instead.
 	public static List<Author> authors = new ArrayList<>();
+
+	@Autowired private AuthorRepository authorRepository;
 
 	public AuthorController() {
 		Author peach = new Author(0, "Haruki Murakami", peachBooks);
@@ -52,7 +58,7 @@ public class AuthorController {
 	// curl -X GET "http://localhost:8080/findAllAuthors"
 	@GetMapping("/findAllAuthors")
 	public List<Author> findAllAuthors() {
-		return authors;
+		return authorRepository.findAllAuthors();
 	}
 
 	// curl -H 'Content-Type: application/json' -d '{ "id":"5", "name":"AAAB",
@@ -61,7 +67,7 @@ public class AuthorController {
 	// http://localhost:8080/saveAuthor
 	@PostMapping(path = "/saveAuthor", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Author saveAuthor(@RequestBody Author author) {
-		authors.add(author);
+		authorRepository.saveAuthor(author);
 		System.out.println("The list of authors is " + authors);
 		return author;
 	}
