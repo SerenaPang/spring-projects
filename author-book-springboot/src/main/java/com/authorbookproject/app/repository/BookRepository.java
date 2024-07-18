@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.authorbookproject.app.controller.AuthorController;
 import com.authorbookproject.app.model.Author;
@@ -60,5 +61,17 @@ public class BookRepository {
 			}
 		}
 		return target;
+	}
+	
+	public Book updateBook(Book book) {
+		Book target = book;
+		for (int i = 0; i < books.size(); i++) {
+			if (target.getId() == books.get(i).getId()) {
+				books.get(i).setName(target.getName());
+				books.get(i).setIsbn(target.getIsbn());
+				break;
+			}
+		}
+		return book;
 	}
 }

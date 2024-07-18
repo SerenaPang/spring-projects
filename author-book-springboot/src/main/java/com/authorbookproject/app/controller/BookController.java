@@ -65,14 +65,7 @@ public class BookController {
 	// curl -H 'Content-Type: application/json' -d '{ "id":"2", "name":"Black", "isbn":"he-jfv56we-v67"}' -X PUT http://localhost:8080/updateBook
 	@PutMapping(path = "/updateBook", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Book updateBook(@RequestBody Book book) {
-		Book target = book;
-		for (int i = 0; i < books.size(); i++) {
-			if (target.getId() == books.get(i).getId()) {
-				books.get(i).setName(target.getName());
-				books.get(i).setIsbn(target.getIsbn());
-				break;
-			}
-		}
+		bookRepository.updateBook(book);
 		return book;
 	}
 }
