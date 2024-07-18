@@ -81,6 +81,18 @@ public class AuthorController {
 		return target;
 	}
 	
-	
+	// curl -H 'Content-Type: application/json' -d '{ "id":"1", "name":"MMMMM", "books":[{"id":"3", "name":"Pink", "isbn":"cvi-wcd56byd-23"}, {"id":"2", "name":"Black", "isbn":"he-jfv56we-v67"}] }' -X PUT http://localhost:8080/updateAuthor
+		@PutMapping(path = "/updateAuthor", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+		public Author updateAuthor(@RequestBody Author author) {
+			Author target = author;
+			for (int i = 0; i < authors.size(); i++) {
+				if (target.getId() == authors.get(i).getId()) {
+					authors.get(i).setName(target.getName());
+					authors.get(i).setBooks(author.getBooks());
+					break;
+				}
+			}
+			return author;
+		}
 
 }
