@@ -23,18 +23,18 @@ public class AuthorController {
 	private List<Book> cheeryBooks = new ArrayList<>();
 	private List<Book> appleBooks = new ArrayList<>();
 	private List<Author> authors = new ArrayList<>();
-	
+
 	public AuthorController() {
-		Author peach = new Author(0, "Pink Peach", peachBooks); 
-		Author melon = new Author(1, "Yellow Melon", melonBooks); 
-		Author cheery = new Author(2, "Red Cheery", cheeryBooks); 
-		Author apple = new Author(3, "Green Apple", appleBooks); 	
+		Author peach = new Author(0, "Pink Peach", peachBooks);
+		Author melon = new Author(1, "Yellow Melon", melonBooks);
+		Author cheery = new Author(2, "Red Cheery", cheeryBooks);
+		Author apple = new Author(3, "Green Apple", appleBooks);
 		authors.add(apple);
 		authors.add(cheery);
 		authors.add(peach);
 		authors.add(melon);
 	}
-	
+
 	// curl -X GET "http://localhost:8080/findAuthorById?id=1"
 	@GetMapping("/findAuthorById")
 	public Author findAuthorById(@RequestParam(value = "id", defaultValue = "0") Integer id) {
@@ -48,19 +48,39 @@ public class AuthorController {
 		}
 		return resultAuthor;
 	}
-	
-	// curl -X GET "http://localhost:8080/findAllAuthors" 
+
+	// curl -X GET "http://localhost:8080/findAllAuthors"
 	@GetMapping("/findAllAuthors")
 	public List<Author> findAllAuthors() {
 		return authors;
 	}
-	
-	// curl -H 'Content-Type: application/json' -d '{ "id":"5", "name":"AAAB", "books":[{"id":"3", "name":"Pink", "isbn":"cvi-wcd56byd-23"}, {"id":"2", "name":"Black", "isbn":"he-jfv56we-v67"}] }' -X POST http://localhost:8080/saveAuthor
+
+	// curl -H 'Content-Type: application/json' -d '{ "id":"5", "name":"AAAB",
+	// "books":[{"id":"3", "name":"Pink", "isbn":"cvi-wcd56byd-23"}, {"id":"2",
+	// "name":"Black", "isbn":"he-jfv56we-v67"}] }' -X POST
+	// http://localhost:8080/saveAuthor
 	@PostMapping(path = "/saveAuthor", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public void saveAuthor(@RequestBody Author author) {
+	public Author saveAuthor(@RequestBody Author author) {
 		authors.add(author);
 		System.out.println("The list of authors is " + authors);
+		return author;
+	}
+
+	// curl -H 'Content-Type: application/json' -X DELETE http://localhost:8080/deleteByAuthorId/1
+	@DeleteMapping(path = "/deleteByAuthorId/{idAuthor}")
+	public Author deleteByAuthorId(@PathVariable(name = "idAuthor") Integer idAuthor) {
+		Author target = null;
+		for (int i = 0; i < authors.size(); i++) {
+			if (idAuthor == authors.get(i).getId()) {
+				target = authors.get(i);
+				System.out.println("Deleting " + target.toString());
+				authors.remove(i);
+				break;
+			}
+		}
+		return target;
 	}
 	
 	
+
 }
