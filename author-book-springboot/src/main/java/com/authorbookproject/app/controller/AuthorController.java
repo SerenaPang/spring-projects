@@ -45,13 +45,7 @@ public class AuthorController {
 	@GetMapping("/findAuthorById")
 	public Author findAuthorById(@RequestParam(value = "id", defaultValue = "0") Integer id) {
 		System.out.println("AuthorController.findById() " + id);
-		Author resultAuthor = null;
-		for (int i = 0; i < authors.size(); i++) {
-			if (id == authors.get(i).getId()) {
-				resultAuthor = authors.get(i);
-				break;
-			}
-		}
+		Author resultAuthor = authorRepository.findAuthorById(id);
 		return resultAuthor;
 	}
 
@@ -75,29 +69,17 @@ public class AuthorController {
 	// curl -H 'Content-Type: application/json' -X DELETE http://localhost:8080/deleteByAuthorId/1
 	@DeleteMapping(path = "/deleteByAuthorId/{idAuthor}")
 	public Author deleteByAuthorId(@PathVariable(name = "idAuthor") Integer idAuthor) {
-		Author target = null;
-		for (int i = 0; i < authors.size(); i++) {
-			if (idAuthor == authors.get(i).getId()) {
-				target = authors.get(i);
-				System.out.println("Deleting " + target.toString());
-				authors.remove(i);
-				break;
-			}
-		}
+		Author target = authorRepository.deleteByAuthorId(idAuthor);
+		
+		// TODO: if target is null, target.toString() will cause NullPointerException
+		System.out.println("Deleting " + target.toString());
 		return target;
 	}
 	
 	// curl -H 'Content-Type: application/json' -d '{ "id":"1", "name":"MMMMM", "books":[{"id":"3", "name":"Pink", "isbn":"cvi-wcd56byd-23"}, {"id":"2", "name":"Black", "isbn":"he-jfv56we-v67"}] }' -X PUT http://localhost:8080/updateAuthor
 		@PutMapping(path = "/updateAuthor", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 		public Author updateAuthor(@RequestBody Author author) {
-			Author target = author;
-			for (int i = 0; i < authors.size(); i++) {
-				if (target.getId() == authors.get(i).getId()) {
-					authors.get(i).setName(target.getName());
-					authors.get(i).setBooks(author.getBooks());
-					break;
-				}
-			}
+			authorRepository.updateAuthor(author);
 			return author;
 		}
 
