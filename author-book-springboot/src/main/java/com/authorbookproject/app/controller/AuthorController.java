@@ -40,10 +40,7 @@ public class AuthorController {
 		return authorRepository.findAllAuthors();
 	}
 
-	// curl -H 'Content-Type: application/json' -d '{ "id":"5", "name":"AAAB",
-	// "books":[{"id":"3", "name":"Pink", "isbn":"cvi-wcd56byd-23"}, {"id":"2",
-	// "name":"Black", "isbn":"he-jfv56we-v67"}] }' -X POST
-	// http://localhost:8080/saveAuthor
+	// curl -H 'Content-Type: application/json' -d '{ "id":"5", "name":"AAAB", "books":[{"id":"3", "name":"Pink", "isbn":"cvi-wcd56byd-23"}, {"id":"2",  "name":"Black", "isbn":"he-jfv56we-v67"}] }' -X POST http://localhost:8080/saveAuthor
 	@PostMapping(path = "/saveAuthor", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Author saveAuthor(@RequestBody Author author) {
 		authorRepository.saveAuthor(author);
@@ -55,7 +52,6 @@ public class AuthorController {
 	@DeleteMapping(path = "/deleteByAuthorId/{idAuthor}")
 	public Author deleteByAuthorId(@PathVariable(name = "idAuthor") Integer idAuthor) {
 		Author target = authorRepository.deleteByAuthorId(idAuthor);
-
 		// TODO: if target is null, target.toString() will cause NullPointerException
 		System.out.println("Deleting " + target.toString());
 		return target;

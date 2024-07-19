@@ -14,16 +14,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.authorbookproject.app.model.Author;
 import com.authorbookproject.app.model.Book;
-import com.authorbookproject.app.repository.BookRepository;
+import com.authorbookproject.app.repository.AuthorRepository;
 
 @RestController
 public class BookController {
 
 	@Autowired
-	private BookRepository bookRepository;
-
+	private AuthorRepository authorRepository;
+	
 	public BookController() {
 		
 	}
@@ -32,40 +31,35 @@ public class BookController {
 	@GetMapping("/findBookById")
 	public Book findBookById(@RequestParam(value = "id", defaultValue = "0") Integer id) {
 		System.out.println("BookController.findById() " + id);
-		Book resultBook = bookRepository.findBookById(id);
+		Book resultBook = authorRepository.findBookById(id);
 		return resultBook;
 	}
 	
 	// curl -X GET "http://localhost:8080/findAllBooks" 
 	@GetMapping("/findAllBooks")
 	public List<Book> findAllBooks() {
-		return bookRepository.findAllBooks();
+		return authorRepository.findAllBooks();
 	}
 	
 	// curl -H 'Content-Type: application/json' -d '{ "id":"4", "name":"Pink", "isbn":"cvi-wcd56byd-23" }' -X POST http://localhost:8080/saveBook/3
 	@PostMapping(path = "/saveBook/{idAuthor}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Author saveBook(@PathVariable(name = "idAuthor") Integer idAuthor, @RequestBody Book book) {
+	public Book saveBook(@PathVariable(name = "idAuthor") Integer idAuthor, @RequestBody Book book) {
 		System.out.println("BookController.saveBook() idAuthor " + idAuthor);
-		for (Author author : AuthorController.authors) {
-			if (author.getId() == idAuthor) {
-				author.getBooks().add(book);
-				return author;
-			}
-		}
+		authorRepository.saveBook(idAuthor, book);
 		return book;
 	}
 
 	// curl -H 'Content-Type: application/json' -X DELETE http://localhost:8080/deleteByBookId/1
 	@DeleteMapping(path = "/deleteByBookId/{idBook}")  
 	public Book deleteByBookId(@PathVariable(name = "idBook") Integer idBook) {
-		Book target = bookRepository.deleteByBookId(idBook);
+		Book target = authorRepository.deleteByBookId(idBook);
 		return target;
 	}
 	
 	// curl -H 'Content-Type: application/json' -d '{ "id":"2", "name":"Black", "isbn":"he-jfv56we-v67"}' -X PUT http://localhost:8080/updateBook
 	@PutMapping(path = "/updateBook", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Book updateBook(@RequestBody Book book) {
-		bookRepository.updateBook(book);
+		authorRepository.updateBook(book);
 		return book;
 	}
 }
