@@ -3,7 +3,9 @@ package com.authorbookproject.app.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.authorbookproject.app.model.Author;
+import com.authorbookproject.app.model.Book;
 import com.authorbookproject.app.repository.AuthorRepository;
 
 
@@ -32,17 +35,42 @@ public class AuthorController {
 	}
 
 	// curl -X GET "http://localhost:8080/findAuthorById?id=1"
+//	@GetMapping("/findAuthorById")
+//	public Author findAuthorById(@RequestParam(value = "id", defaultValue = "0") Integer id) {
+//		System.out.println("AuthorController.findById() " + id);
+//		Author resultAuthor = authorRepository.findAuthorById(id);
+//		return resultAuthor;
+//	}
+//	
 	@GetMapping("/findAuthorById")
-	public Author findAuthorById(@RequestParam(value = "id", defaultValue = "0") Integer id) {
-		System.out.println("AuthorController.findById() " + id);
+	public ResponseEntity<Author> findAuthorById(@RequestParam(value = "id", defaultValue = "0") Integer id) {
+		System.out.println("BookController.findById() " + id);
 		Author resultAuthor = authorRepository.findAuthorById(id);
-		return resultAuthor;
+		 if (resultAuthor == null) {
+		        return ResponseEntity
+		                .status(HttpStatus.NOT_FOUND)
+		                .build();
+		    }
+		    // Return the resource with a 200 (OK) status code
+		    return ResponseEntity
+		            .status(HttpStatus.OK)
+		            .body(resultAuthor);
 	}
 
-	// curl -X GET "http://localhost:8080/findAllAuthors"
+	// curl -X GET "http://localhost:8080/findAllAuthors"	
+	@SuppressWarnings("unchecked")
 	@GetMapping("/findAllAuthors")
-	public List<Author> findAllAuthors() {
-		return authorRepository.findAllAuthors();
+	public  List<Author> findAllAuthors() {
+		 List<Author> authors = authorRepository.findAllAuthors();
+		 if (authors == null) {
+		        return ( List<Author> ) ResponseEntity
+		                .status(HttpStatus.NOT_FOUND)
+		                .build();
+		    }
+		    // Return the resource with a 200 (OK) status code
+		    return ( List<Author> ) ResponseEntity
+		            .status(HttpStatus.OK)
+		            .body(authors);
 	}
 
 	// curl -H 'Content-Type: application/json' -d '{ "id":"5", "name":"AAAB", "books":[{"id":"3", "name":"Pink", "isbn":"cvi-wcd56byd-23"}, {"id":"2",  "name":"Black", "isbn":"he-jfv56we-v67"}] }' -X POST http://localhost:8080/saveAuthor
