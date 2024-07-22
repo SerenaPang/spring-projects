@@ -16,6 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.authorbookproject.app.model.Author;
 import com.authorbookproject.app.repository.AuthorRepository;
 
+
+// https://medium.com/@daryl-goh/spring-boot-requestentity-vs-responseentity-requestbody-vs-responsebody-dc808fb0d86c
+// https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/HttpStatus.html	
+
+// TODO: Return ResponseEntity<> in all the Mapping methods
+		
 @RestController
 public class AuthorController {
 	@Autowired

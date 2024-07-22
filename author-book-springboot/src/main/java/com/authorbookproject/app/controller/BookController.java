@@ -3,7 +3,9 @@ package com.authorbookproject.app.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,13 +29,30 @@ public class BookController {
 	}
 	
 	// curl -X GET "http://localhost:8080/findBookById?id=1"
+//	@GetMapping("/findBookById")
+//	public Book findBookById(@RequestParam(value = "id", defaultValue = "0") Integer id) {
+//		System.out.println("BookController.findById() " + id);
+//		Book resultBook = authorRepository.findBookById(id);
+//		return resultBook;
+//	}
+	
+	// curl -X GET "http://localhost:8080/findBookById?id=1"
 	@GetMapping("/findBookById")
-	public Book findBookById(@RequestParam(value = "id", defaultValue = "0") Integer id) {
+	public ResponseEntity<Book> findBookById(@RequestParam(value = "id", defaultValue = "0") Integer id) {
 		System.out.println("BookController.findById() " + id);
 		Book resultBook = authorRepository.findBookById(id);
-		return resultBook;
+		 if (resultBook == null) {
+		        return ResponseEntity
+		                .status(HttpStatus.NOT_FOUND)
+		                .build();
+		    }
+
+		    // Return the resource with a 200 (OK) status code
+		    return ResponseEntity
+		            .status(HttpStatus.OK)
+		            .body(resultBook);
 	}
-	
+
 	// curl -X GET "http://localhost:8080/findAllBooks" 
 	@GetMapping("/findAllBooks")
 	public List<Book> findAllBooks() {
