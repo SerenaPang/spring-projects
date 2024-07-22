@@ -46,7 +46,6 @@ public class BookController {
 		                .status(HttpStatus.NOT_FOUND)
 		                .build();
 		    }
-
 		    // Return the resource with a 200 (OK) status code
 		    return ResponseEntity
 		            .status(HttpStatus.OK)
@@ -54,10 +53,22 @@ public class BookController {
 	}
 
 	// curl -X GET "http://localhost:8080/findAllBooks" 
+	@SuppressWarnings("unchecked")
 	@GetMapping("/findAllBooks")
 	public List<Book> findAllBooks() {
-		return authorRepository.findAllBooks();
+		List<Book> books = authorRepository.findAllBooks();
+		 if (books == null) {
+		        return (List<Book>) ResponseEntity
+		                .status(HttpStatus.NOT_FOUND)
+		                .build();
+		    }
+		    // Return the resource with a 200 (OK) status code
+		    return (List<Book>) ResponseEntity
+		            .status(HttpStatus.OK)
+		            .body(books);
 	}
+	
+	
 	
 	// curl -H 'Content-Type: application/json' -d '{ "id":"4", "name":"Pink", "isbn":"cvi-wcd56byd-23" }' -X POST http://localhost:8080/saveBook/3
 	@PostMapping(path = "/saveBook/{idAuthor}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
