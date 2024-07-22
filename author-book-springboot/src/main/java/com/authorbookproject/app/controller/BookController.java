@@ -27,15 +27,7 @@ public class BookController {
 	public BookController() {
 		
 	}
-	
-	// curl -X GET "http://localhost:8080/findBookById?id=1"
-//	@GetMapping("/findBookById")
-//	public Book findBookById(@RequestParam(value = "id", defaultValue = "0") Integer id) {
-//		System.out.println("BookController.findById() " + id);
-//		Book resultBook = authorRepository.findBookById(id);
-//		return resultBook;
-//	}
-	
+		
 	// curl -X GET "http://localhost:8080/findBookById?id=1"
 	@GetMapping("/findBookById")
 	public ResponseEntity<Book> findBookById(@RequestParam(value = "id", defaultValue = "0") Integer id) {
@@ -68,15 +60,25 @@ public class BookController {
 		            .body(books);
 	}
 	
-	
-	
 	// curl -H 'Content-Type: application/json' -d '{ "id":"4", "name":"Pink", "isbn":"cvi-wcd56byd-23" }' -X POST http://localhost:8080/saveBook/3
 	@PostMapping(path = "/saveBook/{idAuthor}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Book saveBook(@PathVariable(name = "idAuthor") Integer idAuthor, @RequestBody Book book) {
-		System.out.println("BookController.saveBook() idAuthor " + idAuthor);
-		authorRepository.saveBook(idAuthor, book);
-		return book;
+	public ResponseEntity<Book> saveBook(@PathVariable(name = "idAuthor") Integer idAuthor, @RequestBody Book book) {
+	    // Save the resource to the database
+		Book bookSaved = authorRepository.saveBook(idAuthor, book);
+
+	    // Return the created resource with a 201 (created) status code
+	    return ResponseEntity
+	            .status(HttpStatus.CREATED)
+	            .body(bookSaved);
 	}
+	
+	// curl -H 'Content-Type: application/json' -d '{ "id":"4", "name":"Pink", "isbn":"cvi-wcd56byd-23" }' -X POST http://localhost:8080/saveBook/3
+//	@PostMapping(path = "/saveBook/{idAuthor}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+//	public Book saveBook(@PathVariable(name = "idAuthor") Integer idAuthor, @RequestBody Book book) {
+//		System.out.println("BookController.saveBook() idAuthor " + idAuthor);
+//		authorRepository.saveBook(idAuthor, book);
+//		return book;
+//	}
 
 	// curl -H 'Content-Type: application/json' -X DELETE http://localhost:8080/deleteByBookId/1
 	@DeleteMapping(path = "/deleteByBookId/{idBook}")  
