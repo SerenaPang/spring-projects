@@ -74,10 +74,14 @@ public class AuthorController {
 	}
 
 	// curl -H 'Content-Type: application/json' -d '{ "id":"5", "name":"AAAB", "books":[{"id":"3", "name":"Pink", "isbn":"cvi-wcd56byd-23"}, {"id":"2",  "name":"Black", "isbn":"he-jfv56we-v67"}] }' -X POST http://localhost:8080/saveAuthor
-	@PostMapping(path = "/saveAuthor", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Author saveAuthor(@RequestBody Author author) {
-		authorRepository.saveAuthor(author);
-		return author;
+	@PostMapping("/saveAuthor{author}")
+	public ResponseEntity<Author> saveAuthor(@RequestBody Author author) {
+		Author authorSaved = authorRepository.saveAuthor(author);
+		if (authorSaved == null) {
+			return null;
+		}
+		// Return the created resource with a 201 (created) status code
+		return ResponseEntity.status(HttpStatus.CREATED).body(authorSaved);
 	}
 
 	// curl -H 'Content-Type: application/json' -X DELETE
