@@ -47,15 +47,15 @@ public class BookController {
 	// curl -X GET "http://localhost:8080/findAllBooks" 
 	@SuppressWarnings("unchecked")
 	@GetMapping("/findAllBooks")
-	public List<Book> findAllBooks() {
+	public ResponseEntity<List<Book>> findAllBooks() {
 		List<Book> books = authorRepository.findAllBooks();
 		 if (books == null) {
-		        return (List<Book>) ResponseEntity
+		        return ResponseEntity
 		                .status(HttpStatus.NOT_FOUND)
 		                .build();
 		    }
 		    // Return the resource with a 200 (OK) status code
-		    return (List<Book>) ResponseEntity
+		    return ResponseEntity
 		            .status(HttpStatus.OK)
 		            .body(books);
 	}
@@ -66,31 +66,52 @@ public class BookController {
 	    // Save the resource to the database
 		Book bookSaved = authorRepository.saveBook(idAuthor, book);
 
+		if (bookSaved == null) {
+			return null;
+		}
 	    // Return the created resource with a 201 (created) status code
 	    return ResponseEntity
 	            .status(HttpStatus.CREATED)
 	            .body(bookSaved);
 	}
 	
-	// curl -H 'Content-Type: application/json' -d '{ "id":"4", "name":"Pink", "isbn":"cvi-wcd56byd-23" }' -X POST http://localhost:8080/saveBook/3
-//	@PostMapping(path = "/saveBook/{idAuthor}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-//	public Book saveBook(@PathVariable(name = "idAuthor") Integer idAuthor, @RequestBody Book book) {
-//		System.out.println("BookController.saveBook() idAuthor " + idAuthor);
-//		authorRepository.saveBook(idAuthor, book);
-//		return book;
-//	}
-
 	// curl -H 'Content-Type: application/json' -X DELETE http://localhost:8080/deleteByBookId/1
 	@DeleteMapping(path = "/deleteByBookId/{idBook}")  
-	public Book deleteByBookId(@PathVariable(name = "idBook") Integer idBook) {
-		Book target = authorRepository.deleteByBookId(idBook);
-		return target;
+	public ResponseEntity<Void> deleteResource(@PathVariable(name = "idBook") Integer idBook) {
+	    // Retrieve the resource from the database
+	    Book target = authorRepository.findBookById(idBook);
+	    // If the resource is not found, return a 404 (not found) status code
+	    if (target == null) {
+	        return ResponseEntity
+	                .status(HttpStatus.NOT_FOUND)
+	                .build();
+	    }
+	    // Delete the resource
+	    authorRepository.deleteByBookId(idBook);
+	    // Return a 204 (no content) status code
+	    return ResponseEntity
+	            .status(HttpStatus.NO_CONTENT)
+	            .build();
 	}
 	
 	// curl -H 'Content-Type: application/json' -d '{ "id":"2", "name":"Black", "isbn":"he-jfv56we-v67"}' -X PUT http://localhost:8080/updateBook
 	@PutMapping(path = "/updateBook", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Book updateBook(@RequestBody Book book) {
-		authorRepository.updateBook(book);
-		return book;
+	public ResponseEntity<Book> updateResource(@RequestBody Book book) {
+	    // Retrieve the resource from the database
+		  Integer idBook = book.getId();
+		  Book target = authorRepository.findBookById(idBook);
+		    // If the resource is not found, return a 404 (not found) status code
+		    if (target == null) {
+		        return ResponseEntity
+		                .status(HttpStatus.NOT_FOUND)
+		                .build();
+		    }
+
+	    // Update the resource	  
+		Book updatedBook = authorRepository.updateBook(book);
+	    // Return the updated resource with a 200 (OK) status code
+	    return ResponseEntity
+	            .status(HttpStatus.OK)
+	            .body(updatedBook);
 	}
 }
