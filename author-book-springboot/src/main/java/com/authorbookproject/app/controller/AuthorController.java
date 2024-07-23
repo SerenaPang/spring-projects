@@ -84,14 +84,19 @@ public class AuthorController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(authorSaved);
 	}
 
-	// curl -H 'Content-Type: application/json' -X DELETE
-	// http://localhost:8080/deleteByAuthorId/1
+	// curl -H 'Content-Type: application/json' -X DELETE http://localhost:8080/deleteByAuthorId/1
 	@DeleteMapping(path = "/deleteByAuthorId/{idAuthor}")
-	public Author deleteByAuthorId(@PathVariable(name = "idAuthor") Integer idAuthor) {
-		Author target = authorRepository.deleteByAuthorId(idAuthor);
-		// TODO: if target is null, target.toString() will cause NullPointerException
-		System.out.println("Deleting " + target.toString());
-		return target;
+	public ResponseEntity<Author> deleteResource(@PathVariable(name = "idAuthor") Integer idAuthor) {
+		// Retrieve the resource from the database
+		Author target = authorRepository.findAuthorById(idAuthor);
+		// If the resource is not found, return a 404 (not found) status code
+		if (target == null) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
+		// Delete the resource
+		authorRepository.deleteByAuthorId(idAuthor);
+		// Return a 204 (no content) status code
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 
 	// curl -H 'Content-Type: application/json' -d '{ "id":"1", "name":"MMMMM",
