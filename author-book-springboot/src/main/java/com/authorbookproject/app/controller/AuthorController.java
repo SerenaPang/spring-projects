@@ -102,10 +102,19 @@ public class AuthorController {
 	// curl -H 'Content-Type: application/json' -d '{ "id":"1", "name":"MMMMM",
 	// "books":[{"id":"3", "name":"Pink", "isbn":"cvi-wcd56byd-23"}, {"id":"2",
 	// "name":"Black", "isbn":"he-jfv56we-v67"}] }' -X PUT
-	// http://localhost:8080/updateAuthor
-	@PutMapping(path = "/updateAuthor", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Author updateAuthor(@RequestBody Author author) {
-		authorRepository.updateAuthor(author);
-		return author;
+	// http://localhost:8080/updateAuthor	
+	@PutMapping(path = "/updateBook", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Author> updateResource(@RequestBody Author author) {
+		// Retrieve the resource from the database
+		Integer idAuthor = author.getId();
+		Author target = authorRepository.findAuthorById(idAuthor);
+		// If the resource is not found, return a 404 (not found) status code
+		if (target == null) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
+		// Update the resource
+		Author updatedAuthor = authorRepository.updateAuthor(author);
+		// Return the updated resource with a 200 (OK) status code
+		return ResponseEntity.status(HttpStatus.OK).body(updatedAuthor);
 	}
 }
