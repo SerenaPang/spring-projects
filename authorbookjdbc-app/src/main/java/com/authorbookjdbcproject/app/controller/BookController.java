@@ -68,7 +68,7 @@ public class BookController {
 	// curl -H 'Content-Type: application/json' -X DELETE
 	// http://localhost:8080/deleteByBookId/1
 	@DeleteMapping(path = "/deleteByBookId/{idBook}")
-	public ResponseEntity<Book> deleteResource(@PathVariable(name = "idBook") Integer idBook) {
+	public ResponseEntity<Book> deleteAuthor(@PathVariable(name = "idBook") Integer idBook) {
 		// Retrieve the resource from the database
 		Book target = authorRepository.findBookById(idBook);
 		// If the resource is not found, return a 404 (not found) status code

@@ -73,7 +73,7 @@ public class AuthorController {
 	// curl -H 'Content-Type: application/json' -X DELETE
 	// http://localhost:8080/deleteByAuthorId/1
 	@DeleteMapping(path = "/deleteByAuthorId/{idAuthor}")
-	public ResponseEntity<Author> deleteResource(@PathVariable(name = "idAuthor") Integer idAuthor) {
+	public ResponseEntity<Author> deleteAuthor(@PathVariable(name = "idAuthor") Integer idAuthor) {
 		// Retrieve the resource from the database
 		Author target = authorRepository.findAuthorById(idAuthor);
 		// If the resource is not found, return a 404 (not found) status code
@@ -91,7 +91,7 @@ public class AuthorController {
 	// "name":"Black", "isbn":"he-jfv56we-v67"}] }' -X PUT
 	// http://localhost:8080/updateAuthor
 	@PutMapping(path = "/updateBook", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Author> updateResource(@RequestBody Author author) {
+	public ResponseEntity<Author> updateAuthor(@RequestBody Author author) {
 		// Retrieve the resource from the database
 		Integer idAuthor = author.getId();
 		Author target = authorRepository.findAuthorById(idAuthor);
