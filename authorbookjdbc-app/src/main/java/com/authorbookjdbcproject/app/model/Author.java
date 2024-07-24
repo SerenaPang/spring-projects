@@ -18,6 +18,10 @@ public class Author{
 		this.books = books;
 	}
 	
+	public Author() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public int getId() {
 		return id;
 	}

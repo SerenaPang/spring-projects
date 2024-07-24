@@ -2,6 +2,7 @@ package com.authorbookjdbcproject.app.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -39,7 +40,27 @@ public class AuthorJdbcDao implements AuthorDao{
 
 	@Override
 	public Author findAuthorById(Integer id) {
-		// TODO Auto-generated method stub
+		System.out.println("jdbc find author by id");
+
+		try (Connection connection = dataSource.getConnection()) {
+			PreparedStatement ps = connection
+					.prepareStatement("SELECT id, name FROM author WHERE id =?");
+
+			ps.setInt(1, id);
+			Author author = new Author();
+			try (ResultSet rs = ps.executeQuery()) {
+				if (rs.next()) {
+					author.setId(rs.getInt("id"));
+					author.setName(rs.getString("name"));
+					
+				}
+			}
+			System.out.println(
+					"id: " + author.getId() + " name: " + author.getName() );
+			return author;
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
 		return null;
 	}
 

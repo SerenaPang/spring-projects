@@ -39,5 +39,6 @@ public class App
 		listOfBooks.add(b3);
 		Author a1 = new Author("Milan",listOfBooks);
 		authorDao.saveAuthor(a1);
+		authorDao.findAuthorById(1);
     }
 }
