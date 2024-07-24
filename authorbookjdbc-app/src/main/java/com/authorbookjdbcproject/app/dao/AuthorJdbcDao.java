@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.authorbookjdbcproject.app.model.Author;
@@ -66,7 +68,22 @@ public class AuthorJdbcDao implements AuthorDao{
 
 	@Override
 	public List<Author> findAllAuthors() {
-		// TODO Auto-generated method stub
+		System.out.println("jdbc find all authors");
+		try (Connection connection = dataSource.getConnection()) {
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT id, name from author");
+			List<Author> authors = new ArrayList<>();
+			while (rs.next()) {
+				Author author = new Author();
+				author.setId(rs.getInt("id"));
+				author.setName(rs.getString("name"));		
+				authors.add(author);
+			}
+			System.out.println(authors);
+			return authors;
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
 		return null;
 	}
 
