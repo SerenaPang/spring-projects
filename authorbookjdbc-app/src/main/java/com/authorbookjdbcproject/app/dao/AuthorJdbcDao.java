@@ -23,22 +23,18 @@ public class AuthorJdbcDao implements AuthorDao{
 
 		try (Connection connection = dataSource.getConnection()) {
 			PreparedStatement ps = connection
-					.prepareStatement("INSERT INTO Author(id, name, books) " + "VALUES(?,?,?)");
-
-			ps.setInt(1, author.getId());
-			ps.setString(2, author.getName());
-			
-		//	put list
-		//	ps.setNString(3, author.getBooks());
+					.prepareStatement("INSERT INTO Author(name) " + "VALUES(?)");
+			ps.setString(1, author.getName());
 			int i = ps.executeUpdate();
 
 			if (i == 1) {
-				System.out.println("jdbc save cosmetic info to database");
+				//ps.getGeneratedKeys()						
+				System.out.println("jdbc saved author info to database");
 			}
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
-		return null;
+		return author;
 	}
 
 	@Override
