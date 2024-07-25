@@ -9,13 +9,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.authorbookjdbcproject.app.model.Author;
+
 /**
  * This class connects to the database and enables the save, update, find,
  * delete operations to the database
  */
-public class AuthorJdbcDao implements AuthorDao{
+public class AuthorJdbcDao implements AuthorDao {
 	private JdbcDataSource dataSource;
-	
+
 	public AuthorJdbcDao(JdbcDataSource dataSource) {
 		this.dataSource = dataSource;
 	}
@@ -26,19 +27,18 @@ public class AuthorJdbcDao implements AuthorDao{
 		Author authorExist = findAuthorById(author.getId());
 		if (authorExist.getId() != author.getId() && authorExist.getName() != author.getName()) {
 			try (Connection connection = dataSource.getConnection()) {
-				PreparedStatement ps = connection
-						.prepareStatement("INSERT INTO Author(name) " + "VALUES(?)");
+				PreparedStatement ps = connection.prepareStatement("INSERT INTO Author(name) " + "VALUES(?)");
 				ps.setString(1, author.getName());
 				int i = ps.executeUpdate();
 
 				if (i == 1) {
-					//ps.getGeneratedKeys()						
+					// ps.getGeneratedKeys()
 					System.out.println("jdbc saved author info to database");
 				}
 			} catch (SQLException ex) {
 				ex.printStackTrace();
 			}
-		}		
+		}
 		return null;
 	}
 
@@ -47,8 +47,7 @@ public class AuthorJdbcDao implements AuthorDao{
 		System.out.println("jdbc find author by id");
 
 		try (Connection connection = dataSource.getConnection()) {
-			PreparedStatement ps = connection
-					.prepareStatement("SELECT id, name FROM author WHERE id =?");
+			PreparedStatement ps = connection.prepareStatement("SELECT id, name FROM author WHERE id =?");
 
 			ps.setInt(1, id);
 			Author author = new Author();
@@ -56,11 +55,10 @@ public class AuthorJdbcDao implements AuthorDao{
 				if (rs.next()) {
 					author.setId(rs.getInt("id"));
 					author.setName(rs.getString("name"));
-					
+
 				}
 			}
-			System.out.println(
-					"id: " + author.getId() + " name: " + author.getName() );
+			System.out.println("id: " + author.getId() + " name: " + author.getName());
 			return author;
 		} catch (SQLException ex) {
 			ex.printStackTrace();
@@ -78,7 +76,7 @@ public class AuthorJdbcDao implements AuthorDao{
 			while (rs.next()) {
 				Author author = new Author();
 				author.setId(rs.getInt("id"));
-				author.setName(rs.getString("name"));		
+				author.setName(rs.getString("name"));
 				authors.add(author);
 			}
 			System.out.println(authors);
@@ -106,14 +104,28 @@ public class AuthorJdbcDao implements AuthorDao{
 			} catch (SQLException ex) {
 				ex.printStackTrace();
 			}
-		}		
+		}
 		return null;
 	}
 
 	@Override
 	public Author updateAuthor(Author author) {
-		// TODO Auto-generated method stub
+		System.out.println("jdbc update author");
+		Author target = findAuthorById(author.getId());
+		if (target != null) {
+			try (Connection connection = dataSource.getConnection()) {
+				PreparedStatement ps = connection.prepareStatement("UPDATE author SET name=? WHERE id=?");
+				ps.setString(1, author.getName());
+				ps.setInt(2, author.getId());
+				int i = ps.executeUpdate();
+				if (i == 1) {
+					System.out.println("jdbc update author " + target.toString());
+					return target;
+				}
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+		}
 		return null;
 	}
-
 }

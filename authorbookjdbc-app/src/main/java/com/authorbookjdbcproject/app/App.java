@@ -50,6 +50,8 @@ public class App
 		authorDao.findAllAuthors();
 		authorDao.deleteAuthor(2);
 		authorDao.findAllAuthors();
-		
+		Author a4 = new Author("MayMayMay",listOfBooks3);
+		authorDao.updateAuthor(a4);
+		authorDao.findAllAuthors();
     }
 }
