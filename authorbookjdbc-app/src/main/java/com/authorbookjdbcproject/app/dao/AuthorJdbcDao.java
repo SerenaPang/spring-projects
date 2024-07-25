@@ -23,21 +23,23 @@ public class AuthorJdbcDao implements AuthorDao{
 	@Override
 	public Author saveAuthor(Author author) {
 		System.out.println("jdbc save author");
+		Author authorExist = findAuthorById(author.getId());
+		if (authorExist.getId() != author.getId() && authorExist.getName() != author.getName()) {
+			try (Connection connection = dataSource.getConnection()) {
+				PreparedStatement ps = connection
+						.prepareStatement("INSERT INTO Author(name) " + "VALUES(?)");
+				ps.setString(1, author.getName());
+				int i = ps.executeUpdate();
 
-		try (Connection connection = dataSource.getConnection()) {
-			PreparedStatement ps = connection
-					.prepareStatement("INSERT INTO Author(name) " + "VALUES(?)");
-			ps.setString(1, author.getName());
-			int i = ps.executeUpdate();
-
-			if (i == 1) {
-				//ps.getGeneratedKeys()						
-				System.out.println("jdbc saved author info to database");
+				if (i == 1) {
+					//ps.getGeneratedKeys()						
+					System.out.println("jdbc saved author info to database");
+				}
+			} catch (SQLException ex) {
+				ex.printStackTrace();
 			}
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-		}
-		return author;
+		}		
+		return null;
 	}
 
 	@Override
@@ -88,8 +90,23 @@ public class AuthorJdbcDao implements AuthorDao{
 	}
 
 	@Override
-	public Author deleteAuthor(Integer idAuthor) {
-		// TODO Auto-generated method stub
+	public Author deleteAuthor(Integer id) {
+		System.out.println("jdbc delete Author");
+
+		Author target = findAuthorById(id);
+		if (target != null) {
+			try (Connection connection = dataSource.getConnection()) {
+				PreparedStatement ps = connection.prepareStatement("DELETE FROM author WHERE id= ?");
+				ps.setInt(1, id);
+				int i = ps.executeUpdate();
+				if (i == 1) {
+					System.out.println("jdbc delete Author " + target.toString());
+					return target;
+				}
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+		}		
 		return null;
 	}
 

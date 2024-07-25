@@ -48,5 +48,8 @@ public class App
 		authorDao.saveAuthor(a3);
 		authorDao.findAuthorById(1);
 		authorDao.findAllAuthors();
+		authorDao.deleteAuthor(2);
+		authorDao.findAllAuthors();
+		
     }
 }
