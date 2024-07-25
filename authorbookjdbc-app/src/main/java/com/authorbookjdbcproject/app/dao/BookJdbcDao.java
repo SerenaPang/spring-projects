@@ -26,7 +26,8 @@ public class BookJdbcDao implements BookDao {
 		Author authorExist = authorDao.findAuthorById(authorId);
 		if (authorExist != null) {
 
-			if (authorExist.getBooks() == null || authorExist.getBooks().isEmpty() || !authorExist.getBooks().contains(book)) {
+			if (authorExist.getBooks() == null || authorExist.getBooks().isEmpty()
+					|| !authorExist.getBooks().contains(book)) {
 				try (Connection connection = dataSource.getConnection()) {
 					PreparedStatement ps = connection
 							.prepareStatement("INSERT INTO BOOK(name, isbn, id_author) " + "VALUES(?,?,?)");
@@ -57,8 +58,7 @@ public class BookJdbcDao implements BookDao {
 		System.out.println("jdbc find book by id");
 
 		try (Connection connection = dataSource.getConnection()) {
-			PreparedStatement ps = connection
-					.prepareStatement("SELECT id, name, isbn FROM BOOK WHERE id =?");
+			PreparedStatement ps = connection.prepareStatement("SELECT id, name, isbn FROM BOOK WHERE id =?");
 			ps.setInt(1, idBook);
 			Book book = new Book();
 			try (ResultSet rs = ps.executeQuery()) {
@@ -121,7 +121,25 @@ public class BookJdbcDao implements BookDao {
 
 	@Override
 	public Book updateBook(Integer authorId, Book book) {
-		// TODO Auto-generated method stub
+		System.out.println("jdbc update book");
+		Author authorExist = authorDao.findAuthorById(authorId);
+		if (authorExist != null) {
+			if (authorExist.getBooks() != null && authorExist.getBooks().contains(book)) {
+				try (Connection connection = dataSource.getConnection()) {
+					PreparedStatement ps = connection.prepareStatement("UPDATE book SET name=? isbn=? WHERE id=?");
+					ps.setString(1, book.getName());
+					ps.setString(2, book.getIsbn());
+					ps.setInt(3, book.getId());
+					int i = ps.executeUpdate();
+					if (i == 1) {
+						System.out.println("jdbc update book " + book.toString());
+						return book;
+					}
+				} catch (SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 		return null;
 	}
 

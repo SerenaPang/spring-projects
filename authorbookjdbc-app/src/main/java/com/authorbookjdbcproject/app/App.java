@@ -30,7 +30,7 @@ public class App
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		//AuthorJdbcDao authorDao = new AuthorJdbcDao(jdbcDataSource);
+//		AuthorJdbcDao authorDao = new AuthorJdbcDao(jdbcDataSource);
 //		List<Book> listOfBooks = new ArrayList<Book>();
 //		List<Book> listOfBooks2 = new ArrayList<Book>();
 //		List<Book> listOfBooks3 = new ArrayList<Book>();
@@ -63,9 +63,11 @@ public class App
 //		bookDao.findBookById(2);
 //		bookDao.findBookById(4);
 //		bookDao.findBookById(5);
+//		bookDao.findAllBooks();
+//		bookDao.findAllBooks();
+	//	bookDao.deleteBookById(4);
+		Book b3 = new Book(5,"Castle in the Sky", "f5dw-3regf-433rf");
+		bookDao.updateBook(4, b3);
 		//bookDao.findAllBooks();
-		bookDao.findAllBooks();
-		bookDao.deleteBookById(4);
-		bookDao.findAllBooks();
     }
 }
