@@ -78,22 +78,23 @@ public class BookJdbcDao implements BookDao {
 
 	@Override
 	public List<Book> findAllBooks() {
-//		System.out.println("jdbc find all books");
-//		try (Connection connection = dataSource.getConnection()) {
-//			Statement stmt = connection.createStatement();
-//			ResultSet rs = stmt.executeQuery("SELECT id, name from author");
-//			List<Author> authors = new ArrayList<>();
-//			while (rs.next()) {
-//				Author author = new Author();
-//				author.setId(rs.getInt("id"));
-//				author.setName(rs.getString("name"));
-//				authors.add(author);
-//			}
-//			System.out.println(authors);
-//			return authors;
-//		} catch (SQLException ex) {
-//			ex.printStackTrace();
-//		}
+		System.out.println("jdbc find all books");
+		try (Connection connection = dataSource.getConnection()) {
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT id, name, isbn from book");
+			List<Book> books = new ArrayList<>();
+			while (rs.next()) {
+				Book book = new Book();
+				book.setId(rs.getInt("id"));
+				book.setName(rs.getString("name"));
+				book.setIsbn(rs.getString("isbn"));
+				books.add(book);
+			}
+			System.out.println(books);
+			return books;
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
 		return null;
 	}
 

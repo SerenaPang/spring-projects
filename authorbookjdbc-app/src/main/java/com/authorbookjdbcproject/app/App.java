@@ -59,9 +59,11 @@ public class App
 //		bookDao.saveBook(3, b1);
 //		Book b2 = new Book(6,"Gone with the wind", "f34-cfr5-v5y6");
 //		bookDao.saveBook(4, b2);
-		bookDao.findBookById(1);
-		bookDao.findBookById(2);
-		bookDao.findBookById(4);
-		bookDao.findBookById(5);
+//		bookDao.findBookById(1);
+//		bookDao.findBookById(2);
+//		bookDao.findBookById(4);
+//		bookDao.findBookById(5);
+		bookDao.findAllBooks();
+		
     }
 }
