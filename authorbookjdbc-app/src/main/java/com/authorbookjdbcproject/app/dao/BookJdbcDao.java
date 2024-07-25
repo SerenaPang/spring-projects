@@ -100,7 +100,22 @@ public class BookJdbcDao implements BookDao {
 
 	@Override
 	public Book deleteBookById(Integer idBook) {
-		// TODO Auto-generated method stub
+		System.out.println("jdbc delete Book");
+
+		Book target = findBookById(idBook);
+		if (target != null) {
+			try (Connection connection = dataSource.getConnection()) {
+				PreparedStatement ps = connection.prepareStatement("DELETE FROM book WHERE id= ?");
+				ps.setInt(1, idBook);
+				int i = ps.executeUpdate();
+				if (i == 1) {
+					System.out.println("jdbc delete Book " + target.toString());
+					return target;
+				}
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+		}
 		return null;
 	}
 

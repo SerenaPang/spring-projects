@@ -63,7 +63,9 @@ public class App
 //		bookDao.findBookById(2);
 //		bookDao.findBookById(4);
 //		bookDao.findBookById(5);
+		//bookDao.findAllBooks();
 		bookDao.findAllBooks();
-		
+		bookDao.deleteBookById(4);
+		bookDao.findAllBooks();
     }
 }
