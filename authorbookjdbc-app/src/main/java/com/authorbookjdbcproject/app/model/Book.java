@@ -11,6 +11,10 @@ public class Book {
 		this.isbn = isbn;
 	}
 
+	public Book() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public int getId() {
 		return id;
 	}

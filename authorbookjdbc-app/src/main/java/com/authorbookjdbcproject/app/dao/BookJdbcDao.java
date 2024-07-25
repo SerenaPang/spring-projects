@@ -2,7 +2,10 @@ package com.authorbookjdbcproject.app.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.authorbookjdbcproject.app.model.Author;
@@ -23,7 +26,7 @@ public class BookJdbcDao implements BookDao {
 		Author authorExist = authorDao.findAuthorById(authorId);
 		if (authorExist != null) {
 
-			if (authorExist.getBooks() == null || authorExist.getBooks().isEmpty()) {
+			if (authorExist.getBooks() == null || authorExist.getBooks().isEmpty() || !authorExist.getBooks().contains(book)) {
 				try (Connection connection = dataSource.getConnection()) {
 					PreparedStatement ps = connection
 							.prepareStatement("INSERT INTO BOOK(name, isbn, id_author) " + "VALUES(?,?,?)");
@@ -40,12 +43,9 @@ public class BookJdbcDao implements BookDao {
 					ex.printStackTrace();
 				}
 			} else {
-				List<Book> bookList = authorExist.getBooks();
-				for (int i = 0; i < bookList.size(); i++) {
-					if (book.getId() == bookList.get(i).getId() && book.getName() != bookList.get(i).getName()) {
-						System.out.println("Book already exist");
-						return null;
-					}
+				if (authorExist.getBooks().contains(book)) {
+					System.out.println("Book already exist");
+					return null;
 				}
 			}
 		}
@@ -53,14 +53,47 @@ public class BookJdbcDao implements BookDao {
 	}
 
 	@Override
-	public Book findBookById(Integer id) {
-		// TODO Auto-generated method stub
+	public Book findBookById(Integer idBook) {
+		System.out.println("jdbc find book by id");
+
+		try (Connection connection = dataSource.getConnection()) {
+			PreparedStatement ps = connection
+					.prepareStatement("SELECT id, name, isbn FROM BOOK WHERE id =?");
+			ps.setInt(1, idBook);
+			Book book = new Book();
+			try (ResultSet rs = ps.executeQuery()) {
+				if (rs.next()) {
+					book.setId(rs.getInt("id"));
+					book.setName(rs.getString("name"));
+					book.setIsbn(rs.getString("isbn"));
+				}
+			}
+			System.out.println("id: " + book.getId() + " name: " + book.getName() + "isbn: " + book.getIsbn());
+			return book;
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
 		return null;
 	}
 
 	@Override
 	public List<Book> findAllBooks() {
-		// TODO Auto-generated method stub
+//		System.out.println("jdbc find all books");
+//		try (Connection connection = dataSource.getConnection()) {
+//			Statement stmt = connection.createStatement();
+//			ResultSet rs = stmt.executeQuery("SELECT id, name from author");
+//			List<Author> authors = new ArrayList<>();
+//			while (rs.next()) {
+//				Author author = new Author();
+//				author.setId(rs.getInt("id"));
+//				author.setName(rs.getString("name"));
+//				authors.add(author);
+//			}
+//			System.out.println(authors);
+//			return authors;
+//		} catch (SQLException ex) {
+//			ex.printStackTrace();
+//		}
 		return null;
 	}
 

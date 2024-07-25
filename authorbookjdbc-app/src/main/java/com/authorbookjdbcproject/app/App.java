@@ -30,7 +30,7 @@ public class App
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		AuthorJdbcDao authorDao = new AuthorJdbcDao(jdbcDataSource);
+		//AuthorJdbcDao authorDao = new AuthorJdbcDao(jdbcDataSource);
 //		List<Book> listOfBooks = new ArrayList<Book>();
 //		List<Book> listOfBooks2 = new ArrayList<Book>();
 //		List<Book> listOfBooks3 = new ArrayList<Book>();
@@ -53,10 +53,15 @@ public class App
 //		authorDao.findAllAuthors();
 //		Author a4 = new Author("MayMayMay",listOfBooks3);
 //		authorDao.updateAuthor(a4);
-		authorDao.findAllAuthors();
+	//	authorDao.findAllAuthors();
 		BookJdbcDao bookDao = new BookJdbcDao(jdbcDataSource);
-		Book b1 = new Book(8,"Love Actually", "fgh-567gv-567");
-		bookDao.saveBook(3, b1);
-		authorDao.findAllAuthors();
+//		Book b1 = new Book(8,"Love Actually", "fgh-567gv-567");
+//		bookDao.saveBook(3, b1);
+//		Book b2 = new Book(6,"Gone with the wind", "f34-cfr5-v5y6");
+//		bookDao.saveBook(4, b2);
+		bookDao.findBookById(1);
+		bookDao.findBookById(2);
+		bookDao.findBookById(4);
+		bookDao.findBookById(5);
     }
 }
