@@ -8,16 +8,18 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.authorbookjdbcproject.app.model.Author;
 import com.authorbookjdbcproject.app.model.Book;
 
 public class BookJdbcDao implements BookDao {
+	@Autowired
 	private JdbcDataSource dataSource;
-	AuthorJdbcDao authorDao = null;
+	@Autowired
+	AuthorJdbcDao authorDao;
 
-	public BookJdbcDao(JdbcDataSource dataSource) {
-		this.dataSource = dataSource;
-		authorDao = new AuthorJdbcDao(dataSource);
+	public BookJdbcDao() {
 	}
 
 	@Override

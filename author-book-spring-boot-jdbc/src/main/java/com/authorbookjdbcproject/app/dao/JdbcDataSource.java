@@ -7,16 +7,20 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import org.springframework.stereotype.Component;
+
 /**
  * A simple data source for getting database connections.
  */
+@Component
 public class JdbcDataSource {
+	private String propertiesFileName = "mysqldb.properties";
 	private static String url;
 	private static String username;
 	private static String password;
 
-	public JdbcDataSource(String fileName) throws ClassNotFoundException, IOException, SQLException {
-		init(fileName);
+	public JdbcDataSource() throws ClassNotFoundException, IOException, SQLException {
+		init(propertiesFileName);
 	}
 
 	/**

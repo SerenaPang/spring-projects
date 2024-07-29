@@ -8,17 +8,22 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
 import com.authorbookjdbcproject.app.model.Author;
 
 /**
  * This class connects to the database and enables the save, update, find,
  * delete operations to the database
  */
+
+@Repository
 public class AuthorJdbcDao implements AuthorDao {
+	@Autowired
 	private JdbcDataSource dataSource;
 
-	public AuthorJdbcDao(JdbcDataSource dataSource) {
-		this.dataSource = dataSource;
+	public AuthorJdbcDao() {
 	}
 
 	@Override
@@ -69,10 +74,11 @@ public class AuthorJdbcDao implements AuthorDao {
 	@Override
 	public List<Author> findAllAuthors() {
 		System.out.println("jdbc find all authors");
+		List<Author> authors = new ArrayList<>();
 		try (Connection connection = dataSource.getConnection()) {
 			Statement stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT id, name from author");
-			List<Author> authors = new ArrayList<>();
+
 			while (rs.next()) {
 				Author author = new Author();
 				author.setId(rs.getInt("id"));
@@ -84,7 +90,7 @@ public class AuthorJdbcDao implements AuthorDao {
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
-		return null;
+		return authors;
 	}
 
 	@Override

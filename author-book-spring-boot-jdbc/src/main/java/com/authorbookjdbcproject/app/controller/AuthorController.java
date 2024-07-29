@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.authorbookjdbcproject.app.dao.AuthorJdbcDao;
 import com.authorbookjdbcproject.app.model.Author;
 import com.authorbookjdbcproject.app.model.Book;
 import com.authorbookjdbcproject.app.repository.AuthorRepository;
@@ -27,8 +28,10 @@ public class AuthorController {
 	@Autowired
 	private AuthorRepository authorRepository;
 
-	public AuthorController() {
+	@Autowired
+	private AuthorJdbcDao authorJdbcDao;
 
+	public AuthorController() {
 	}
 
 	// curl -X GET "http://localhost:8080/findAuthorById?id=1"
@@ -47,13 +50,14 @@ public class AuthorController {
 	// curl -X GET "http://localhost:8080/findAllAuthors"
 	@SuppressWarnings("unchecked")
 	@GetMapping("/findAllAuthors")
-	public List<Author> findAllAuthors() {
-		List<Author> authors = authorRepository.findAllAuthors();
-		if (authors == null) {
-			return (List<Author>) ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+	public ResponseEntity<List<Author>> findAllAuthors() {
+		List<Author> authors = authorJdbcDao.findAllAuthors();
+		if (authors.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
+
 		// Return the resource with a 200 (OK) status code
-		return (List<Author>) ResponseEntity.status(HttpStatus.OK).body(authors);
+		return ResponseEntity.status(HttpStatus.OK).body(authors);
 	}
 
 	// curl -H 'Content-Type: application/json' -d '{ "id":"5", "name":"AAAB",
