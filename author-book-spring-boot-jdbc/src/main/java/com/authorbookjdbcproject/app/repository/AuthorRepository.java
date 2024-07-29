@@ -1,4 +1,4 @@
-package com.authorbookprojectjdbc.app.repository;
+package com.authorbookjdbcproject.app.repository;
 
 import java.util.ArrayList;
 import java.util.List;

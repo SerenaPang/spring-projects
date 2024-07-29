@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.authorbookjdbcproject.app.model.Author;
 import com.authorbookjdbcproject.app.model.Book;
-import com.authorbookprojectjdbc.app.repository.AuthorRepository;
+import com.authorbookjdbcproject.app.repository.AuthorRepository;
 
 // https://medium.com/@daryl-goh/spring-boot-requestentity-vs-responseentity-requestbody-vs-responsebody-dc808fb0d86c
 // https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/HttpStatus.html	
@@ -35,7 +35,7 @@ public class AuthorController {
 
 	@GetMapping("/findAuthorById")
 	public ResponseEntity<Author> findAuthorById(@RequestParam(value = "id", defaultValue = "0") Integer id) {
-		System.out.println("BookController.findById() " + id);
+		System.out.println("AuthorController.findById() " + id);
 		Author resultAuthor = authorRepository.findAuthorById(id);
 		if (resultAuthor == null) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -90,7 +90,7 @@ public class AuthorController {
 	// "books":[{"id":"3", "name":"Pink", "isbn":"cvi-wcd56byd-23"}, {"id":"2",
 	// "name":"Black", "isbn":"he-jfv56we-v67"}] }' -X PUT
 	// http://localhost:8080/updateAuthor
-	@PutMapping(path = "/updateBook", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PutMapping(path = "/updateAuthor", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Author> updateAuthor(@RequestBody Author author) {
 		// Retrieve the resource from the database
 		Integer idAuthor = author.getId();

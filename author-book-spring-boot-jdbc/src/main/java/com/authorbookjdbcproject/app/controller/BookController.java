@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.authorbookjdbcproject.app.model.Book;
-import com.authorbookprojectjdbc.app.repository.AuthorRepository;
+import com.authorbookjdbcproject.app.repository.AuthorRepository;
 
 @RestController
 public class BookController {
