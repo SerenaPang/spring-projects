@@ -15,14 +15,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.authorbookjdbcproject.app.dao.BookJdbcDao;
 import com.authorbookjdbcproject.app.model.Book;
-import com.authorbookjdbcproject.app.repository.AuthorRepository;
 
 @RestController
 public class BookController {
 
 	@Autowired
-	private AuthorRepository authorRepository;
+	private BookJdbcDao bookDao;
 
 	public BookController() {
 
@@ -32,7 +32,7 @@ public class BookController {
 	@GetMapping("/findBookById")
 	public ResponseEntity<Book> findBookById(@RequestParam(value = "id", defaultValue = "0") Integer id) {
 		System.out.println("BookController.findById() " + id);
-		Book resultBook = authorRepository.findBookById(id);
+		Book resultBook = bookDao.findBookById(id);
 		if (resultBook == null) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
@@ -41,10 +41,9 @@ public class BookController {
 	}
 
 	// curl -X GET "http://localhost:8080/findAllBooks"
-	@SuppressWarnings("unchecked")
 	@GetMapping("/findAllBooks")
 	public ResponseEntity<List<Book>> findAllBooks() {
-		List<Book> books = authorRepository.findAllBooks();
+		List<Book> books = bookDao.findAllBooks();
 		if (books == null) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
@@ -57,7 +56,7 @@ public class BookController {
 	@PostMapping(path = "/saveBook/{idAuthor}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Book> saveBook(@PathVariable(name = "idAuthor") Integer idAuthor, @RequestBody Book book) {
 		// Save the resource to the database
-		Book bookSaved = authorRepository.saveBook(idAuthor, book);
+		Book bookSaved = bookDao.saveBook(idAuthor, book);
 		if (bookSaved == null) {
 			return null;
 		}
@@ -70,13 +69,13 @@ public class BookController {
 	@DeleteMapping(path = "/deleteByBookId/{idBook}")
 	public ResponseEntity<Book> deleteAuthor(@PathVariable(name = "idBook") Integer idBook) {
 		// Retrieve the resource from the database
-		Book target = authorRepository.findBookById(idBook);
+		Book target = bookDao.findBookById(idBook);
 		// If the resource is not found, return a 404 (not found) status code
 		if (target == null) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 		// Delete the resource
-		authorRepository.deleteByBookId(idBook);
+		bookDao.deleteBookById(idBook);
 		// Return a 204 (no content) status code
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
@@ -87,13 +86,13 @@ public class BookController {
 	public ResponseEntity<Book> updateResource(@RequestBody Book book) {
 		// Retrieve the resource from the database
 		Integer idBook = book.getId();
-		Book target = authorRepository.findBookById(idBook);
+		Book target = bookDao.findBookById(idBook);
 		// If the resource is not found, return a 404 (not found) status code
 		if (target == null) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 		// Update the resource
-		Book updatedBook = authorRepository.updateBook(book);
+		Book updatedBook = bookDao.updateBook(book);
 		// Return the updated resource with a 200 (OK) status code
 		return ResponseEntity.status(HttpStatus.OK).body(updatedBook);
 	}

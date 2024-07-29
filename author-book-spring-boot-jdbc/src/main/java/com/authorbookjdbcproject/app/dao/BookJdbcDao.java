@@ -145,4 +145,24 @@ public class BookJdbcDao implements BookDao {
 		return null;
 	}
 
+	public Book updateBook(Book book) {
+		System.out.println("jdbc update book");
+		Book bookExist = findBookById(book.getId());
+		if (bookExist != null) {
+			try (Connection connection = dataSource.getConnection()) {
+				PreparedStatement ps = connection.prepareStatement("UPDATE book SET name=? isbn=? WHERE id=?");
+				ps.setString(1, book.getName());
+				ps.setString(2, book.getIsbn());
+				ps.setInt(3, book.getId());
+				int i = ps.executeUpdate();
+				if (i == 1) {
+					System.out.println("jdbc update book " + book.toString());
+					return book;
+				}
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+		}
+		return null;
+	}
 }
