@@ -26,9 +26,6 @@ import com.authorbookjdbcproject.app.repository.AuthorRepository;
 @RestController
 public class AuthorController {
 	@Autowired
-	private AuthorRepository authorRepository;
-
-	@Autowired
 	private AuthorJdbcDao authorJdbcDao;
 
 	public AuthorController() {
@@ -39,8 +36,9 @@ public class AuthorController {
 	@GetMapping("/findAuthorById")
 	public ResponseEntity<Author> findAuthorById(@RequestParam(value = "id", defaultValue = "0") Integer id) {
 		System.out.println("AuthorController.findById() " + id);
-		Author resultAuthor = authorRepository.findAuthorById(id);
+		Author resultAuthor = authorJdbcDao.findAuthorById(id);
 		if (resultAuthor == null) {
+			System.out.println("resultAuthor: " + resultAuthor.toString());
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 		// Return the resource with a 200 (OK) status code
@@ -66,7 +64,7 @@ public class AuthorController {
 	// http://localhost:8080/saveAuthor
 	@PostMapping("/saveAuthor{author}")
 	public ResponseEntity<Author> saveAuthor(@RequestBody Author author) {
-		Author authorSaved = authorRepository.saveAuthor(author);
+		Author authorSaved = authorJdbcDao.saveAuthor(author);
 		if (authorSaved == null) {
 			return null;
 		}
@@ -79,13 +77,13 @@ public class AuthorController {
 	@DeleteMapping(path = "/deleteByAuthorId/{idAuthor}")
 	public ResponseEntity<Author> deleteAuthor(@PathVariable(name = "idAuthor") Integer idAuthor) {
 		// Retrieve the resource from the database
-		Author target = authorRepository.findAuthorById(idAuthor);
+		Author target = authorJdbcDao.findAuthorById(idAuthor);
 		// If the resource is not found, return a 404 (not found) status code
 		if (target == null) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 		// Delete the resource
-		authorRepository.deleteByAuthorId(idAuthor);
+		authorJdbcDao.deleteAuthor(idAuthor);
 		// Return a 204 (no content) status code
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
@@ -98,13 +96,13 @@ public class AuthorController {
 	public ResponseEntity<Author> updateAuthor(@RequestBody Author author) {
 		// Retrieve the resource from the database
 		Integer idAuthor = author.getId();
-		Author target = authorRepository.findAuthorById(idAuthor);
+		Author target = authorJdbcDao.findAuthorById(idAuthor);
 		// If the resource is not found, return a 404 (not found) status code
 		if (target == null) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 		// Update the resource
-		Author updatedAuthor = authorRepository.updateAuthor(author);
+		Author updatedAuthor = authorJdbcDao.updateAuthor(author);
 		// Return the updated resource with a 200 (OK) status code
 		return ResponseEntity.status(HttpStatus.OK).body(updatedAuthor);
 	}
