@@ -19,19 +19,18 @@ import com.authorbookproject.app.model.Author;
 import com.authorbookproject.app.model.Book;
 import com.authorbookproject.app.repository.AuthorRepository;
 
-
 // https://medium.com/@daryl-goh/spring-boot-requestentity-vs-responseentity-requestbody-vs-responsebody-dc808fb0d86c
 // https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/HttpStatus.html	
 
 // TODO: Return ResponseEntity<> in all the Mapping methods
-		
+
 @RestController
 public class AuthorController {
 	@Autowired
 	private AuthorRepository authorRepository;
 
 	public AuthorController() {
-	
+
 	}
 
 	// curl -X GET "http://localhost:8080/findAuthorById?id=1"
@@ -46,34 +45,33 @@ public class AuthorController {
 	public ResponseEntity<Author> findAuthorById(@RequestParam(value = "id", defaultValue = "0") Integer id) {
 		System.out.println("BookController.findById() " + id);
 		Author resultAuthor = authorRepository.findAuthorById(id);
-		 if (resultAuthor == null) {
-		        return ResponseEntity
-		                .status(HttpStatus.NOT_FOUND)
-		                .build();
-		    }
-		    // Return the resource with a 200 (OK) status code
-		    return ResponseEntity
-		            .status(HttpStatus.OK)
-		            .body(resultAuthor);
+		if (resultAuthor == null) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
+		// Return the resource with a 200 (OK) status code
+		return ResponseEntity.status(HttpStatus.OK).body(resultAuthor);
 	}
 
-	// curl -X GET "http://localhost:8080/findAllAuthors"	
+	// curl -X GET "http://localhost:8080/findAllAuthors"
 	@SuppressWarnings("unchecked")
 	@GetMapping("/findAllAuthors")
-	public  List<Author> findAllAuthors() {
-		 List<Author> authors = authorRepository.findAllAuthors();
-		 if (authors == null) {
-		        return ( List<Author> ) ResponseEntity
-		                .status(HttpStatus.NOT_FOUND)
-		                .build();
-		    }
-		    // Return the resource with a 200 (OK) status code
-		    return ( List<Author> ) ResponseEntity
-		            .status(HttpStatus.OK)
-		            .body(authors);
+	// TODO: Fix
+	public List<Author> findAllAuthors() {
+		List<Author> authors = authorRepository.findAllAuthors();
+		if (authors == null) {
+			return (List<Author>) ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
+		// Return the resource with a 200 (OK) status code
+		
+// TODO: Fixed.
+// java.lang.ClassCastException: class org.springframework.http.ResponseEntity cannot be cast to class java.util.List (org.springframework.http.ResponseEntity is in unnamed module of loader 'app'; java.util.List is in module java.base of loader 'bootstrap')
+		return (List<Author>) ResponseEntity.status(HttpStatus.OK).body(authors);
 	}
 
-	// curl -H 'Content-Type: application/json' -d '{ "id":"5", "name":"AAAB", "books":[{"id":"3", "name":"Pink", "isbn":"cvi-wcd56byd-23"}, {"id":"2",  "name":"Black", "isbn":"he-jfv56we-v67"}] }' -X POST http://localhost:8080/saveAuthor
+	// curl -H 'Content-Type: application/json' -d '{ "id":"5", "name":"AAAB",
+	// "books":[{"id":"3", "name":"Pink", "isbn":"cvi-wcd56byd-23"}, {"id":"2",
+	// "name":"Black", "isbn":"he-jfv56we-v67"}] }' -X POST
+	// http://localhost:8080/saveAuthor
 	@PostMapping("/saveAuthor{author}")
 	public ResponseEntity<Author> saveAuthor(@RequestBody Author author) {
 		Author authorSaved = authorRepository.saveAuthor(author);
@@ -84,7 +82,8 @@ public class AuthorController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(authorSaved);
 	}
 
-	// curl -H 'Content-Type: application/json' -X DELETE http://localhost:8080/deleteByAuthorId/1
+	// curl -H 'Content-Type: application/json' -X DELETE
+	// http://localhost:8080/deleteByAuthorId/1
 	@DeleteMapping(path = "/deleteByAuthorId/{idAuthor}")
 	public ResponseEntity<Author> deleteResource(@PathVariable(name = "idAuthor") Integer idAuthor) {
 		// Retrieve the resource from the database
@@ -102,8 +101,8 @@ public class AuthorController {
 	// curl -H 'Content-Type: application/json' -d '{ "id":"1", "name":"MMMMM",
 	// "books":[{"id":"3", "name":"Pink", "isbn":"cvi-wcd56byd-23"}, {"id":"2",
 	// "name":"Black", "isbn":"he-jfv56we-v67"}] }' -X PUT
-	// http://localhost:8080/updateAuthor	
-	@PutMapping(path = "/updateBook", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	// http://localhost:8080/updateAuthor
+	@PutMapping(path = "/updateAuthor", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Author> updateResource(@RequestBody Author author) {
 		// Retrieve the resource from the database
 		Integer idAuthor = author.getId();
