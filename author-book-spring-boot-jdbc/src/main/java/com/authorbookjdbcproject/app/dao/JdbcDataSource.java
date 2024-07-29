@@ -38,12 +38,13 @@ public class JdbcDataSource {
 		username = props.getProperty("jdbc.username");
 		password = props.getProperty("jdbc.password");
 
-		System.out.println("username: " + username);
-		System.out.println("password: " + password);
-		System.out.println("url: " + url);
-		System.out.println("driver:'" + driver + "'");
-
 		Class.forName(driver);
+
+		try(Connection con = getConnection()) {
+			System.out.println("Connected to " + con.getMetaData().getDatabaseProductName());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**

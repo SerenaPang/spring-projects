@@ -15,17 +15,15 @@ import com.authorbookjdbcproject.app.model.Book;
  * author book app
  *
  */
-public class App 
-{
-    public static void main( String[] args )
-    {
-        System.out.println( "Test JDBC Connection" );
-        JdbcDataSource jdbcDataSource = null;
+public class App {
+	public static void main(String[] args) {
+		System.out.println("Test JDBC Connection");
+		JdbcDataSource jdbcDataSource = null;
 		try {
 			jdbcDataSource = new JdbcDataSource("mysqldb.properties");
-		} catch (ClassNotFoundException e) {			
+		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
-		} catch (IOException e) {		
+		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -53,7 +51,7 @@ public class App
 //		authorDao.findAllAuthors();
 //		Author a4 = new Author("MayMayMay",listOfBooks3);
 //		authorDao.updateAuthor(a4);
-	//	authorDao.findAllAuthors();
+		// authorDao.findAllAuthors();
 		BookJdbcDao bookDao = new BookJdbcDao(jdbcDataSource);
 //		Book b1 = new Book(8,"Love Actually", "fgh-567gv-567");
 //		bookDao.saveBook(3, b1);
@@ -65,9 +63,9 @@ public class App
 //		bookDao.findBookById(5);
 //		bookDao.findAllBooks();
 //		bookDao.findAllBooks();
-	//	bookDao.deleteBookById(4);
-		Book b3 = new Book(5,"Castle in the Sky", "f5dw-3regf-433rf");
+		// bookDao.deleteBookById(4);
+		Book b3 = new Book(5, "Castle in the Sky", "f5dw-3regf-433rf");
 		bookDao.updateBook(4, b3);
-		//bookDao.findAllBooks();
-    }
+		// bookDao.findAllBooks();
+	}
 }
