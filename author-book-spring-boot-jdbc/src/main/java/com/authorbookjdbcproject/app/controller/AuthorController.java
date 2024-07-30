@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.authorbookjdbcproject.app.dao.AuthorJdbcDao;
 import com.authorbookjdbcproject.app.model.Author;
-import com.authorbookjdbcproject.app.model.Book;
 
 
 // https://medium.com/@daryl-goh/spring-boot-requestentity-vs-responseentity-requestbody-vs-responsebody-dc808fb0d86c
