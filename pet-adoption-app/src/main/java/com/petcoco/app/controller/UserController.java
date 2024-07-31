@@ -77,7 +77,7 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}
 
-		// curl -H 'Content-Type: application/json' -d '{ "id":"1", "name":"Milkyky", "last_name":"Pandida"}' -X PUT http://localhost:8080/updateUser
+		// curl -H 'Content-Type: application/json' -d '{ "id":"1", "name":"Milkyky", "lastName":"Pandida"}' -X PUT http://localhost:8080/updateUser
 		@PutMapping(path = "/updateUser", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 		public ResponseEntity<User> updateUser(@RequestBody User user) {
 			// Retrieve the resource from the database
