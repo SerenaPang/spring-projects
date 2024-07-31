@@ -1,6 +1,6 @@
-package com.petcoco.model;
+package com.petcoco.app.model;
 
-public class Pet {
+public class Cat extends Pet{
 	private int id;
 	private String name;
 	private int idType;

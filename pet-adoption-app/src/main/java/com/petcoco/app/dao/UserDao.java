@@ -1,8 +1,8 @@
-package com.petcoco.dao;
+package com.petcoco.app.dao;
 
 import java.util.List;
 
-import com.petcoco.model.User;
+import com.petcoco.app.model.User;
 
 public interface UserDao {
 	public User saveUser(User user);

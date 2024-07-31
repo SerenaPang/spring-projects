@@ -1,4 +1,4 @@
-package com.petcoco.dao;
+package com.petcoco.app.dao;
 
 import java.io.InputStream;
 import java.io.IOException;

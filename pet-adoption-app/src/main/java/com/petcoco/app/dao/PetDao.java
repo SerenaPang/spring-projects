@@ -1,8 +1,8 @@
-package com.petcoco.dao;
+package com.petcoco.app.dao;
 
 import java.util.List;
 
-import com.petcoco.model.Pet;
+import com.petcoco.app.model.Pet;
 
 public interface PetDao {
 	public Pet savePet(Pet pet);

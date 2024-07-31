@@ -1,4 +1,4 @@
-package com.petcoco.model;
+package com.petcoco.app.model;
 
 public class User {
 	private int id;
