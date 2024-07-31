@@ -1,5 +1,7 @@
 package com.petcoco.app.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,4 +46,15 @@ public class UserController {
 		System.out.println("resultUser: " + resultUser.toString());
 		return ResponseEntity.status(HttpStatus.OK).body(resultUser);
 	}
+	
+	// curl -X GET "http://localhost:8080/findAllUsers"
+		@GetMapping("/findAllUsers")
+		public ResponseEntity<List<User>> findAllUsers() {
+			List<User> users = jdbcUserDao.findAllUsers();
+			if (users.isEmpty()) {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			}
+			// Return the resource with a 200 (OK) status code
+			return ResponseEntity.status(HttpStatus.OK).body(users);
+		}
 }

@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,9 +62,26 @@ public class JdbcUserDao implements UserDao{
 	}
 
 	@Override
-	public List<User> findAllUser() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<User> findAllUsers() {
+		System.out.println("jdbc find all users");
+		List<User> users = new ArrayList<>();
+		try (Connection connection = dataSource.getConnection()) {
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT id_user, name, last_name from USER");
+
+			while (rs.next()) {
+				User user = new User();
+				user.setId(rs.getInt("id_user"));
+				user.setName(rs.getString("name"));
+				user.setLastName("last_name");
+				users.add(user);
+			}
+			System.out.println(users);
+			return users;
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return users;
 	}
 
 	@Override
