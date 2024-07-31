@@ -59,6 +59,48 @@ DROP TABLE USER;
 DROP TABLE USER_TYPE;
 DROP TABLE PET_TYPE;
 
+/**
+pet
++---------+--------------+------+-----+---------+----------------+
+| Field   | Type         | Null | Key | Default | Extra          |
++---------+--------------+------+-----+---------+----------------+
+| id_pet  | int          | NO   | PRI | NULL    | auto_increment |
+| name    | varchar(255) | YES  |     | NULL    |                |
+| id_type | int          | YES  | MUL | NULL    |                |
+| age     | int          | YES  |     | NULL    |                |
+| status  | varchar(255) | YES  |     | NULL    |                |
++---------+--------------+------+-----+---------+----------------+
+5 rows in set (0.03 sec)
+
+pet_type
++---------+--------------+------+-----+---------+-------+
+| Field   | Type         | Null | Key | Default | Extra |
++---------+--------------+------+-----+---------+-------+
+| id_type | int          | NO   | PRI | NULL    |       |
+| type    | varchar(255) | YES  |     | NULL    |       |
++---------+--------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+user
++-----------+--------------+------+-----+---------+----------------+
+| Field     | Type         | Null | Key | Default | Extra          |
++-----------+--------------+------+-----+---------+----------------+
+| id_user   | int          | NO   | PRI | NULL    | auto_increment |
+| name      | varchar(255) | YES  |     | NULL    |                |
+| last_name | varchar(255) | YES  |     | NULL    |                |
++-----------+--------------+------+-----+---------+----------------+
+
+
+user_pet
++---------------+------+------+-----+---------+-------+
+| Field         | Type | Null | Key | Default | Extra |
++---------------+------+------+-----+---------+-------+
+| id_user       | int  | NO   | PRI | NULL    |       |
+| id_pet        | int  | NO   | PRI | NULL    |       |
+| adoption_date | date | YES  |     | NULL    |       |
++---------------+------+------+-----+---------+-------+
+*/
+
 
 
 
