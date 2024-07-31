@@ -86,14 +86,44 @@ public class JdbcUserDao implements UserDao{
 
 	@Override
 	public User deleteUser(Integer idUser) {
-		// TODO Auto-generated method stub
+		System.out.println("jdbc delete User");
+
+		User target = findUserById(idUser);
+		if (target != null) {
+			try (Connection connection = dataSource.getConnection()) {
+				PreparedStatement ps = connection.prepareStatement("DELETE FROM User WHERE id_user= ?");
+				ps.setInt(1, idUser);
+				int i = ps.executeUpdate();
+				if (i == 1) {
+					System.out.println("jdbc delete User " + target.toString());
+					return target;
+				}
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+		}
 		return null;
 	}
 
 	@Override
 	public User updateUser(User user) {
-		// TODO Auto-generated method stub
+		System.out.println("jdbc update user");
+		User target = findUserById(user.getId());
+		if (target != null) {
+			try (Connection connection = dataSource.getConnection()) {
+				PreparedStatement ps = connection.prepareStatement("UPDATE User SET name=?, last_name=? WHERE id_user=?");
+				ps.setString(1, user.getName());
+				ps.setString(2, user.getLastName());
+				ps.setInt(3, user.getId());
+				int i = ps.executeUpdate();
+				if (i == 1) {
+					System.out.println("jdbc update user " + target.toString());
+					return target;
+				}
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+		}
 		return null;
 	}
-
 }
