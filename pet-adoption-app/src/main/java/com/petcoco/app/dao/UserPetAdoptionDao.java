@@ -7,6 +7,7 @@ import com.petcoco.app.model.Record;
 public interface UserPetAdoptionDao {
 	public void saveAdoptionRecord(Record record );
 	public List<Record> findAllAdoptionRecord();
+	public Record findRecordByUserId(Integer idUser);
 	public void deleteAdoptionRecord(Record record);
 	public void updateAdoptionRecord(Record record);
 }
