@@ -93,21 +93,4 @@ public class PetContoller {
 				// Return the updated resource with a 200 (OK) status code
 				return ResponseEntity.status(HttpStatus.OK).body(updatedPet);
 			}
-			
-			// curl -H 'Content-Type: application/json' -d '{ "id":"1", "name":"Bili", "idType": "1", "age": "10", "status":"Not Available" }' -X PUT http://localhost:8080/updatePet
-						@PutMapping(path = "/adoptPet{idUser}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-						public ResponseEntity<Pet> adoptPet(@PathVariable(name = "idUser") Integer idUser, @RequestBody Pet pet) {
-							// Retrieve the resource from the database
-							Integer idPet = pet.getId();
-							Pet target = jdbcPetDao.findPetById(idPet);
-							// If the resource is not found, return a 404 (not found) status code
-							if (target == null) {
-								return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-							}
-							// Update the resource
-							Pet updatedPet = jdbcPetDao.updatePet(pet);
-							// Return the updated resource with a 200 (OK) status code
-							return ResponseEntity.status(HttpStatus.OK).body(updatedPet);
-						}
-	
 }
