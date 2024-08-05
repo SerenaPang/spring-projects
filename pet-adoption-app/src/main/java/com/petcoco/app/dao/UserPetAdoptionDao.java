@@ -5,7 +5,7 @@ import java.util.List;
 import com.petcoco.app.model.Record;
 
 public interface UserPetAdoptionDao {
-	public void saveAdoptionRecord(Record record );
+	public Record saveAdoptionRecord(Record record );
 	public List<Record> findAllAdoptionRecord();
 	public Record findRecordByUserId(Integer idUser);
 	public void deleteAdoptionRecord(Record record);

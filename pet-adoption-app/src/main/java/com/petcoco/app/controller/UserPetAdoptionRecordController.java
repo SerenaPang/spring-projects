@@ -4,11 +4,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 
 import com.petcoco.app.dao.JdbcUserPetDao;
 import com.petcoco.app.model.Record;
@@ -41,5 +44,15 @@ public class UserPetAdoptionRecordController {
 		return ResponseEntity.status(HttpStatus.OK).body(resultRecord);
 	}
 	
+	// curl -H 'Content-Type: application/json' -d '{ "idUser":"3", "idPet":"5", "date": "2024-08-01" }' -X POST http://localhost:8080/saveAdoptionRecord
+		@PostMapping("/saveAdoptionRecord{record}")
+		public ResponseEntity<Record> saveAdoptionRecord(@RequestBody Record record) {
+			Record recordSaved = userPetDao.saveAdoptionRecord(record);
+			if (recordSaved == null) {
+				return null;
+			}
+			// Return the created resource with a 201 (created) status code
+			return ResponseEntity.status(HttpStatus.CREATED).body(recordSaved);
+		}
 
 }
