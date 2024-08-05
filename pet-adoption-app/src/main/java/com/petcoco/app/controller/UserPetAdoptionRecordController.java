@@ -6,12 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 
 import com.petcoco.app.dao.JdbcUserPetDao;
 import com.petcoco.app.model.Record;
@@ -54,5 +56,23 @@ public class UserPetAdoptionRecordController {
 			// Return the created resource with a 201 (created) status code
 			return ResponseEntity.status(HttpStatus.CREATED).body(recordSaved);
 		}
+		
+
+		// curl -H 'Content-Type: application/json' -X DELETE http://localhost:8080/deleteAdoptionRecord/3
+		@DeleteMapping(path = "/deleteAdoptionRecord/{idUser}")
+		public ResponseEntity<Record> deleteAdoptionRecord(@PathVariable(name = "idUser") Integer idUser) {
+			// Retrieve the resource from the database
+			Record target = userPetDao.findRecordByUserId(idUser);
+			// If the resource is not found, return a 404 (not found) status code
+			if (target == null) {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			}
+			// Delete the resource	
+			userPetDao.deleteAdoptionRecord(target);
+			// Return a 204 (no content) status code
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+		}
+		
+		
 
 }

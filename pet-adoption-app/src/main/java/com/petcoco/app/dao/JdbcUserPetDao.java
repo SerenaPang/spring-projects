@@ -44,7 +44,7 @@ public class JdbcUserPetDao implements UserPetAdoptionDao {
 			} catch (SQLException ex) {
 				ex.printStackTrace();
 			}
-			// update status of the pet
+			// update status of the pet to be adopted
 			try (Connection connection = dataSource.getConnection()) {
 				PreparedStatement ps2 = connection
 						.prepareStatement("UPDATE Pet SET name=?, id_type=?, age=?, status=? WHERE id_pet=?");
@@ -116,15 +116,43 @@ public class JdbcUserPetDao implements UserPetAdoptionDao {
 	}
 
 	@Override
-	public void deleteAdoptionRecord(Record record) {
-		// TODO Auto-generated method stub
+	public Record deleteAdoptionRecord(Record record) {
+		System.out.println("jdbc delete record");
 
+		if (record != null) {
+			try (Connection connection = dataSource.getConnection()) {
+				PreparedStatement ps = connection.prepareStatement("DELETE FROM user_pet WHERE id_user= ?");
+				ps.setInt(1, record.getIdUser());
+				int i = ps.executeUpdate();
+				if (i == 1) {
+					System.out.println("jdbc delete record " + record.toString());
+				}
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+			// update status of the pet to be available for adoption
+			try (Connection connection = dataSource.getConnection()) {
+				Integer idPet = record.getIdPet();
+				PreparedStatement ps2 = connection
+						.prepareStatement("UPDATE Pet SET status=? WHERE id_pet=?");		
+				ps2.setString(1, "Available");
+				ps2.setInt(2, idPet);
+				int i = ps2.executeUpdate();
+				if (i == 1) {
+					System.out.println("jdbc update status pet id: " + idPet);
+					return record;
+				}
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+		}
+		return null;
 	}
 
 	@Override
-	public void updateAdoptionRecord(Record record) {
+	public Record updateAdoptionRecord(Record record) {
 		// TODO Auto-generated method stub
-
+		return null;
 	}
 
 }

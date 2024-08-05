@@ -8,6 +8,6 @@ public interface UserPetAdoptionDao {
 	public Record saveAdoptionRecord(Record record );
 	public List<Record> findAllAdoptionRecord();
 	public Record findRecordByUserId(Integer idUser);
-	public void deleteAdoptionRecord(Record record);
-	public void updateAdoptionRecord(Record record);
+	public Record deleteAdoptionRecord(Record record);
+	public Record updateAdoptionRecord(Record record);
 }
