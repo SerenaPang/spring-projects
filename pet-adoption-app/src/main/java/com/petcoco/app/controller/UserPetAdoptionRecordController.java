@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 
 import com.petcoco.app.dao.JdbcUserPetDao;
 import com.petcoco.app.model.Record;
@@ -73,6 +73,21 @@ public class UserPetAdoptionRecordController {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}
 		
-		
+		// curl -H 'Content-Type: application/json' -d '{ "idUser":"1", "idPet":"3", "date":"2024-09-03"}' -X PUT http://localhost:8080/updateAdoptionRecord
+		@PutMapping(path = "/updateAdoptionRecord", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+		public ResponseEntity<Record> updateAdoptionRecord(@RequestBody Record record) {
+			// Retrieve the resource from the database
+			Integer idUser = record.getIdUser();
+			Record target = userPetDao.findRecordByUserId(idUser);
+			
+			// If the resource is not found, return a 404 (not found) status code
+			if (target == null) {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			}
+			// Update the resource
+			Record updatedRecord = userPetDao.updateAdoptionRecord(record);
+			// Return the updated resource with a 200 (OK) status code
+			return ResponseEntity.status(HttpStatus.OK).body(record);
+		}
 
 }

@@ -151,8 +151,23 @@ public class JdbcUserPetDao implements UserPetAdoptionDao {
 
 	@Override
 	public Record updateAdoptionRecord(Record record) {
-		// TODO Auto-generated method stub
+		System.out.println("jdbc update record");
+		Record recordExist = findRecordByUserId(record.getIdUser());
+		if (recordExist != null) {
+			try (Connection connection = dataSource.getConnection()) {
+				PreparedStatement ps = connection.prepareStatement("UPDATE user_pet SET id_user=? id_pet=? date=? WHERE id_user=?");
+				ps.setInt(1, record.getIdUser());
+				ps.setInt(2, record.getIdPet());
+				ps.setDate(3, record.getDate());
+				int i = ps.executeUpdate();
+				if (i == 1) {
+					System.out.println("jdbc update record " + record.toString());
+					return record;
+				}
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+		}
 		return null;
 	}
-
 }
