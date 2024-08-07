@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.tucybank.app.model.Account;
 import com.tucybank.app.model.Client;
 
 public class ClientJdbcDao implements ClientDao {
@@ -90,14 +91,44 @@ public class ClientJdbcDao implements ClientDao {
 
 	@Override
 	public Client deleteClient(Integer idClient) {
-		// TODO Auto-generated method stub
+		System.out.println("jdbc delete Client");
+		Client target = findClientById(idClient);
+
+		if (target != null) {
+			try (Connection connection = dataSource.getConnection()) {
+				PreparedStatement ps = connection.prepareStatement("DELETE FROM Client WHERE id_cilent= ?");
+				ps.setInt(1, idClient);
+				int i = ps.executeUpdate();
+				if (i == 1) {
+					System.out.println("jdbc delete Client " + target.toString());
+					return target;
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 		return null;
 	}
 
 	@Override
 	public Client updateClient(Client client) {
-		// TODO Auto-generated method stub
+		Client target = findClientById(client.getIdCilent());
+		if (target != null) {
+			try (Connection connection = dataSource.getConnection()) {
+				PreparedStatement ps = connection
+						.prepareStatement("UPDATE Client SET name=? last_name=? id_account=? WHERE id_cilent=?");
+				ps.setString(1, client.getName());
+				ps.setString(2, client.getLastName());
+				ps.setInt(3, client.getIdAccount());
+				int i = ps.executeUpdate();
+				if (i == 1) {
+					System.out.println("jdbc update Client " + target.toString());
+					return target;
+				}
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+		}
 		return null;
 	}
-
 }
