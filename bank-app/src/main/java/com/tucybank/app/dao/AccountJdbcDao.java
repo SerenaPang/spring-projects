@@ -82,7 +82,22 @@ public class AccountJdbcDao implements AccountDao{
 
 	@Override
 	public Account deleteAccount(Integer idAccount) {
-		// TODO Auto-generated method stub
+		System.out.println("jdbc delete Account");
+		Account target = findAccountById(idAccount);
+		
+		if (target != null) {
+			try (Connection connection = dataSource.getConnection()) {
+				PreparedStatement ps = connection.prepareStatement("DELETE FROM ACCOUNT WHERE id_account= ?");
+				ps.setInt(1, idAccount);
+				int i = ps.executeUpdate();
+				if (i == 1) {
+					System.out.println("jdbc delete Account " + target.toString());
+					return target;
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 		return null;
 	}
 
