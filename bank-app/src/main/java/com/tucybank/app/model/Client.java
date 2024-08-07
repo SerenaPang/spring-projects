@@ -1,6 +1,6 @@
 package com.tucybank.app.model;
 
-public class Cilent {
+public class Client {
 	private String name;
 	private String lastName;
 	public String getName() {
