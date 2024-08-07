@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +63,20 @@ public class AccountJdbcDao implements AccountDao{
 
 	@Override
 	public List<Account> findAllAccounts() {
-		// TODO Auto-generated method stub
+		System.out.println("findAllAccounts");
+		List<Account> accounts = new ArrayList<Account>();
+		try(Connection connection = dataSource.getConnection()){
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery("Select id_account, id_cilent, total_balance FROM ACCOUNT WHERE id_account=?");
+			while (rs.next()) {
+				Account account = new Account();
+				account.setIdAcount(rs.getInt("id_account"));
+				account.setIdClient(rs.getInt("id_cilent"));
+				account.setTotalBalance(rs.getFloat("total_balance"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 
