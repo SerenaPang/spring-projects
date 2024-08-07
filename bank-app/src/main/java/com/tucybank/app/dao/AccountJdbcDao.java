@@ -12,17 +12,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.tucybank.app.model.Account;
 
-public class AccountJdbcDao implements AccountDao{
+public class AccountJdbcDao implements AccountDao {
 	@Autowired
 	private JdbcDataSource dataSource;
-	
+
 	@Override
 	public Account saveAccount(Account account) {
 		System.out.println("jdbc save Account");
 		Account accountExist = findAccountById(account.getIdAcount());
 		if (accountExist != null) {
 			try (Connection connection = dataSource.getConnection()) {
-				PreparedStatement ps = connection.prepareStatement("INSERT INTO ACCOUNT(id_account, id_cilent, total_balance) " + "VALUES(?,?,?)");
+				PreparedStatement ps = connection.prepareStatement(
+						"INSERT INTO ACCOUNT(id_account, id_cilent, total_balance) " + "VALUES(?,?,?)");
 				ps.setInt(1, account.getIdAcount());
 				ps.setInt(2, account.getIdClient());
 				ps.setFloat(3, account.getTotalBalance());
@@ -43,7 +44,8 @@ public class AccountJdbcDao implements AccountDao{
 		System.out.println("jdbc find Account by id " + id);
 
 		try (Connection connection = dataSource.getConnection()) {
-			PreparedStatement ps = connection.prepareStatement("SELECT id_account, id_cilent, total_balance FROM ACCOUNT WHERE id_account=?");
+			PreparedStatement ps = connection
+					.prepareStatement("SELECT id_account, id_cilent, total_balance FROM ACCOUNT WHERE id_account=?");
 			ps.setInt(1, id);
 			Account account = new Account();
 			try (ResultSet rs = ps.executeQuery()) {
@@ -65,15 +67,18 @@ public class AccountJdbcDao implements AccountDao{
 	public List<Account> findAllAccounts() {
 		System.out.println("findAllAccounts");
 		List<Account> accounts = new ArrayList<Account>();
-		try(Connection connection = dataSource.getConnection()){
+		try (Connection connection = dataSource.getConnection()) {
 			Statement stmt = connection.createStatement();
-			ResultSet rs = stmt.executeQuery("Select id_account, id_cilent, total_balance FROM ACCOUNT WHERE id_account=?");
+			ResultSet rs = stmt
+					.executeQuery("Select id_account, id_cilent, total_balance FROM ACCOUNT WHERE id_account=?");
 			while (rs.next()) {
 				Account account = new Account();
 				account.setIdAcount(rs.getInt("id_account"));
 				account.setIdClient(rs.getInt("id_cilent"));
 				account.setTotalBalance(rs.getFloat("total_balance"));
+				accounts.add(account);
 			}
+			System.out.println(accounts);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -84,7 +89,7 @@ public class AccountJdbcDao implements AccountDao{
 	public Account deleteAccount(Integer idAccount) {
 		System.out.println("jdbc delete Account");
 		Account target = findAccountById(idAccount);
-		
+
 		if (target != null) {
 			try (Connection connection = dataSource.getConnection()) {
 				PreparedStatement ps = connection.prepareStatement("DELETE FROM ACCOUNT WHERE id_account= ?");
@@ -107,7 +112,8 @@ public class AccountJdbcDao implements AccountDao{
 		Account target = findAccountById(account.getIdAcount());
 		if (target != null) {
 			try (Connection connection = dataSource.getConnection()) {
-				PreparedStatement ps = connection.prepareStatement("UPDATE ACCOUNT SET total_balance=? WHERE id_account=?");
+				PreparedStatement ps = connection
+						.prepareStatement("UPDATE ACCOUNT SET total_balance=? WHERE id_account=?");
 				ps.setFloat(1, account.getTotalBalance());
 				ps.setInt(1, account.getIdAcount());
 				int i = ps.executeUpdate();

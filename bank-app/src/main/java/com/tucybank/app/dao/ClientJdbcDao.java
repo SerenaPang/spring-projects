@@ -1,30 +1,90 @@
 package com.tucybank.app.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.tucybank.app.model.Client;
 
-public class ClientJdbcDao implements ClientDao{
+public class ClientJdbcDao implements ClientDao {
 	@Autowired
 	private JdbcDataSource dataSource;
-	
+
 	@Override
 	public Client saveClient(Client client) {
-		// TODO Auto-generated method stub
+		System.out.println("jdbc save Client");
+		Client clientExist = findClientById(client.getIdCilent());
+		if (clientExist != null) {
+			try (Connection connection = dataSource.getConnection()) {
+				PreparedStatement ps = connection.prepareStatement(
+						"INSERT INTO Client(id_cilent, name, last_name, id_account) " + "VALUES(?,?,?,?)");
+				ps.setInt(1, client.getIdCilent());
+				ps.setString(2, client.getName());
+				ps.setString(3, client.getLastName());
+				ps.setInt(4, client.getIdAccount());
+				int i = ps.executeUpdate();
+				if (i == 1) {
+					// ps.getGeneratedKeys()
+					System.out.println("jdbc saved Client info to database");
+				}
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+		}
 		return null;
 	}
 
 	@Override
 	public Client findClientById(Integer id) {
-		// TODO Auto-generated method stub
+		System.out.println("jdbc find Client by id " + id);
+
+		try (Connection connection = dataSource.getConnection()) {
+			PreparedStatement ps = connection
+					.prepareStatement("SELECT id_cilent, name, last_name, id_account FROM Client WHERE id_cilent=?");
+			ps.setInt(1, id);
+			Client client = new Client();
+			try (ResultSet rs = ps.executeQuery()) {
+				if (rs.next()) {
+					client.setIdCilent(rs.getInt("id_cilent"));
+					client.setName(rs.getString("name"));
+					client.setLastName(rs.getString("last_name"));
+					client.setIdAccount(rs.getInt("id_account"));
+					System.out.println(client.toString());
+				}
+				return client;
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
 		return null;
 	}
 
 	@Override
 	public List<Client> findAllClients() {
-		// TODO Auto-generated method stub
+		System.out.println("findAllAccounts");
+		List<Client> clients = new ArrayList<Client>();
+		try (Connection connection = dataSource.getConnection()) {
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt
+					.executeQuery("Select id_cilent, name, last_name, id_account FROM Client WHERE id_cilent=?");
+			while (rs.next()) {
+				Client client = new Client();
+				client.setIdCilent(rs.getInt("id_cilent"));
+				client.setName(rs.getString("name"));
+				client.setLastName(rs.getString("last_name"));
+				client.setIdAccount(rs.getInt("id_account"));
+				clients.add(client);
+			}
+			System.out.println(clients);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 
