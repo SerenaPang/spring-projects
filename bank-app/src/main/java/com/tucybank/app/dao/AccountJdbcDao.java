@@ -103,8 +103,22 @@ public class AccountJdbcDao implements AccountDao{
 
 	@Override
 	public Account updateAccount(Account account) {
-		// TODO Auto-generated method stub
+		System.out.println("jdbc update Account");
+		Account target = findAccountById(account.getIdAcount());
+		if (target != null) {
+			try (Connection connection = dataSource.getConnection()) {
+				PreparedStatement ps = connection.prepareStatement("UPDATE ACCOUNT SET total_balance=? WHERE id_account=?");
+				ps.setFloat(1, account.getTotalBalance());
+				ps.setInt(1, account.getIdAcount());
+				int i = ps.executeUpdate();
+				if (i == 1) {
+					System.out.println("jdbc update account " + target.toString());
+					return target;
+				}
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+		}
 		return null;
 	}
-
 }
