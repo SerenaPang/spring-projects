@@ -10,7 +10,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.authorbookjdbcproject.app.model.Author;
 import com.tucybank.app.model.Activity;
 
 public class ActivityJdbcDao implements ActivityDao {
@@ -19,7 +18,26 @@ public class ActivityJdbcDao implements ActivityDao {
 
 	@Override
 	public Activity saveActivity(Activity activity) {
-		// TODO Auto-generated method stub
+		System.out.println("jdbc save Activity");
+		Activity activityExist = findActivityById(activity.getIdActivity());
+		if (activityExist != null) {
+			try (Connection connection = dataSource.getConnection()) {
+				PreparedStatement ps = connection.prepareStatement(
+						"INSERT INTO ACTIVITY(id_account, date_activity, type_activity, amount) " + "VALUES(?,?,?,?)");
+				ps.setInt(1, activity.getIdAccount());
+				ps.setDate(2, activity.getDate());
+				ps.setString(3, activity.getType());
+				ps.setFloat(4, activity.getAmount());
+				int i = ps.executeUpdate();
+
+				if (i == 1) {
+					// ps.getGeneratedKeys()
+					System.out.println("jdbc saved Activity info to database");
+				}
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+		}
 		return null;
 	}
 
@@ -55,7 +73,8 @@ public class ActivityJdbcDao implements ActivityDao {
 		List<Activity> activities = new ArrayList<>();
 		try (Connection connection = dataSource.getConnection()) {
 			Statement stmt = connection.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT id_activity, id_account, date_activity, type_activity, amount from ACTIVITY");
+			ResultSet rs = stmt
+					.executeQuery("SELECT id_activity, id_account, date_activity, type_activity, amount from ACTIVITY");
 
 			while (rs.next()) {
 				Activity activity = new Activity();
@@ -97,8 +116,26 @@ public class ActivityJdbcDao implements ActivityDao {
 
 	@Override
 	public Activity updateActivity(Activity activity) {
-		// TODO Auto-generated method stub
+		System.out.println("jdbc update activity");
+		Activity target = findActivityById(activity.getIdActivity());
+		if (target != null) {
+			try (Connection connection = dataSource.getConnection()) {
+				PreparedStatement ps = connection.prepareStatement(
+						"UPDATE ACTIVITY SET id_account=? date_activity=? type_activity=? amount=? WHERE id_activity=?");
+				ps.setInt(1, activity.getIdAccount());
+				ps.setDate(2, activity.getDate());
+				ps.setString(3, activity.getType());
+				ps.setFloat(4, activity.getAmount());
+				ps.setInt(5, activity.getIdActivity());
+				int i = ps.executeUpdate();
+				if (i == 1) {
+					System.out.println("jdbc update activity " + target.toString());
+					return target;
+				}
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+		}
 		return null;
 	}
-
 }
