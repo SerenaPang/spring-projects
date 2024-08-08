@@ -10,17 +10,21 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.tucybank.app.model.Account;
 import com.tucybank.app.model.Activity;
 
 public class ActivityJdbcDao implements ActivityDao {
 	@Autowired
 	private JdbcDataSource dataSource;
-
+	@Autowired
+	AccountJdbcDao accountJdbcDao;
+	
 	@Override
 	public Activity saveActivity(Activity activity) {
 		System.out.println("jdbc save Activity");
-		Activity activityExist = findActivityById(activity.getIdActivity());
-		if (activityExist != null) {
+		Account accountExist = accountJdbcDao.findAccountById(activity.getIdAccount());
+		
+		if (accountExist != null) {
 			try (Connection connection = dataSource.getConnection()) {
 				PreparedStatement ps = connection.prepareStatement(
 						"INSERT INTO ACTIVITY(id_account, date_activity, type_activity, amount) " + "VALUES(?,?,?,?)");

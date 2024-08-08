@@ -11,16 +11,19 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.tucybank.app.model.Account;
+import com.tucybank.app.model.Client;
 
 public class AccountJdbcDao implements AccountDao {
 	@Autowired
 	private JdbcDataSource dataSource;
-
+	@Autowired
+	ClientJdbcDao clientJdbcDao;
 	@Override
 	public Account saveAccount(Account account) {
 		System.out.println("jdbc save Account");
-		Account accountExist = findAccountById(account.getIdAcount());
-		if (accountExist != null) {
+		Client clientExist = clientJdbcDao.findClientById(account.getIdClient());
+
+		if (clientExist != null) {
 			try (Connection connection = dataSource.getConnection()) {
 				PreparedStatement ps = connection.prepareStatement(
 						"INSERT INTO ACCOUNT(id_account, id_cilent, total_balance) " + "VALUES(?,?,?)");
