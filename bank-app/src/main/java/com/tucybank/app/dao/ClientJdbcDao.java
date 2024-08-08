@@ -78,7 +78,7 @@ public class ClientJdbcDao implements ClientDao {
 		try (Connection connection = dataSource.getConnection()) {
 			Statement stmt = connection.createStatement();
 			ResultSet rs = stmt
-					.executeQuery("Select id_cilent, name, last_name, id_account FROM Client WHERE id_cilent=?");
+					.executeQuery("Select id_cilent, name, last_name, id_account FROM Client");
 			while (rs.next()) {
 				Client client = new Client();
 				client.setIdCilent(rs.getInt("id_cilent"));

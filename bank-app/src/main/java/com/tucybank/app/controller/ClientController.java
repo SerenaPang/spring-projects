@@ -1,5 +1,7 @@
 package com.tucybank.app.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,7 @@ public class ClientController {
 	//curl -H 'Content-Type: application/json' -d '{ "idCilent":"1", "name":"Dirak", "lastName" : "Xu", "idAccount": "1"}' -X POST http://localhost:8080/saveClient
 	@PostMapping("saveClient{client}")
 	public ResponseEntity<Client> saveClient(@RequestBody Client client) {
+		System.out.println("saveClient");
 		Client clientSaved = clientJdbcDao.saveClient(client);
 		if (clientSaved == null) {
 			return null;
@@ -41,6 +44,17 @@ public class ClientController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+	}
+	
+	// curl -X GET "http://localhost:8080/findAllClients"
+	@GetMapping("/findAllClients")
+	public ResponseEntity<List<Client>> findAllClients(){
+		System.out.println("findAllClients");
+		List<Client> clients = clientJdbcDao.findAllClients();
+		if (clients== null || clients.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(clients);
 	}
 	
 	
