@@ -4,7 +4,7 @@ public class Client {
 	private int idCilent;
 	private int idAccount;
 	private String name;
-	private String lastName;
+	private String lastName; 
 	public String getName() {
 		return name;
 	}

@@ -9,14 +9,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
-import com.tucybank.app.model.Account;
 import com.tucybank.app.model.Client;
 
+@Repository
 public class ClientJdbcDao implements ClientDao {
+	
 	@Autowired
 	private JdbcDataSource dataSource;
 
+	public ClientJdbcDao() {}
+	
 	@Override
 	public Client saveClient(Client client) {
 		System.out.println("jdbc save Client");
@@ -33,6 +37,7 @@ public class ClientJdbcDao implements ClientDao {
 				if (i == 1) {
 					// ps.getGeneratedKeys()
 					System.out.println("jdbc saved Client info to database");
+					System.out.println(client.toString());
 				}
 			} catch (SQLException ex) {
 				ex.printStackTrace();
