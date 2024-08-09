@@ -1,6 +1,7 @@
 package com.tucybank.app.dao;
 
 import java.sql.Connection;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,10 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.tucybank.app.model.Account;
 import com.tucybank.app.model.Client;
-
+@Repository
 public class AccountJdbcDao implements AccountDao {
 	@Autowired
 	private JdbcDataSource dataSource;
@@ -22,7 +24,6 @@ public class AccountJdbcDao implements AccountDao {
 	public Account saveAccount(Account account) {
 		System.out.println("jdbc save Account");
 		Client clientExist = clientJdbcDao.findClientById(account.getIdClient());
-
 		if (clientExist != null) {
 			try (Connection connection = dataSource.getConnection()) {
 				PreparedStatement ps = connection.prepareStatement(
@@ -128,6 +129,33 @@ public class AccountJdbcDao implements AccountDao {
 				ex.printStackTrace();
 			}
 		}
+		return null;
+	}
+
+	public Account saveAccount(Integer idClient, Account account) {
+		System.out.println("jdbc update Account");
+		//find if client exist
+		int clientId = account.getIdClient(); 
+		if (clientId == idClient) {
+			
+			Client clientExist = clientJdbcDao.findClientById(account.getIdClient());
+			if (clientExist != null) {
+				try (Connection connection = dataSource.getConnection()) {
+					PreparedStatement ps = connection.prepareStatement(
+							"INSERT INTO ACCOUNT(id_account, id_cilent, total_balance) " + "VALUES(?,?,?)");
+					ps.setInt(1, account.getIdAcount());
+					ps.setInt(2, account.getIdClient());
+					ps.setFloat(3, account.getTotalBalance());
+					int i = ps.executeUpdate();
+					if (i == 1) {
+						// ps.getGeneratedKeys()
+						System.out.println("jdbc saved account info to database");
+					}
+				} catch (SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}//if no client exist, we don't save the new account since every account needs to have a client
 		return null;
 	}
 }

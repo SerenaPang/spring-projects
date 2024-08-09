@@ -25,7 +25,7 @@ public class ClientJdbcDao implements ClientDao {
 	public Client saveClient(Client client) {
 		System.out.println("jdbc save Client");
 		Client clientExist = findClientById(client.getIdCilent());
-		if (clientExist != null) {
+		if (clientExist == null) {
 			try (Connection connection = dataSource.getConnection()) {
 				PreparedStatement ps = connection.prepareStatement(
 						"INSERT INTO Client(id_cilent, name, last_name, id_account) " + "VALUES(?,?,?,?)");

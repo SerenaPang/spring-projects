@@ -71,11 +71,8 @@ public class ClientController {
 		clientJdbcDao.deleteClient(idCilent);
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
-	
-
 
 	// curl -H 'Content-Type: application/json' -d '{"idCilent":"2", "name":"Darake", "lastName":"Qu", "idAccount": "1"}' -X PUT http://localhost:8080/updateClient
-	// curl -H 'Content-Type: application/json' -d '{"idCilent":"1", "name":"Darake", "lastName":"Qu", "idAccount": "1"}' -X PUT http://localhost:8080/updateClient
 	@PutMapping(path = "/updateClient", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Client> updateClient(@RequestBody Client client){
 		Integer idClient = client.getIdCilent();
