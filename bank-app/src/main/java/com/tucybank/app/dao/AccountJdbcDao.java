@@ -74,12 +74,13 @@ public class AccountJdbcDao implements AccountDao {
 		try (Connection connection = dataSource.getConnection()) {
 			Statement stmt = connection.createStatement();
 			ResultSet rs = stmt
-					.executeQuery("Select id_account, id_cilent, total_balance FROM ACCOUNT WHERE id_account=?");
+					.executeQuery("Select id_account, id_cilent, total_balance FROM ACCOUNT");
 			while (rs.next()) {
 				Account account = new Account();
 				account.setIdAcount(rs.getInt("id_account"));
 				account.setIdClient(rs.getInt("id_cilent"));
 				account.setTotalBalance(rs.getFloat("total_balance"));
+				account.setIdAcount(rs.getInt("id_account"));
 				accounts.add(account);
 			}
 			System.out.println(accounts);
