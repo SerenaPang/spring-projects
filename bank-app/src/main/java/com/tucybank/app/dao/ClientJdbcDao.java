@@ -121,10 +121,12 @@ public class ClientJdbcDao implements ClientDao {
 		if (target != null) {
 			try (Connection connection = dataSource.getConnection()) {
 				PreparedStatement ps = connection
-						.prepareStatement("UPDATE Client SET name=? last_name=? id_account=? WHERE id_cilent=?");
-				ps.setString(1, client.getName());
-				ps.setString(2, client.getLastName());
-				ps.setInt(3, client.getIdAccount());
+						.prepareStatement("UPDATE CLIENT SET id_cilent=?, name=?, last_name=?, id_account=? WHERE id_cilent=?");
+				ps.setInt(1, client.getIdCilent());
+				ps.setString(2, client.getName());
+				ps.setString(3, client.getLastName());
+				ps.setInt(4, client.getIdAccount());
+				ps.setInt(5, client.getIdCilent());
 				int i = ps.executeUpdate();
 				if (i == 1) {
 					System.out.println("jdbc update Client " + target.toString());
