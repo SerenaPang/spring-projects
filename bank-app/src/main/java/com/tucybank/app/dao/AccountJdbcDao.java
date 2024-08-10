@@ -120,7 +120,7 @@ public class AccountJdbcDao implements AccountDao {
 				PreparedStatement ps = connection
 						.prepareStatement("UPDATE ACCOUNT SET total_balance=? WHERE id_account=?");
 				ps.setFloat(1, account.getTotalBalance());
-				ps.setInt(1, account.getIdAcount());
+				ps.setInt(2, account.getIdAcount());
 				int i = ps.executeUpdate();
 				if (i == 1) {
 					System.out.println("jdbc update account " + target.toString());
