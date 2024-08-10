@@ -20,12 +20,12 @@ public class ActivityJdbcDao implements ActivityDao {
 	private JdbcDataSource dataSource;
 	@Autowired
 	AccountJdbcDao accountJdbcDao;
-	
+
 	@Override
 	public Activity saveActivity(Activity activity) {
 		System.out.println("jdbc save Activity");
 		Account accountExist = accountJdbcDao.findAccountById(activity.getIdAccount());
-		
+
 		if (accountExist != null) {
 			try (Connection connection = dataSource.getConnection()) {
 				PreparedStatement ps = connection.prepareStatement(
@@ -49,7 +49,7 @@ public class ActivityJdbcDao implements ActivityDao {
 
 	public Activity saveActivity(Integer idAccount, Activity activity) {
 		System.out.println("jdbc save Activity");
-		Account accountExist = accountJdbcDao.findAccountById(idAccount);	
+		Account accountExist = accountJdbcDao.findAccountById(idAccount);
 		if (accountExist != null) {
 			try (Connection connection = dataSource.getConnection()) {
 				PreparedStatement ps = connection.prepareStatement(
@@ -70,6 +70,7 @@ public class ActivityJdbcDao implements ActivityDao {
 		}
 		return null;
 	}
+
 	@Override
 	public Activity findActivityById(Integer id) {
 		System.out.println("jdbc find Activity by id " + id);
@@ -150,7 +151,7 @@ public class ActivityJdbcDao implements ActivityDao {
 		if (target != null) {
 			try (Connection connection = dataSource.getConnection()) {
 				PreparedStatement ps = connection.prepareStatement(
-						"UPDATE ACTIVITY SET id_account=? date_activity=? type_activity=? amount=? WHERE id_activity=?");
+						"UPDATE ACTIVITY SET id_account=?, date_activity=?, type_activity=?, amount=? WHERE id_activity=?");
 				ps.setInt(1, activity.getIdAccount());
 				ps.setDate(2, activity.getDate());
 				ps.setString(3, activity.getType());

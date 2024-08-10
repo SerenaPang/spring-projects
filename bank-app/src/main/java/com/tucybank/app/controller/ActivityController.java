@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -63,6 +65,35 @@ public class ActivityController {
 		return ResponseEntity.status(HttpStatus.OK).body(activities);
 	}
 	
-	
+	// curl -H 'Content-Type: application/json' -X DELETE
+	// http://localhost:8080/deleteActivity/3
+	@DeleteMapping(path = "/deleteActivity/{idActivity}")
+	public ResponseEntity<Activity> deleteActivity(@PathVariable(name = "idActivity") Integer idActivity) {
+		// Retrieve the resource from the database
+		Activity target = activityJdbcDao.findActivityById(idActivity);
+		// If the resource is not found, return a 404 (not found) status code
+		if (target == null) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
+		// Delete the resource
+		activityJdbcDao.deleteActivity(idActivity);
+		// Return a 204 (no content) status code
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+	}
 
+	// curl -H 'Content-Type: application/json' -d '{"idActivity":"1", "idAccount":"3", "date":"2020-03-03", "type":"deposit", "amount":"500"}' -X PUT http://localhost:8080/updateActivity
+	@PutMapping(path = "/updateActivity", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Activity> updateActivity(@RequestBody Activity activity) {
+		// Retrieve the resource from the database
+		Integer idActivity = activity.getIdActivity();
+		Activity target = activityJdbcDao.findActivityById(idActivity);
+		// If the resource is not found, return a 404 (not found) status code
+		if (target == null) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
+		// Update the resource
+		Activity updatedActivity = activityJdbcDao.updateActivity(activity);
+		// Return the updated resource with a 200 (OK) status code
+		return ResponseEntity.status(HttpStatus.OK).body(updatedActivity);
+	}
 }

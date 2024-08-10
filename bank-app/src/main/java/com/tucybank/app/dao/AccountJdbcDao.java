@@ -14,12 +14,14 @@ import org.springframework.stereotype.Repository;
 
 import com.tucybank.app.model.Account;
 import com.tucybank.app.model.Client;
+
 @Repository
 public class AccountJdbcDao implements AccountDao {
 	@Autowired
 	private JdbcDataSource dataSource;
 	@Autowired
 	ClientJdbcDao clientJdbcDao;
+
 	@Override
 	public Account saveAccount(Account account) {
 		System.out.println("jdbc save Account");
@@ -73,8 +75,7 @@ public class AccountJdbcDao implements AccountDao {
 		List<Account> accounts = new ArrayList<Account>();
 		try (Connection connection = dataSource.getConnection()) {
 			Statement stmt = connection.createStatement();
-			ResultSet rs = stmt
-					.executeQuery("Select id_account, id_cilent, total_balance FROM ACCOUNT");
+			ResultSet rs = stmt.executeQuery("Select id_account, id_cilent, total_balance FROM ACCOUNT");
 			while (rs.next()) {
 				Account account = new Account();
 				account.setIdAcount(rs.getInt("id_account"));
@@ -135,10 +136,10 @@ public class AccountJdbcDao implements AccountDao {
 
 	public Account saveAccount(Integer idClient, Account account) {
 		System.out.println("jdbc update Account");
-		//find if client exist
-		int clientId = account.getIdClient(); 
+		// find if client exist
+		int clientId = account.getIdClient();
 		if (clientId == idClient) {
-			
+
 			Client clientExist = clientJdbcDao.findClientById(account.getIdClient());
 			if (clientExist != null) {
 				try (Connection connection = dataSource.getConnection()) {
@@ -156,7 +157,8 @@ public class AccountJdbcDao implements AccountDao {
 					ex.printStackTrace();
 				}
 			}
-		}//if no client exist, we don't save the new account since every account needs to have a client
+		} // if no client exist, we don't save the new account since every account needs
+			// to have a client
 		return null;
 	}
 }
