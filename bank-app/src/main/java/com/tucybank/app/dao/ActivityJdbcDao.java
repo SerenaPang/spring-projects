@@ -9,10 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.tucybank.app.model.Account;
 import com.tucybank.app.model.Activity;
 
+@Repository
 public class ActivityJdbcDao implements ActivityDao {
 	@Autowired
 	private JdbcDataSource dataSource;
@@ -45,6 +47,29 @@ public class ActivityJdbcDao implements ActivityDao {
 		return null;
 	}
 
+	public Activity saveActivity(Integer idAccount, Activity activity) {
+		System.out.println("jdbc save Activity");
+		Account accountExist = accountJdbcDao.findAccountById(idAccount);	
+		if (accountExist != null) {
+			try (Connection connection = dataSource.getConnection()) {
+				PreparedStatement ps = connection.prepareStatement(
+						"INSERT INTO ACTIVITY(id_account, date_activity, type_activity, amount) " + "VALUES(?,?,?,?)");
+				ps.setInt(1, activity.getIdAccount());
+				ps.setDate(2, activity.getDate());
+				ps.setString(3, activity.getType());
+				ps.setFloat(4, activity.getAmount());
+				int i = ps.executeUpdate();
+
+				if (i == 1) {
+					// ps.getGeneratedKeys()
+					System.out.println("jdbc saved Activity info to database");
+				}
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+		}
+		return null;
+	}
 	@Override
 	public Activity findActivityById(Integer id) {
 		System.out.println("jdbc find Activity by id " + id);

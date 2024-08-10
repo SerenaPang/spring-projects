@@ -22,12 +22,14 @@ import com.tucybank.app.model.Client;
 public class ClientController {
 	@Autowired
 	private ClientJdbcDao clientJdbcDao;
-	
+
 	public ClientController() {
-		
+
 	}
-	
-	//curl -H 'Content-Type: application/json' -d '{ "idCilent":"1", "name":"Dirak", "lastName" : "Xu", "idAccount": "1"}' -X POST http://localhost:8080/saveClient
+
+	// curl -H 'Content-Type: application/json' -d '{ "idCilent":"1",
+	// "name":"Dirak", "lastName" : "Xu", "idAccount": "1"}' -X POST
+	// http://localhost:8080/saveClient
 	@PostMapping("saveClient{client}")
 	public ResponseEntity<Client> saveClient(@RequestBody Client client) {
 		System.out.println("saveClient");
@@ -38,10 +40,10 @@ public class ClientController {
 		// Return the created resource with a 201 (created) status code
 		return ResponseEntity.status(HttpStatus.CREATED).body(clientSaved);
 	}
-	
+
 	// curl -X GET "http://localhost:8080/findClientById?idCilent=1"
 	@GetMapping("/findClientById")
-	public ResponseEntity<Client> findClientById(@RequestParam(value = "idCilent", defaultValue = "0")Integer id){
+	public ResponseEntity<Client> findClientById(@RequestParam(value = "idCilent", defaultValue = "0") Integer id) {
 		System.out.println("findClientById: " + id);
 		Client client = clientJdbcDao.findClientById(id);
 		if (client == null) {
@@ -49,19 +51,20 @@ public class ClientController {
 		}
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
-	
+
 	// curl -X GET "http://localhost:8080/findAllClients"
 	@GetMapping("/findAllClients")
-	public ResponseEntity<List<Client>> findAllClients(){
+	public ResponseEntity<List<Client>> findAllClients() {
 		System.out.println("findAllClients");
 		List<Client> clients = clientJdbcDao.findAllClients();
-		if (clients== null || clients.isEmpty()) {
+		if (clients == null || clients.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 		return ResponseEntity.status(HttpStatus.OK).body(clients);
 	}
-	
-	// curl -H 'Content-Type: application/json' -X DELETE http://localhost:8080/deleteClient/1
+
+	// curl -H 'Content-Type: application/json' -X DELETE
+	// http://localhost:8080/deleteClient/1
 	@DeleteMapping(path = "/deleteClient/{idCilent}")
 	public ResponseEntity<Client> deleteClient(@PathVariable(name = "idCilent") Integer idCilent) {
 		Client client = clientJdbcDao.findClientById(idCilent);
@@ -71,10 +74,13 @@ public class ClientController {
 		clientJdbcDao.deleteClient(idCilent);
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
+	
 
-	// curl -H 'Content-Type: application/json' -d '{"idCilent":"2", "name":"Darake", "lastName":"Qu", "idAccount": "1"}' -X PUT http://localhost:8080/updateClient
+	// curl -H 'Content-Type: application/json' -d '{"idCilent":"2",
+	// "name":"Darake", "lastName":"Qu", "idAccount": "1"}' -X PUT
+	// http://localhost:8080/updateClient
 	@PutMapping(path = "/updateClient", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Client> updateClient(@RequestBody Client client){
+	public ResponseEntity<Client> updateClient(@RequestBody Client client) {
 		Integer idClient = client.getIdCilent();
 		Client target = clientJdbcDao.findClientById(idClient);
 		if (target == null) {
@@ -82,5 +88,5 @@ public class ClientController {
 		}
 		Client updatedClient = clientJdbcDao.updateClient(client);
 		return ResponseEntity.status(HttpStatus.OK).body(updatedClient);
-	}	
+	}
 }
