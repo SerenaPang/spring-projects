@@ -31,7 +31,6 @@ public class AuthorController {
 	}
 
 	// curl -X GET "http://localhost:8080/findAuthorById?id=1"
-
 	@GetMapping("/findAuthorById")
 	public ResponseEntity<Author> findAuthorById(@RequestParam(value = "id", defaultValue = "0") Integer id) {
 		System.out.println("AuthorController.findById() " + id);

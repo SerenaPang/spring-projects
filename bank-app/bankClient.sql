@@ -16,7 +16,7 @@ INSERT INTO CLIENT VALUES(2, 'Su','Qing', 2);
 CREATE TABLE ACCOUNT(
 	id_account Integer NOT NULL,
 	id_cilent INTEGER,
-	amount FLOAT,
+	total_balance FLOAT,
 	PRIMARY KEY (id_account),
 	FOREIGN KEY (id_cilent) REFERENCES CLIENT(id_cilent)
 );
@@ -31,6 +31,7 @@ CREATE TABLE ACTIVITY(
 	id_account Integer,
 	date_activity Date,
 	type_activity VARCHAR(255),
+	amount FLOAT,
 	PRIMARY KEY (id_activity),
 	FOREIGN KEY (id_account) REFERENCES ACCOUNT(id_account)
 );
