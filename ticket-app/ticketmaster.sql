@@ -18,6 +18,7 @@ CREATE TABLE RESERVATION (
   id_reservation INTEGER NOT NULL AUTO_INCREMENT,
   id_user INTEGER,
   id_event INTEGER,
+  status VARCHAR(255), 
   PRIMARY KEY (id_reservation),
   FOREIGN KEY (id_user) REFERENCES USER(id_user),
   FOREIGN KEY (id_event) REFERENCES EVENT(id_event)
