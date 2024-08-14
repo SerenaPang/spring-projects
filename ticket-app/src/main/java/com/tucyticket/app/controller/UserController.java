@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tucyticket.app.dao.JdbcUserDao;
 import com.tucyticket.app.model.User;
 
-
-
 @RestController
 public class UserController {
 	@Autowired

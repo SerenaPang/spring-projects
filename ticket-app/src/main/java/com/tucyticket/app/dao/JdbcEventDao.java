@@ -148,7 +148,7 @@ public class JdbcEventDao implements EventDao {
 		if (user != null && event != null) {
 			try (Connection connection = dataSource.getConnection()) {
 				PreparedStatement ps = connection
-						.prepareStatement("INSERT INTO RESERVATION(id_user, id_event, status) " + "VALUES(?,?,?,?)");
+						.prepareStatement("INSERT INTO RESERVATION(id_user, id_event, status) " + "VALUES(?,?,?)");
 				ps.setInt(1, idUser);
 				ps.setInt(2, idEvent);
 				ps.setString(3, "Reserved");
@@ -223,7 +223,7 @@ public class JdbcEventDao implements EventDao {
 				ps.setInt(2, reservation.getIdUser());
 				ps.setInt(3, reservation.getIdEvent());
 				ps.setString(4, "Canceled");
-				
+				ps.setInt(5, reservation.getIdReservation());
 				int i = ps.executeUpdate();
 				if (i == 1) {
 					System.out.println("jdbc cancel reservation" + target.toString());
