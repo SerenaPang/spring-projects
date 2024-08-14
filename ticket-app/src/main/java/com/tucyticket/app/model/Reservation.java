@@ -4,6 +4,15 @@ public class Reservation {
 	private Integer idReservation;
 	private Integer idUser;
 	private Integer idEvent;
+	private String status;
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
 	public Integer getIdReservation() {
 		return idReservation;
@@ -31,6 +40,7 @@ public class Reservation {
 
 	@Override
 	public String toString() {
-		return "Reservation [idReservation=" + idReservation + ", idUser=" + idUser + ", idEvent=" + idEvent + "]";
+		return "Reservation [idReservation=" + idReservation + ", idUser=" + idUser + ", idEvent=" + idEvent
+				+ ", status=" + status + "]";
 	}
 }
