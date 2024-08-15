@@ -29,7 +29,7 @@ public class EventController {
 	}
 
 	// curl -H 'Content-Type: application/json' -d '{ "idEvent":"1", "name":"Hills",
-	// "type":"theater", "date":"2023-01-07"}' -X POST
+	// "type":"theater", "date":"2023-01-07" "location":"San Francisco", "price":"100"}' -X POST
 	// http://localhost:8080/saveEvent
 	@PostMapping("/saveEvent{event}")
 	public ResponseEntity<Event> saveEvent(@RequestBody Event event) {
@@ -82,7 +82,7 @@ public class EventController {
 	}
 
 	// curl -H 'Content-Type: application/json' -d '{"idEvent":"1",
-	// "name":"Hillsdale", "type":"theater", "date":"2023-03-06"}' -X PUT
+	// "name":"Hillsdale", "type":"theater", "date":"2023-03-06""location":"San Francisco", "price":"100"}' -X PUT
 	// http://localhost:8080/updateEvent
 	@PutMapping(path = "/updateEvent", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Event> updateEvent(@RequestBody Event event) {

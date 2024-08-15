@@ -11,6 +11,8 @@ CREATE TABLE EVENT (
   name_event VARCHAR(255),
   type_event VARCHAR(255),
   date_event Date,
+  location_event VARCHAR(255),
+  price_event FLOAT,
   PRIMARY KEY (id_event)
 );
 
@@ -22,6 +24,10 @@ CREATE TABLE RESERVATION (
   PRIMARY KEY (id_reservation),
   FOREIGN KEY (id_user) REFERENCES USER(id_user),
   FOREIGN KEY (id_event) REFERENCES EVENT(id_event)
+);
+
+CREATE TABLE TICKET(
+	id_ticket INTEGER NOT NULL AUTO_INCREMENT,
 );
 
 -- USER

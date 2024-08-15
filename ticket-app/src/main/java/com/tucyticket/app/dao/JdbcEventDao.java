@@ -30,10 +30,12 @@ public class JdbcEventDao implements EventDao {
 		if (eventExist != event) {
 			try (Connection connection = dataSource.getConnection()) {
 				PreparedStatement ps = connection
-						.prepareStatement("INSERT INTO EVENT(name_event, type_event, date_event) " + "VALUES(?,?,?)");
+						.prepareStatement("INSERT INTO EVENT(name_event, type_event, date_event, location_event, price_event) " + "VALUES(?,?,?,?,?)");
 				ps.setString(1, event.getName());
 				ps.setString(2, event.getType());
 				ps.setDate(3, event.getDate());
+				ps.setString(4, event.getLocation());
+				ps.setFloat(5, event.getPrice());
 				int i = ps.executeUpdate();
 
 				if (i == 1) {
@@ -52,7 +54,7 @@ public class JdbcEventDao implements EventDao {
 		System.out.println("jdbc find Event by id " + id);
 		try (Connection connection = dataSource.getConnection()) {
 			PreparedStatement ps = connection.prepareStatement(
-					"SELECT id_event, name_event, type_event, date_event FROM EVENT WHERE id_event =?");
+					"SELECT id_event, name_event, type_event, date_event, location_event, price_event FROM EVENT WHERE id_event =?");
 			ps.setInt(1, id);
 			Event event = new Event();
 			try (ResultSet rs = ps.executeQuery()) {
@@ -61,6 +63,8 @@ public class JdbcEventDao implements EventDao {
 					event.setName(rs.getString("name_event"));
 					event.setType(rs.getString("type_event"));
 					event.setDate(rs.getDate("date_event"));
+					event.setLocation(rs.getString("location_event"));
+					event.setPrice(rs.getFloat("price_event"));
 					event.setIdEvent(rs.getInt("id_event"));
 					System.out.println(event.toString());
 				}
@@ -78,7 +82,7 @@ public class JdbcEventDao implements EventDao {
 		List<Event> events = new ArrayList<>();
 		try (Connection connection = dataSource.getConnection()) {
 			Statement stmt = connection.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT id_event, name_event, type_event, date_event FROM EVENT");
+			ResultSet rs = stmt.executeQuery("SELECT id_event, name_event, type_event, date_event, location_event, price_event FROM EVENT");
 
 			while (rs.next()) {
 				Event event = new Event();
@@ -86,6 +90,8 @@ public class JdbcEventDao implements EventDao {
 				event.setName(rs.getString("name_event"));
 				event.setType(rs.getString("type_event"));
 				event.setDate(rs.getDate("date_event"));
+				event.setLocation(rs.getString("location_event"));
+				event.setPrice(rs.getFloat("price_event"));
 				event.setIdEvent(rs.getInt("id_event"));
 				events.add(event);
 			}
@@ -125,11 +131,13 @@ public class JdbcEventDao implements EventDao {
 		if (target != null) {
 			try (Connection connection = dataSource.getConnection()) {
 				PreparedStatement ps = connection
-						.prepareStatement("UPDATE Event SET name_event=?, type_event=?, date_event=? WHERE id_event=?");
+						.prepareStatement("UPDATE Event SET name_event=?, type_event=?, date_event=?, location_event=?, price_event=? WHERE id_event=?");
 				ps.setString(1, event.getName());
 				ps.setString(2, event.getType());
 				ps.setDate(3, event.getDate());
-				ps.setInt(4, event.getIdEvent());
+				ps.setString(4, event.getLocation());
+				ps.setFloat(5, event.getPrice());
+				ps.setInt(6, event.getIdEvent());
 				int i = ps.executeUpdate();
 				if (i == 1) {
 					System.out.println("jdbc update Event " + target.toString());
