@@ -13,6 +13,7 @@ CREATE TABLE EVENT (
   date_event Date,
   location_event VARCHAR(255),
   price_event FLOAT,
+  capacity INTEGER,
   PRIMARY KEY (id_event)
 );
 
@@ -28,6 +29,7 @@ CREATE TABLE RESERVATION (
 
 CREATE TABLE TICKET(
 	id_ticket INTEGER NOT NULL AUTO_INCREMENT,
+	
 );
 
 -- USER

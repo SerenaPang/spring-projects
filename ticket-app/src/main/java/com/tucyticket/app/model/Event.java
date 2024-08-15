@@ -9,6 +9,7 @@ public class Event {
 	private Date date;
 	private String location;
 	private float price;
+	private Integer capacity;
 	
 	public Integer getIdEvent() {
 		return idEvent;
@@ -38,7 +39,7 @@ public class Event {
 		return location;
 	}
 	public void setLocation(String location) {
-		location = location;
+		this.location = location;
 	}
 	public float getPrice() {
 		return price;
@@ -46,9 +47,16 @@ public class Event {
 	public void setPrice(float price) {
 		this.price = price;
 	}
+	
+	public Integer getCapacity() {
+		return capacity;
+	}
+	public void setCapacity(Integer capacity) {
+		this.capacity = capacity;
+	}
 	@Override
 	public String toString() {
-		return "Event [idEvent=" + idEvent + ", name=" + name + ", type=" + type + ", date=" + date + ", Location="
-				+ location + ", price=" + price + "]";
+		return "Event [idEvent=" + idEvent + ", name=" + name + ", type=" + type + ", date=" + date + ", location="
+				+ location + ", price=" + price + ", capacity=" + capacity + "]";
 	}
 }
