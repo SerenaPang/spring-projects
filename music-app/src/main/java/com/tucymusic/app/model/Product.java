@@ -1,15 +1,13 @@
 package com.tucymusic.app.model;
 
 import java.math.BigDecimal;
-import java.util.Date;
-
 
 public class Product {
 	private int id;
 	private int productType;
 	private int genreId;
 	private BigDecimal price;
-	//private Date date;
+	
 	public int getId() {
 		return id;
 	}

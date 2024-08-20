@@ -8,7 +8,7 @@ public interface UserDao {
 
 	public void create(User user);
 	public void update(User user);
-	public User findById(long id);
+	public User findById(Integer id);
 	public List<User> findAll();
 	
 }
