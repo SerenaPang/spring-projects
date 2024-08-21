@@ -16,6 +16,7 @@ import com.tucymusic.app.model.User;
 
 @Repository
 public class UserDaoImpl implements UserDao {
+	
 	@Autowired
 	private JdbcDataSource dataSource;
 
