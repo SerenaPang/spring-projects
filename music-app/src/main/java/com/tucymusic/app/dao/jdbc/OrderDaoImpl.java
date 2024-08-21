@@ -1,13 +1,14 @@
-package com.tucymusic.app.dao;
+package com.tucymusic.app.dao.jdbc;
 
 import java.util.Date;
 import java.util.List;
 
+import com.tucymusic.app.dao.OrderDao;
 import com.tucymusic.app.model.Order;
 import com.tucymusic.app.model.OrderItem;
 import com.tucymusic.app.model.User;
 
-public class JdbcOrderDao implements OrderDao{
+public class OrderDaoImpl implements OrderDao{
 
 	@Override
 	public void create(Order order) {

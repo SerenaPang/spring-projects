@@ -1,4 +1,4 @@
-package com.tucymusic.app.dao;
+package com.tucymusic.app.dao.jdbc;
 
 import java.io.InputStream;
 import java.io.IOException;

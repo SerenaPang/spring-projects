@@ -1,4 +1,4 @@
-package com.tucymusic.app.dao;
+package com.tucymusic.app.dao.jdbc;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,10 +11,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.tucymusic.app.dao.UserDao;
 import com.tucymusic.app.model.User;
 
 @Repository
-public class JdbcUserDao implements UserDao {
+public class UserDaoImpl implements UserDao {
 	@Autowired
 	private JdbcDataSource dataSource;
 
