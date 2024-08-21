@@ -19,7 +19,7 @@ public interface ProductDao {
 	public void update(ProductType type);
 	public List<ProductType> findAllProductTypes();
 	
-	public Product findProductById(long id);
+	public Product findProductById(int id);
 	public List<Product> findProductsByGenre(Genre genre);
 	public List<Product> findProductsByProductType(ProductType productType);
 	public List<Product> findProductsByGenreAndProductType(Genre genre, ProductType productType);
