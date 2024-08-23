@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.authorbookjdbcproject.app.model.Book;
 import com.tucymusic.app.dao.jdbc.ProductDaoImpl;
 import com.tucymusic.app.model.Genre;
 import com.tucymusic.app.model.Product;
@@ -118,11 +119,16 @@ public class ProductController {
 		return ResponseEntity.status(HttpStatus.OK).body(productTypes);
 	};
 	
-	// curl -X GET "http://localhost:8080/findById?id=1"
+	// curl -X GET "http://localhost:8080/findProductById?id=1"
 	@GetMapping("/findProductById")
-	public Product findProductById(@RequestParam(value = "id", defaultValue = "0") int id) {
-		jdbcProductDao.findProductById(id);
-		return null;
+	public ResponseEntity<Product> findProductById(@RequestParam(value = "id", defaultValue = "0") int id) {
+		System.out.println("ProductController.findProductById() " + id);
+		Product resultProduct = jdbcProductDao.findProductById(id);
+		if (resultProduct == null) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
+		// Return the resource with a 200 (OK) status code
+		return ResponseEntity.status(HttpStatus.OK).body(resultProduct);
 	};
 	
 	@GetMapping("/findProductsByGenre")
