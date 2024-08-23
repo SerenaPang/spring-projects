@@ -25,7 +25,7 @@ public class UserController {
 		System.out.println("UserController.UserController()");
 	}
 	
-	// curl -H 'Content-Type: application/json' -d '{ "id":"5", "name":"Ava", "last_name": "Shili" }' -X POST http://localhost:8080/create
+	// curl -H 'Content-Type: application/json' -d '{ "id":"5", "name":"Ava"}' -X POST http://localhost:8080/create
 	@PostMapping("/create{user}")
 	public ResponseEntity<User> create(@RequestBody User user) {
 		jdbcUserDao.create(user);

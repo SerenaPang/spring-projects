@@ -29,11 +29,12 @@ public class ProductDaoImpl implements ProductDao {
 		if (productExist != product) {
 			try (Connection connection = dataSource.getConnection()) {
 				PreparedStatement ps = connection.prepareStatement(
-						"INSERT INTO PRODUCT(product_id, product_type_id, genre_id, price) " + "VALUES(?,?,?,?)");
+						"INSERT INTO PRODUCT(product_id, product_type_id, name, genre_id, price) " + "VALUES(?,?,?,?,?)");
 				ps.setInt(1, product.getId());
 				ps.setInt(2, product.getProductType());
-				ps.setInt(3, product.getGenreId());
-				ps.setBigDecimal(4, product.getPrice());
+				ps.setString(3, product.getName());
+				ps.setInt(4, product.getGenreId());
+				ps.setBigDecimal(5, product.getPrice());
 				int i = ps.executeUpdate();
 				if (i == 1) {
 					// ps.getGeneratedKeys()
@@ -53,12 +54,13 @@ public class ProductDaoImpl implements ProductDao {
 			try (Connection connection = dataSource.getConnection()) {
 				// TODO Fix sql
 				PreparedStatement ps = connection.prepareStatement(
-						"UPDATE PRODUCT SET product_id=?, product_type_id=?, genre_id=?, price=? WHERE product_id=?");
+						"UPDATE PRODUCT SET product_id=?, product_type_id=?, name=?, genre_id=?, price=? WHERE product_id=?");
 				ps.setInt(1, product.getId());
 				ps.setInt(2, product.getProductType());
-				ps.setInt(3, product.getGenreId());
-				ps.setBigDecimal(4, product.getPrice());
-				ps.setInt(5, product.getId());
+				ps.setString(3, product.getName());
+				ps.setInt(4, product.getGenreId());
+				ps.setBigDecimal(5, product.getPrice());
+				ps.setInt(6, product.getId());
 				int i = ps.executeUpdate();
 				if (i == 1) {
 					System.out.println("jdbc update product " + target.toString());
@@ -153,8 +155,9 @@ public class ProductDaoImpl implements ProductDao {
 		System.out.println("jdbc create ProductType");
 
 		try (Connection connection = dataSource.getConnection()) {
-			PreparedStatement ps = connection.prepareStatement("INSERT INTO PRODUCT_TYPE(description) " + "VALUES(?)");
-			ps.setString(1, type.getDescription());
+			PreparedStatement ps = connection.prepareStatement("INSERT INTO PRODUCT_TYPE(product_type_id, description) " + "VALUES(?,?)");
+			ps.setInt(1, type.getId());
+			ps.setString(2, type.getDescription());
 			int i = ps.executeUpdate();
 			if (i == 1) {
 				// ps.getGeneratedKeys()
@@ -234,13 +237,14 @@ public class ProductDaoImpl implements ProductDao {
 		System.out.println("jdbc find product by id " + id);
 		try (Connection connection = dataSource.getConnection()) {
 			PreparedStatement ps = connection.prepareStatement(
-					"SELECT product_id, product_type_id, genre_id, price FROM PRODUCT WHERE product_id =?");
+					"SELECT product_id, product_type_id, name, genre_id, price FROM PRODUCT WHERE product_id =?");
 			ps.setInt(1, id);
 			Product product = new Product();
 			try (ResultSet rs = ps.executeQuery()) {
 				if (rs.next()) {
 					product.setId(rs.getInt("product_id"));
 					product.setProductType(rs.getInt("product_type_id"));
+					product.setName(rs.getString("name"));
 					product.setGenreId(rs.getInt("genre_id"));
 					product.setPrice(rs.getBigDecimal("price"));
 					product.setId(rs.getInt("product_id"));
@@ -327,6 +331,50 @@ public class ProductDaoImpl implements ProductDao {
 				}
 				System.out.println(products);
 				return products;
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return null;
+	}
+
+	public Genre findGenreById(Integer genreId) {
+		System.out.println("jdbc find genre by id " + genreId);
+		try (Connection connection = dataSource.getConnection()) {
+			PreparedStatement ps = connection.prepareStatement(
+					"SELECT genre_id, genre FROM GENRE WHERE genre_id =?");
+			ps.setInt(1, genreId);
+			Genre genre = new Genre();
+			try (ResultSet rs = ps.executeQuery()) {
+				if (rs.next()) {
+					genre.setId(rs.getInt("genre_id"));
+					genre.setGenre(rs.getString("genre"));	
+					genre.setId(rs.getInt("genre_id"));
+					System.out.println(genre);
+				}
+				return genre;
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return null;
+	}
+
+	public ProductType findProductTypeById(Integer typeId) {
+		System.out.println("jdbc find product type by id " + typeId);
+		try (Connection connection = dataSource.getConnection()) {
+			PreparedStatement ps = connection.prepareStatement(
+					"SELECT product_type_id, description FROM PRODUCT_TYPE WHERE product_type_id =?");
+			ps.setInt(1, typeId);
+			ProductType productType = new ProductType();
+			try (ResultSet rs = ps.executeQuery()) {
+				if (rs.next()) {
+					productType.setId(rs.getInt("product_type_id"));
+					productType.setDescription(rs.getString("description"));
+					productType.setId(rs.getInt("product_type_id"));
+					System.out.println(productType.toString());
+				}
+				return productType;
 			}
 		} catch (SQLException ex) {
 			ex.printStackTrace();
