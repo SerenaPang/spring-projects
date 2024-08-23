@@ -94,7 +94,7 @@ public class ProductDaoImpl implements ProductDao {
 		Genre target = findGeneById(genre.getId());
 		if (target != null) {
 			try (Connection connection = dataSource.getConnection()) {
-				PreparedStatement ps = connection.prepareStatement("UPDATE PRODUCT SET genre=? WHERE genre_id=?");
+				PreparedStatement ps = connection.prepareStatement("UPDATE Genre SET genre=? WHERE genre_id=?");
 				ps.setString(1, genre.getGenre());
 				ps.setInt(2, genre.getId());
 				int i = ps.executeUpdate();
