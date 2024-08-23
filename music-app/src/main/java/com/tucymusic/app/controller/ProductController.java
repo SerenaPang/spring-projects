@@ -69,7 +69,6 @@ public class ProductController {
 		return ResponseEntity.status(HttpStatus.OK).body(product);
 	};
 
-	//TODO:FIX BUG
 	// curl -H 'Content-Type: application/json' -d '{ "id":"1", "genre":"Milkyky"}' -X PUT http://localhost:8080/updateGenre
 	@PutMapping(path = "/updateGenre", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Genre> updateGenre(@RequestBody Genre genre) {	
@@ -100,15 +99,23 @@ public class ProductController {
 	// curl -X GET "http://localhost:8080/findAllGenres"
 	@GetMapping("/findAllGenres")
 	public ResponseEntity<List<Genre>> findAllGenres(){
-		jdbcProductDao.findAllGenres();
-		return null;
+		List<Genre> genres = jdbcProductDao.findAllGenres();
+		if (genres == null) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
+		// Return the resource with a 200 (OK) status code
+		return ResponseEntity.status(HttpStatus.OK).body(genres);
 	};
 
 	// curl -X GET "http://localhost:8080/findAllProductTypes"
 	@GetMapping("/findAllProductTypes")
 	public ResponseEntity<List<ProductType>> findAllProductTypes(){
-		jdbcProductDao.findAllProductTypes();
-		return null;
+		List<ProductType> productTypes = jdbcProductDao.findAllProductTypes();
+		if (productTypes == null) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
+		// Return the resource with a 200 (OK) status code
+		return ResponseEntity.status(HttpStatus.OK).body(productTypes);
 	};
 	
 	// curl -X GET "http://localhost:8080/findById?id=1"
