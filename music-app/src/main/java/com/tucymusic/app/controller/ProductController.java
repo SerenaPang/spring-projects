@@ -10,10 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.authorbookjdbcproject.app.model.Book;
 import com.tucymusic.app.dao.jdbc.ProductDaoImpl;
 import com.tucymusic.app.model.Genre;
 import com.tucymusic.app.model.Product;
@@ -131,17 +132,25 @@ public class ProductController {
 		return ResponseEntity.status(HttpStatus.OK).body(resultProduct);
 	};
 	
-	@GetMapping("/findProductsByGenre")
+	//curl -X GET "http://localhost:8080/findProductsByGenre?id=1&genre=Milkyky"
+	@RequestMapping(value = "/findProductsByGenre", method = RequestMethod.GET)
 	public ResponseEntity<List<Product>> findProductsByGenre(Genre genre){
-		jdbcProductDao.findProductsByGenre(genre);
-		return null;
+		List<Product> products = jdbcProductDao.findProductsByGenre(genre);
+		System.out.println(genre);
+		if (products == null) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
+		// Return the resource with a 200 (OK) status code
+		return ResponseEntity.status(HttpStatus.OK).body(products);
 	};
 	
+//	@RequestMapping
 	public ResponseEntity<List<Product>> findProductsByProductType(ProductType productType){
 		jdbcProductDao.findProductsByProductType(productType);
 		return null;
 	};
 	
+//	@RequestMapping
 	public ResponseEntity<List<Product>> findProductsByGenreAndProductType(Genre genre, ProductType productType){
 		jdbcProductDao.findProductsByGenreAndProductType(genre, productType);
 		return null;
