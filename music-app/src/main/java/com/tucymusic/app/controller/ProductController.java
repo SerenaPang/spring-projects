@@ -144,15 +144,28 @@ public class ProductController {
 		return ResponseEntity.status(HttpStatus.OK).body(products);
 	};
 	
-//	@RequestMapping
+	//curl -X GET "http://localhost:8080/findProductsByGenre?id=1&description=Milkyky"
+	@RequestMapping(value = "/findProductsByProductType", method = RequestMethod.GET)
 	public ResponseEntity<List<Product>> findProductsByProductType(ProductType productType){
-		jdbcProductDao.findProductsByProductType(productType);
-		return null;
+		List<Product> products = jdbcProductDao.findProductsByProductType(productType);
+		System.out.println(productType);
+		if (products == null) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
+		// Return the resource with a 200 (OK) status code
+		return ResponseEntity.status(HttpStatus.OK).body(products);
 	};
-	
-//	@RequestMapping
+
+	//curl -X GET "http://localhost:8080/findProductsByGenreAndProductType?genre.id=1&genre.genre=Milkyky&productType.id=1&productType.description=Milkyky"
+	@RequestMapping(value = "/findProductsByGenreAndProductType", method = RequestMethod.GET)
 	public ResponseEntity<List<Product>> findProductsByGenreAndProductType(Genre genre, ProductType productType){
-		jdbcProductDao.findProductsByGenreAndProductType(genre, productType);
-		return null;
+		List<Product> products = jdbcProductDao.findProductsByGenreAndProductType(genre, productType);
+		System.out.println(genre);
+		System.out.println(productType);
+		if (products == null) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
+		// Return the resource with a 200 (OK) status code
+		return ResponseEntity.status(HttpStatus.OK).body(products);
 	};
 }

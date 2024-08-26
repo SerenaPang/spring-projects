@@ -317,13 +317,15 @@ public class ProductDaoImpl implements ProductDao {
 		List<Product> products = new ArrayList<>();
 		try (Connection connection = dataSource.getConnection()) {
 			PreparedStatement ps = connection.prepareStatement(
-					"SELECT product_id, product_type_id, genre_id, price FROM PRODUCT WHERE genre_id =? AND product_type_id =?");
-			ps.setInt(1, productType.getId());		
+					"SELECT product_id, product_type_id, name, genre_id, price FROM PRODUCT WHERE genre_id =? AND product_type_id =?");
+			ps.setInt(1, genre.getId());
+			ps.setInt(2, productType.getId());	
 			try (ResultSet rs = ps.executeQuery()) {
 				if (rs.next()) {
 					Product product = new Product();
 					product.setId(rs.getInt("product_id"));
 					product.setProductType(rs.getInt("product_type_id"));
+					product.setName(rs.getString("name"));
 					product.setGenreId(rs.getInt("genre_id"));
 					product.setPrice(rs.getBigDecimal("price"));
 					product.setId(rs.getInt("genre_id"));
