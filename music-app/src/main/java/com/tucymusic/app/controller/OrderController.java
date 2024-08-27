@@ -12,12 +12,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tucymusic.app.dao.jdbc.OrderDaoImpl;
-
+import com.tucymusic.app.model.Genre;
 import com.tucymusic.app.model.Order;
+import com.tucymusic.app.model.Product;
+import com.tucymusic.app.model.User;
 
 
 @RestController
@@ -87,4 +91,15 @@ public class OrderController {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}
 		
+		//curl -X GET "http://localhost:8080/findByUser?id=1&name=Coco"
+		@RequestMapping(value = "/findByUser", method = RequestMethod.GET)
+		public ResponseEntity<List<Order>> findByUser(User user){
+			List<Order> orders = jdbcOrderDao.findByUser(user);
+			System.out.println(user);
+			if (orders == null) {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			}
+			// Return the resource with a 200 (OK) status code
+			return ResponseEntity.status(HttpStatus.OK).body(orders);
+		};
 }
