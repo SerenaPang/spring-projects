@@ -1,6 +1,7 @@
 package com.tucymusic.app.dao;
 
-import java.util.Date;
+
+import java.sql.Date;
 import java.util.List;
 
 import com.tucymusic.app.model.Order;
@@ -14,7 +15,7 @@ public interface OrderDao {
 	public void remove(Order order);
 	public void addOrderItem(Order order, OrderItem orderItem);
 	public void removeOrderItem(Order order, OrderItem orderItem);
-	public Order findById(long id);
+	public Order findById(int id);
 	public List<Order> findAll();
 	public List<Order> findByUser(User user);
 	public List<Order> findByDate(Date date);

@@ -52,7 +52,6 @@ public class ProductDaoImpl implements ProductDao {
 		Product target = findProductById(product.getId());
 		if (target != null) {
 			try (Connection connection = dataSource.getConnection()) {
-				// TODO Fix sql
 				PreparedStatement ps = connection.prepareStatement(
 						"UPDATE PRODUCT SET product_id=?, product_type_id=?, name=?, genre_id=?, price=? WHERE product_id=?");
 				ps.setInt(1, product.getId());

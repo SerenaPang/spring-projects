@@ -1,7 +1,7 @@
 package com.tucymusic.app.model;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.sql.Date;
 
 public class Order {
 	private int orderId;
@@ -9,6 +9,8 @@ public class Order {
 	private BigDecimal totalPrice;
 	private BigDecimal discount;
 	private Date saleDate;
+	private String status;
+	
 	public int getOrderId() {
 		return orderId;
 	}
@@ -39,9 +41,15 @@ public class Order {
 	public void setSaleDate(Date saleDate) {
 		this.saleDate = saleDate;
 	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	@Override
 	public String toString() {
 		return "Order [orderId=" + orderId + ", userId=" + userId + ", totalPrice=" + totalPrice + ", discount="
-				+ discount + ", saleDate=" + saleDate + "]";
+				+ discount + ", saleDate=" + saleDate + ", status=" + status + "]";
 	}
 }
