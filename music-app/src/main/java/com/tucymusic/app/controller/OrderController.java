@@ -1,5 +1,7 @@
 package com.tucymusic.app.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tucymusic.app.dao.jdbc.OrderDaoImpl;
+import com.tucymusic.app.model.Genre;
 import com.tucymusic.app.model.Order;
 import com.tucymusic.app.model.Product;
 
@@ -55,5 +58,17 @@ public class OrderController {
 			// Return the resource with a 200 (OK) status code
 			return ResponseEntity.status(HttpStatus.OK).body(resultOrder);
 		};
+		
+		// curl -X GET "http://localhost:8080/findAll"
+		@GetMapping("/findAll")
+		public ResponseEntity<List<Order>> findAll(){
+			List<Order> orders = jdbcOrderDao.findAll();
+			if (orders == null) {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			}
+			// Return the resource with a 200 (OK) status code
+			return ResponseEntity.status(HttpStatus.OK).body(orders);
+		};
+		
 		
 }
