@@ -1,5 +1,6 @@
 package com.tucymusic.app.controller;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,4 +103,30 @@ public class OrderController {
 			// Return the resource with a 200 (OK) status code
 			return ResponseEntity.status(HttpStatus.OK).body(orders);
 		};
+		
+		//curl -X GET "http://localhost:8080/findByStatus?status=ORDER PLACED"
+		@RequestMapping(value = "/findByStatus", method = RequestMethod.GET)
+		public ResponseEntity<List<Order>> findByStatus(String status){
+			List<Order> orders = jdbcOrderDao.findByStatus(status);
+			System.out.println(status);
+			if (orders == null) {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			}
+			// Return the resource with a 200 (OK) status code
+			return ResponseEntity.status(HttpStatus.OK).body(orders);
+		};
+		
+		//curl -X GET "http://localhost:8080/findByDate?saleDate=2024-08-27 09:15:07"
+		@RequestMapping(value = "/findByDate", method = RequestMethod.GET)
+		public ResponseEntity<List<Order>> findByDate(Date date){
+			List<Order> orders = jdbcOrderDao.findByDate(date);
+			System.out.println(date);
+			if (orders == null) {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			}
+			// Return the resource with a 200 (OK) status code
+			return ResponseEntity.status(HttpStatus.OK).body(orders);
+		};
+		
+		
 }

@@ -144,7 +144,7 @@ public class ProductController {
 		return ResponseEntity.status(HttpStatus.OK).body(products);
 	};
 	
-	//curl -X GET "http://localhost:8080/findProductsByGenre?id=1&description=Milkyky"
+	//curl -X GET "http://localhost:8080/findProductsByProductType?id=1&description=Milkyky"
 	@RequestMapping(value = "/findProductsByProductType", method = RequestMethod.GET)
 	public ResponseEntity<List<Product>> findProductsByProductType(ProductType productType){
 		List<Product> products = jdbcProductDao.findProductsByProductType(productType);
