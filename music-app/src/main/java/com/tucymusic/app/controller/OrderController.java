@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tucymusic.app.dao.jdbc.OrderDaoImpl;
-import com.tucymusic.app.model.Genre;
+
 import com.tucymusic.app.model.Order;
-import com.tucymusic.app.model.Product;
+
 
 @RestController
 public class OrderController {
@@ -70,5 +72,19 @@ public class OrderController {
 			return ResponseEntity.status(HttpStatus.OK).body(orders);
 		};
 		
+		// curl -H 'Content-Type: application/json' -X DELETE http://localhost:8080/remove/1
+		@DeleteMapping(path = "/remove/{idOrder}")
+		public ResponseEntity<Order> remove(@PathVariable(name = "idOrder") Integer idOrder) {
+			// Retrieve the resource from the database
+			Order target = jdbcOrderDao.findById(idOrder);
+			// If the resource is not found, return a 404 (not found) status code
+			if (target == null) {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			}
+			// Delete the resource
+			jdbcOrderDao.remove(idOrder);
+			// Return a 204 (no content) status code
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+		}
 		
 }

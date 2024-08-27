@@ -75,13 +75,13 @@ public class OrderDaoImpl implements OrderDao {
 	}
 
 	@Override
-	public void remove(Order order) {
+	public void remove(int orderId) {
 		System.out.println("jdbc delete Order");
-		Order target = findById(order.getOrderId());
+		Order target = findById(orderId);
 		if (target != null) {
 			try (Connection connection = dataSource.getConnection()) {
 				PreparedStatement ps = connection.prepareStatement("DELETE FROM ORDERS WHERE order_id= ?");
-				ps.setInt(1, order.getOrderId());
+				ps.setInt(1, orderId);
 				int i = ps.executeUpdate();
 				if (i == 1) {
 					System.out.println("jdbc delete order " + target.toString());

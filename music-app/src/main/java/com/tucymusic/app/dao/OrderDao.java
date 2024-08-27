@@ -12,7 +12,7 @@ public interface OrderDao {
 
 	public void create(Order order);
 	public void update(Order order);
-	public void remove(Order order);
+	public void remove(int orderId);
 	public void addOrderItem(Order order, OrderItem orderItem);
 	public void removeOrderItem(Order order, OrderItem orderItem);
 	public Order findById(int id);
