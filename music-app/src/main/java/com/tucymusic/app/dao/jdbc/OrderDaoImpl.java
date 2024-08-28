@@ -93,9 +93,9 @@ public class OrderDaoImpl implements OrderDao {
 	}
 
 	@Override
-	public void addOrderItem(Order order, OrderItem orderItem) {
+	public void addOrderItem(int orderId, OrderItem orderItem) {
 		System.out.println("jdbc addOrderItem");
-		Order orderExist = findById(order.getOrderId());
+		Order orderExist = findById(orderId);
 		if (orderExist != null) {
 			try (Connection connection = dataSource.getConnection()) {
 					PreparedStatement ps = connection
@@ -118,9 +118,9 @@ public class OrderDaoImpl implements OrderDao {
 	}
 
 	@Override
-	public void removeOrderItem(Order order, OrderItem orderItem) {
+	public void removeOrderItem(int orderId, OrderItem orderItem) {
 		System.out.println("jdbc removeOrderItem");
-		Order target = findById(order.getOrderId());
+		Order target = findById(orderId);
 		if (target != null) {
 			try (Connection connection = dataSource.getConnection()) {
 				PreparedStatement ps = connection.prepareStatement("DELETE FROM ORDER_ITEM WHERE order_item_id= ?");

@@ -13,8 +13,8 @@ public interface OrderDao {
 	public void create(Order order);
 	public void update(Order order);
 	public void remove(int orderId);
-	public void addOrderItem(Order order, OrderItem orderItem);
-	public void removeOrderItem(Order order, OrderItem orderItem);
+	public void addOrderItem(int orderId, OrderItem orderItem);
+	public void removeOrderItem(int orderId, OrderItem orderItem);
 	public Order findById(int id);
 	public List<Order> findAll();
 	public List<Order> findByUser(User user);
