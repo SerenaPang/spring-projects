@@ -88,19 +88,19 @@ public class AuthorDao {
 	}
 
 	public List<Book> findAllBooks() {
-		return null;
+		return jdbcTemplate.query("select id, name, isbn, id_author from book", new BookRowMapper());
 	}
 
 	public void save(Book book) {
-
+		jdbcTemplate.update("insert into book(id, name, isbn, id_author) values(?,?,?,?)", book.getId(), book.getName(), book.getIsbn(), book.getAuthorId());
 	}
 
 	public void update(Book book) {
-
+		jdbcTemplate.update("update book set id = ?, name = ?, isbn = ?, id_author =? where id = ?", book.getId(), book.getName(), book.getIsbn(), book.getAuthorId());
 	}
 
 	public void delete(Book book) {
-
+		jdbcTemplate.update("delete from book where id = ?");
 	}
 
 }
