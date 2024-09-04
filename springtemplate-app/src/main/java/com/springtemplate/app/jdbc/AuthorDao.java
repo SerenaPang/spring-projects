@@ -35,6 +35,17 @@ public class AuthorDao {
 			return author;
 		}
 	}
+	static class BookRowMapper implements RowMapper<Book> {
+		@Override
+		public Book mapRow(ResultSet rs, int rowNum) throws SQLException {
+			Book book = new Book();
+			book.setId(rs.getInt(1));
+			book.setName(rs.getString(2));
+			book.setIsbn(rs.getString(3));
+			book.setAuthorId(rs.getInt(4));
+			return book;
+		}
+	}
 
 	public Author findAuthorById(Long id) {
 		System.out.println("AuthorDao.findAuthorById() - using namedParameterJdbcTemplate");
@@ -71,9 +82,9 @@ public class AuthorDao {
 	}
 
 	public Book findBookById(Long id) {
-		// Author author = jdbcTemplate.queryForObject(query, new AuthorRowMapper(),
-		// id);
-		return null;
+		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("id", id);
+		return namedParameterJdbcTemplate.queryForObject("select id, name, isbn, id_author from book where id = :id", namedParameters,
+				new BookRowMapper());
 	}
 
 	public List<Book> findAllBooks() {

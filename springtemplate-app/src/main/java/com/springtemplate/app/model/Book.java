@@ -4,11 +4,13 @@ public class Book {
 	private int id;
 	private String name;
 	private String isbn;
+	private int authorId;
 
-	public Book(int id, String name, String isbn) {
+	public Book(int id, String name, String isbn, int authorId) {
 		this.id = id;
 		this.name = name;
 		this.isbn = isbn;
+		this.authorId = authorId;
 	}
 
 	public Book() {
@@ -39,8 +41,16 @@ public class Book {
 		this.isbn = isbn;
 	}
 
+	public int getAuthorId() {
+		return authorId;
+	}
+
+	public void setAuthorId(int authorId) {
+		this.authorId = authorId;
+	}
+
 	@Override
 	public String toString() {
-		return "Book [id=" + id + ", name=" + name + ", isbn=" + isbn + "]";
+		return "Book [id=" + id + ", name=" + name + ", isbn=" + isbn + ", authorId=" + authorId + "]";
 	}
 }
