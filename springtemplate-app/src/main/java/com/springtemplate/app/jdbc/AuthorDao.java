@@ -53,7 +53,7 @@ public class AuthorDao {
 		return namedParameterJdbcTemplate.queryForObject("select id, name from author where id = :authorId", namedParameters,
 				new AuthorRowMapper());
 	}
-
+//
 //	public Author findById(Long id) {
 //		String query = "select id, name from author where id = ?";
 //
@@ -77,7 +77,7 @@ public class AuthorDao {
 		jdbcTemplate.update("update author set id = ?, name = ? where id = ?", author.getId(), author.getName());
 	}
 
-	public void delete(Author author) {
+	public void delete(int authorId) {
 		jdbcTemplate.update("delete from author where id = ?");
 	}
 
@@ -102,5 +102,4 @@ public class AuthorDao {
 	public void delete(Book book) {
 		jdbcTemplate.update("delete from book where id = ?");
 	}
-
 }

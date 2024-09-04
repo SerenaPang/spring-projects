@@ -1,7 +1,17 @@
 package com.springtemplate.app.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,8 +28,52 @@ public class AuthorController {
 	@GetMapping("/findAuthorById")
 	public Author findAuthorById(@RequestParam(value = "id", defaultValue = "-1") Long id) {
 		System.out.println("AuthorController.findById()");
-
 		Author author = authorDao.findAuthorById(id);
 		return author;
 	}
+
+	// curl -X GET "http://localhost:8080/findAllAuthors"
+	@GetMapping("/findAllAuthors")
+	public List<Author> findAllAuthors() {
+		List<Author> authors = authorDao.findAllAuthors();
+		if (authors.isEmpty()) {
+			return null;
+		}
+		return authors;
+	}
+
+	// curl -H 'Content-Type: application/json' -d '{ "id":"5", "name":"AAAB",
+	// "books":[{"id":"3", "name":"Pink", "isbn":"cvi-wcd56byd-23"}, {"id":"2",
+	// "name":"Black", "isbn":"he-jfv56we-v67"}] }' -X POST
+	// http://localhost:8080/saveAuthor
+	@PostMapping("/saveAuthor{author}")
+	public void saveAuthor(@RequestBody Author author) {
+		authorDao.save(author);
+	}
+
+	// curl -H 'Content-Type: application/json' -X DELETE
+	// http://localhost:8080/deleteByAuthorId/1
+	@DeleteMapping(path = "/deleteByAuthorId/{idAuthor}")
+	public void deleteAuthor(@PathVariable(name = "idAuthor") Integer idAuthor) {
+		authorDao.delete(idAuthor);
+
+	}
+
+	// curl -H 'Content-Type: application/json' -d '{ "id":"1", "name":"MMMMM",
+	// "books":[{"id":"3", "name":"Pink", "isbn":"cvi-wcd56byd-23"}, {"id":"2",
+	// "name":"Black", "isbn":"he-jfv56we-v67"}] }' -X PUT
+	// http://localhost:8080/updateAuthor
+	@PutMapping(path = "/updateAuthor", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public void updateAuthor(@RequestBody Author author) {
+		// Retrieve the resource from the database
+		long idAuthor = author.getId();
+		Author target = authorDao.findAuthorById(idAuthor);
+		// If the resource is not found, return a 404 (not found) status code
+		if (target == null) {
+			System.out.println("no author exist");
+		}
+		// Update the resource
+		authorDao.update(author);
+	}
+
 }
