@@ -7,6 +7,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import com.springtemplate.app.model.Author;
@@ -17,6 +20,9 @@ public class AuthorDao {
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
+
+	@Autowired
+	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
 	// https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/jdbc/core/JdbcOperations.html#queryForObject(java.lang.String,org.springframework.jdbc.core.RowMapper,java.lang.Object...)
 	static class AuthorRowMapper implements RowMapper<Author> {
@@ -31,11 +37,18 @@ public class AuthorDao {
 	}
 
 	public Author findAuthorById(Long id) {
-		String query = "select id, name from author where id = ?";
-
-		Author author = jdbcTemplate.queryForObject(query, new AuthorRowMapper(), id);
-		return author;
+		System.out.println("AuthorDao.findAuthorById() - using namedParameterJdbcTemplate");
+		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("authorId", id);
+		return namedParameterJdbcTemplate.queryForObject("select id, name from author where id = :authorId", namedParameters,
+				new AuthorRowMapper());
 	}
+
+//	public Author findById(Long id) {
+//		String query = "select id, name from author where id = ?";
+//
+//		Author author = jdbcTemplate.queryForObject(query, new AuthorRowMapper(), id);
+//		return author;
+//	}
 
 	public List<Author> findAllAuthors() {
 
@@ -55,6 +68,8 @@ public class AuthorDao {
 	}
 
 	public Book findBookById(Long id) {
+		// Author author = jdbcTemplate.queryForObject(query, new AuthorRowMapper(),
+		// id);
 		return null;
 	}
 
