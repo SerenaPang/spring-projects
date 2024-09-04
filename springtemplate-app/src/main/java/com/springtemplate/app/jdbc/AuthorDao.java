@@ -49,22 +49,25 @@ public class AuthorDao {
 //		Author author = jdbcTemplate.queryForObject(query, new AuthorRowMapper(), id);
 //		return author;
 //	}
-
+	
 	public List<Author> findAllAuthors() {
-
-		return null;
+		return this.jdbcTemplate.query( "select id, name from author", new AuthorRowMapper());
 	}
 
+	public List<Author> getAllAuthors() {
+		return jdbcTemplate.query("select id, name from author", new AuthorRowMapper());
+	}
+	
 	public void save(Author author) {
-
+		jdbcTemplate.update("insert into author(id, name) values(?,?)", author.getId(), author.getName());
 	}
 
 	public void update(Author author) {
-
+		jdbcTemplate.update("update author set id = ?, name = ? where id = ?", author.getId(), author.getName());
 	}
 
 	public void delete(Author author) {
-
+		jdbcTemplate.update("delete from author where id = ?");
 	}
 
 	public Book findBookById(Long id) {
