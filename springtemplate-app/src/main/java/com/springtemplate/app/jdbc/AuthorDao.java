@@ -77,8 +77,7 @@ public class AuthorDao {
 	}
 
 	public void delete(int authorId) {
-		// TODO implement this properly.
-		jdbcTemplate.update("delete from author where id = ?");
+		jdbcTemplate.update("delete from author where id = ?", authorId);
 	}
 
 	public Book findBookById(Long id) {
