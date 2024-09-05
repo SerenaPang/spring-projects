@@ -3,9 +3,7 @@ package com.springtemplate.app.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,27 +40,20 @@ public class AuthorController {
 		return authors;
 	}
 
-	// curl -H 'Content-Type: application/json' -d '{ "id":"5", "name":"AAAB",
-	// "books":[{"id":"3", "name":"Pink", "isbn":"cvi-wcd56byd-23"}, {"id":"2",
-	// "name":"Black", "isbn":"he-jfv56we-v67"}] }' -X POST
-	// http://localhost:8080/saveAuthor
+	// curl -H 'Content-Type: application/json' -d '{ "id":"5", "name":"AAAB"}' -X POST http://localhost:8080/saveAuthor
 	@PostMapping("/saveAuthor{author}")
 	public void saveAuthor(@RequestBody Author author) {
 		authorDao.save(author);
 	}
 
-	// curl -H 'Content-Type: application/json' -X DELETE
-	// http://localhost:8080/deleteByAuthorId/1
-	@DeleteMapping(path = "/deleteByAuthorId/{idAuthor}")
+	// curl -H 'Content-Type: application/json' -X DELETE http://localhost:8080/deleteAuthor/1
+	@DeleteMapping(path = "/deleteAuthor/{idAuthor}")
 	public void deleteAuthor(@PathVariable(name = "idAuthor") Integer idAuthor) {
 		authorDao.delete(idAuthor);
 
 	}
 
-	// curl -H 'Content-Type: application/json' -d '{ "id":"1", "name":"MMMMM",
-	// "books":[{"id":"3", "name":"Pink", "isbn":"cvi-wcd56byd-23"}, {"id":"2",
-	// "name":"Black", "isbn":"he-jfv56we-v67"}] }' -X PUT
-	// http://localhost:8080/updateAuthor
+	// curl -H 'Content-Type: application/json' -d '{ "id":"1", "name":"MMMMM"}' -X PUT http://localhost:8080/updateAuthor
 	@PutMapping(path = "/updateAuthor", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public void updateAuthor(@RequestBody Author author) {
 		// Retrieve the resource from the database

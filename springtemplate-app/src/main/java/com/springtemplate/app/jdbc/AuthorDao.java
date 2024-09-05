@@ -48,9 +48,8 @@ public class AuthorDao {
 	}
 
 	public Author findAuthorById(Long id) {
-		System.out.println("AuthorDao.findAuthorById() - using namedParameterJdbcTemplate");
-		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("authorId", id);
-		return namedParameterJdbcTemplate.queryForObject("select id, name from author where id = :authorId", namedParameters,
+		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("id", id);
+		return namedParameterJdbcTemplate.queryForObject("select id, name from author where id = :id", namedParameters,
 				new AuthorRowMapper());
 	}
 //
@@ -74,10 +73,11 @@ public class AuthorDao {
 	}
 
 	public void update(Author author) {
-		jdbcTemplate.update("update author set id = ?, name = ? where id = ?", author.getId(), author.getName());
+		jdbcTemplate.update("update author set id = ?, name = ? where id = ?", author.getId(), author.getName(),author.getId());
 	}
 
 	public void delete(int authorId) {
+		// TODO implement this properly.
 		jdbcTemplate.update("delete from author where id = ?");
 	}
 
