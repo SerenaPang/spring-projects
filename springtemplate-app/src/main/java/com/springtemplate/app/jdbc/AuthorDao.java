@@ -98,7 +98,7 @@ public class AuthorDao {
 		jdbcTemplate.update("update book set id = ?, name = ?, isbn = ?, id_author =? where id = ?", book.getId(), book.getName(), book.getIsbn(), book.getAuthorId());
 	}
 
-	public void delete(Book book) {
-		jdbcTemplate.update("delete from book where id = ?");
+	public void deleteBook(int bookId) {
+		jdbcTemplate.update("delete from book where id = ?", bookId);
 	}
 }
