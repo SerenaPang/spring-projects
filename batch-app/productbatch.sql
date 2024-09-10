@@ -1,0 +1,29 @@
+CREATE DATABASE productbatch;
+
+CREATE TABLE PRODUCT (
+  id INTEGER NOT NULL AUTO_INCREMENT,
+  brand VARCHAR(255),
+  PRIMARY KEY (id)
+);
+
+
+-- PRODUCT
+INSERT INTO PRODUCT VALUES(1, 'Car');
+
+
+
+-- Drop tables
+DROP TABLE PRODUCT;
+
+
+/*
+
+*/
+
+
+
+
+
+
+
+
