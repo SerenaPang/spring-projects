@@ -1,24 +1,16 @@
-CREATE DATABASE productbatch;
+CREATE DATABASE products_batch;
 
-CREATE TABLE PRODUCT (
-  id INTEGER NOT NULL AUTO_INCREMENT,
-  brand VARCHAR(255),
-  PRIMARY KEY (id)
+CREATE TABLE product (
+    id              INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    title           VARCHAR(40),
+    created_ts      TIMESTAMP,
+    price NUMERIC
 );
-
-
--- PRODUCT
-INSERT INTO PRODUCT VALUES(1, 'Car');
-
 
 
 -- Drop tables
 DROP TABLE PRODUCT;
 
-
-/*
-
-*/
 
 
 

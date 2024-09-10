@@ -1,22 +1,43 @@
 package com.learningbatch.app.model;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
 public class Product {
-	private int id;
-	private String brand;
-	public int getId() {
+	private long id;
+	private String title;
+	private LocalDateTime createdTs;
+	private BigDecimal price;
+
+	public long getId() {
 		return id;
 	}
-	public void setId(int id) {
+
+	public void setId(long id) {
 		this.id = id;
 	}
-	public String getBrand() {
-		return brand;
+
+	public String getTitle() {
+		return title;
 	}
-	public void setBrand(String brand) {
-		this.brand = brand;
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
-	@Override
-	public String toString() {
-		return "Product [id=" + id + ", brand=" + brand + "]";
+
+	public LocalDateTime getCreatedTs() {
+		return createdTs;
+	}
+
+	public void setCreatedTs(LocalDateTime createdTs) {
+		this.createdTs = createdTs;
+	}
+
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
 	}
 }
