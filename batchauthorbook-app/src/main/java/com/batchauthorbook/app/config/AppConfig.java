@@ -17,12 +17,12 @@ import java.util.Random;
 public class AppConfig {
 
     @Bean
-    public AuthorService simpleProductService(SimpleAuthorRepository simpleAuthorRepository) {
+    public AuthorService simpleAuthorService(SimpleAuthorRepository simpleAuthorRepository) {
         return new AuthorService(simpleAuthorRepository, new Random(), Clock.systemUTC());
     }
 
     @Bean
-    public AuthorService batchProductService(BatchAuthorRepository batchAuthorRepository) {
+    public AuthorService batchAuthorBookService(BatchAuthorRepository batchAuthorRepository) {
         return new AuthorService(batchAuthorRepository, new Random(), Clock.systemUTC());
     }
 }

@@ -26,7 +26,6 @@ public class AuthorService {
 
 		for (int i = 0; i < count; i++) {
 			Author author = new Author();
-			author.setId(i);
 			author.setName(names[random.nextInt(4)]);
 
 			authors.add(author);

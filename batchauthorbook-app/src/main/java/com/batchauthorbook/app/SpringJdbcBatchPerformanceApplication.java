@@ -9,8 +9,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.batchauthorbook.app.service.AuthorService;
-import com.batchauthorbook.app.service.BookService;
-
 
 @SpringBootApplication
 public class SpringJdbcBatchPerformanceApplication implements CommandLineRunner {
@@ -18,15 +16,15 @@ public class SpringJdbcBatchPerformanceApplication implements CommandLineRunner 
 	@Autowired
 	@Qualifier("batchAuthorBookService")
 	private AuthorService batchAuthorService;
-	private BookService batchBookService;
+	//private BookService batchBookService;
 	
 	@Autowired
 	@Qualifier("simpleAuthorService")
 	private AuthorService simpleAuthorService;
 	
-	@Autowired
-	@Qualifier("simpleBookService")
-	private BookService simpleBookService;
+//	@Autowired
+//	@Qualifier("simpleBookService")
+//	private BookService simpleBookService;
 
 	public static void main(String[] args) {
 		System.out.println("SpringJdbcBatchPerformanceApplication.main() starting ........");
@@ -47,14 +45,14 @@ public class SpringJdbcBatchPerformanceApplication implements CommandLineRunner 
 			System.out.format("%-20s%-5s%-10s%-5s%8sms\n", "Batch inserts", "|", recordCount, "|", batchElapsedTime);
 			System.out.printf("Total gain: %d %s\n", calculateGainInPercent(regularElapsedTime, batchElapsedTime), "%");
 			
-			long regularElapsedTime2 = simpleBookService.createBooks(recordCount);
-			long batchElapsedTime2 = batchBookService.createBooks(recordCount);
-
-			System.out.println(String.join("", Collections.nCopies(50, "-")));
-			System.out.format("%-20s%-5s%-10s%-5s%8sms\n", "Regular inserts", "|", recordCount, "|",
-					regularElapsedTime);
-			System.out.format("%-20s%-5s%-10s%-5s%8sms\n", "Batch inserts", "|", recordCount, "|", batchElapsedTime);
-			System.out.printf("Total gain: %d %s\n", calculateGainInPercent(regularElapsedTime, batchElapsedTime), "%");
+//			long regularElapsedTime2 = simpleBookService.createBooks(recordCount);
+//			long batchElapsedTime2 = batchBookService.createBooks(recordCount);
+//
+//			System.out.println(String.join("", Collections.nCopies(50, "-")));
+//			System.out.format("%-20s%-5s%-10s%-5s%8sms\n", "Regular inserts", "|", recordCount, "|",
+//					regularElapsedTime);
+//			System.out.format("%-20s%-5s%-10s%-5s%8sms\n", "Batch inserts", "|", recordCount, "|", batchElapsedTime);
+//			System.out.printf("Total gain: %d %s\n", calculateGainInPercent(regularElapsedTime, batchElapsedTime), "%");
 		}
 
 	}

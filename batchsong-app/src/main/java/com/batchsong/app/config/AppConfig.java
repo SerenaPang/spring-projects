@@ -18,12 +18,12 @@ import java.util.Random;
 public class AppConfig {
 
     @Bean
-    public SongService simpleProductService(SimpleSongRepository simpleSongRepository) {
+    public SongService simpleSongService(SimpleSongRepository simpleSongRepository) {
         return new SongService(simpleSongRepository, new Random(), Clock.systemUTC());
     }
 
     @Bean
-    public SongService batchProductService(BatchSongRepository batchSongRepository) {
+    public SongService batchSongService(BatchSongRepository batchSongRepository) {
         return new SongService(batchSongRepository, new Random(), Clock.systemUTC());
     }
 }

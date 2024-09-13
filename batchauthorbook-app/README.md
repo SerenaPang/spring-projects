@@ -22,6 +22,8 @@ Or alternatively, you can run
 
  # Executes the main class.
  $ java -cp target/batchauthorbook-app-1.0-SNAPSHOT.jar com.batchauthorbook.app.App
+ 
+ java -cp target/batchauthorbook-app-1.0-SNAPSHOT-jar-with-dependencies.jar com.batchauthorbook.app.SpringJdbcBatchPerformanceApplication
 
 ```
 
