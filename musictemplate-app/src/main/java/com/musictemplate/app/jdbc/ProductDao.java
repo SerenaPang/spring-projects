@@ -2,6 +2,7 @@ package com.musictemplate.app.jdbc;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import com.musictemplate.app.model.Product;
 import com.musictemplate.app.model.User;
+
 
 
 @Repository
@@ -51,4 +53,44 @@ public class ProductDao {
 			return namedParameterJdbcTemplate.queryForObject("select product_id, product_type_id, name, genre_id, price from Product where product_id = :product_id", namedParameters,
 					new ProductRowMapper());
 		}
+		
+		public List<Product> findAllProducts() {
+			return this.jdbcTemplate.query( "select product_id, product_type_id, name, genre_id, price from Product", new ProductRowMapper());
+		}
+
+		public List<Product> getAllProducts() {
+			return jdbcTemplate.query("select product_id, product_type_id, name, genre_id, price from Product", new ProductRowMapper());
+		}
+		
+		public void save(Product product) {
+			jdbcTemplate.update("insert into Product(product_id, product_type_id, name, genre_id, price) values(?,?,?,?,?)", product.getId(), product.getProductType(), product.getName(), product.getGenreId(), product.getPrice());
+		}
+
+		public void update(Product product) {
+			jdbcTemplate.update("update Product set product_id =?, product_type_id=?, name=?, genre_id=?, price = ? where product_id = ?", product.getId(), product.getProductType(), product.getName(), product.getGenreId(), product.getPrice(), product.getId());
+		}
+
+		public void delete(int productId) {
+			jdbcTemplate.update("delete from Product where product_id = ?", productId);
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 }
