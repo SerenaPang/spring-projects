@@ -12,7 +12,11 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
+import com.musictemplate.app.model.Genre;
+import com.musictemplate.app.model.Order;
+import com.musictemplate.app.model.OrderItem;
 import com.musictemplate.app.model.Product;
+import com.musictemplate.app.model.ProductType;
 import com.musictemplate.app.model.User;
 
 
@@ -38,6 +42,7 @@ public class ProductDao {
 				return product;
 			}
 		}
+		
 		static class UserRowMapper implements RowMapper<User> {
 			@Override
 			public User mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -45,6 +50,54 @@ public class ProductDao {
 				user.setId(rs.getInt(1));
 				user.setName(rs.getString(2));
 				return user;
+			}
+		}
+		
+		static class ProductTypeRowMapper implements RowMapper< ProductType> {
+			@Override
+			public  ProductType mapRow(ResultSet rs, int rowNum) throws SQLException {
+				ProductType productType = new ProductType();
+				
+				productType.setId(rs.getInt(1));
+				productType.setDescription((rs.getString(2))); 
+				return productType;
+			}
+		}
+		
+		static class GenreRowMapper implements RowMapper<Genre> {
+			@Override
+			public Genre mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Genre genre = new Genre();
+				genre.setId(rs.getInt(1));
+				genre.setGenre(rs.getString(2));
+				return genre;
+			}
+		}
+		
+		static class OrderSRowMapper implements RowMapper<Order> {
+			@Override
+			public Order mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Order order = new Order();
+				order.setOrderId(rs.getInt(1));
+				order.setUserId(rs.getInt(2));
+				order.setTotalPrice(rs.getBigDecimal(3));
+				order.setDiscount(rs.getBigDecimal(4));
+				order.setSaleDate(rs.getDate(5));
+				order.setStatus(rs.getString(6));
+				return order;
+			}
+		}
+		
+		static class OrderItemRowMapper implements RowMapper< OrderItem> {
+			@Override
+			public  OrderItem mapRow(ResultSet rs, int rowNum) throws SQLException {
+				OrderItem orderItem = new OrderItem();
+				orderItem.setOrderItemId(rs.getInt(1));
+				orderItem.setOrderId(rs.getInt(2));
+				orderItem.setProductId(rs.getInt(3));
+				orderItem.setQuantity(rs.getInt(4));
+				orderItem.setPrice(rs.getBigDecimal(5));
+				return orderItem;
 			}
 		}
 
