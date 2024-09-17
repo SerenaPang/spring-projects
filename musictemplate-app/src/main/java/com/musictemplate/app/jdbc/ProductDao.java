@@ -163,4 +163,36 @@ public class ProductDao {
 		jdbcTemplate.update("delete from User where user_id = ?", userId);
 	}
 	
+	public ProductType findProductTypeById(Long id) {
+		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("id", id);
+		return namedParameterJdbcTemplate.queryForObject(
+				"select product_type_id, description from ProductType where product_type_id = :product_type_id",
+				namedParameters, new ProductTypeRowMapper());
+	}
+
+	public List<ProductType> findAllProductTypes() {
+		return this.jdbcTemplate.query("select product_type_id, description from ProductType",
+				new ProductTypeRowMapper());
+	}
+
+	public List<ProductType> getAllProductTypes() {
+		return jdbcTemplate.query("select product_type_id, description from ProductType",
+				new ProductTypeRowMapper());
+	}
+
+	public void saveProductType(ProductType productType) {
+		jdbcTemplate.update("insert into ProductType(product_type_id, description) values(?,?)",
+				productType.getId(), productType.getDescription());
+	}
+
+	public void updateProductType(ProductType productType) {
+		jdbcTemplate.update(
+				"update ProductType set product_type_id=?, description=? where product_type_id = ?",
+				productType.getId(), productType.getDescription(), productType.getId());
+	}
+
+	public void deleteProductType(int productTypeId) {
+		jdbcTemplate.update("delete from ProductType where product_type_id = ?", productTypeId);
+	}
+	
 }
