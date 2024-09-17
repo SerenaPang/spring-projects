@@ -133,36 +133,31 @@ public class ProductDao {
 
 	public User findUserById(Long id) {
 		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("id", id);
-		return namedParameterJdbcTemplate.queryForObject(
-				"select user_id,name_user from User where user_id = :user_id",
+		return namedParameterJdbcTemplate.queryForObject("select user_id,name_user from User where user_id = :user_id",
 				namedParameters, new UserRowMapper());
 	}
 
 	public List<User> findAllUsers() {
-		return this.jdbcTemplate.query("select user_id, name_user from User",
-				new UserRowMapper());
+		return this.jdbcTemplate.query("select user_id, name_user from User", new UserRowMapper());
 	}
 
 	public List<User> getAllUsers() {
-		return jdbcTemplate.query("select user_id, name_user from User",
-				new UserRowMapper());
+		return jdbcTemplate.query("select user_id, name_user from User", new UserRowMapper());
 	}
 
 	public void saveUser(User user) {
-		jdbcTemplate.update("insert into User(user_id, name_user) values(?,?)",
-				user.getId(), user.getName());
+		jdbcTemplate.update("insert into User(user_id, name_user) values(?,?)", user.getId(), user.getName());
 	}
 
 	public void updateUser(User user) {
-		jdbcTemplate.update(
-				"update User set user_id =?, name_user=? where user_id = ?",
-				user.getId(), user.getName(), user.getId());
+		jdbcTemplate.update("update User set user_id =?, name_user=? where user_id = ?", user.getId(), user.getName(),
+				user.getId());
 	}
 
 	public void deleteUser(int userId) {
 		jdbcTemplate.update("delete from User where user_id = ?", userId);
 	}
-	
+
 	public ProductType findProductTypeById(Long id) {
 		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("id", id);
 		return namedParameterJdbcTemplate.queryForObject(
@@ -176,23 +171,47 @@ public class ProductDao {
 	}
 
 	public List<ProductType> getAllProductTypes() {
-		return jdbcTemplate.query("select product_type_id, description from ProductType",
-				new ProductTypeRowMapper());
+		return jdbcTemplate.query("select product_type_id, description from ProductType", new ProductTypeRowMapper());
 	}
 
 	public void saveProductType(ProductType productType) {
-		jdbcTemplate.update("insert into ProductType(product_type_id, description) values(?,?)",
-				productType.getId(), productType.getDescription());
+		jdbcTemplate.update("insert into ProductType(product_type_id, description) values(?,?)", productType.getId(),
+				productType.getDescription());
 	}
 
 	public void updateProductType(ProductType productType) {
-		jdbcTemplate.update(
-				"update ProductType set product_type_id=?, description=? where product_type_id = ?",
+		jdbcTemplate.update("update ProductType set product_type_id=?, description=? where product_type_id = ?",
 				productType.getId(), productType.getDescription(), productType.getId());
 	}
 
 	public void deleteProductType(int productTypeId) {
 		jdbcTemplate.update("delete from ProductType where product_type_id = ?", productTypeId);
 	}
-	
+
+	public Genre findGenreById(Long id) {
+		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("id", id);
+		return namedParameterJdbcTemplate.queryForObject("select genre_id, genre from Genre where genre_id = :genre_id",
+				namedParameters, new GenreRowMapper());
+	}
+
+	public List<Genre> findAllGenres() {
+		return this.jdbcTemplate.query("select genre_id, genre from Genre", new GenreRowMapper());
+	}
+
+	public List<Genre> getAllGenres() {
+		return jdbcTemplate.query("select genre_id, genre from Genre", new GenreRowMapper());
+	}
+
+	public void saveGenre(Genre genre) {
+		jdbcTemplate.update("insert into Genre(genre_id, genre) values(?,?)", genre.getId(), genre.getGenre());
+	}
+
+	public void updateGenre(Genre genre) {
+		jdbcTemplate.update("update Genre set genre_id=?, genre=? where genre_id = ?", genre.getId(), genre.getGenre(),
+				genre.getId());
+	}
+
+	public void deleteGenre(int genreId) {
+		jdbcTemplate.update("delete from Genre where genre_id = ?", genreId);
+	}
 }
