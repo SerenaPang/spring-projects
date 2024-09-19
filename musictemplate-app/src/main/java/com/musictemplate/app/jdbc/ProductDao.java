@@ -241,4 +241,29 @@ public class ProductDao {
 		jdbcTemplate.update("delete from Orders where order_id = ?", orderId);
 	}
 	
+	public OrderItem findOrderItemById(Long id) {
+		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("id", id);
+		return namedParameterJdbcTemplate.queryForObject("select order_item_id, order_id, product_id, quantity, price from OrderItem where order_item_id = :order_item_id",
+				namedParameters, new OrderItemRowMapper());
+	}
+
+	public List<OrderItem> findAllOrderItem() {
+		return this.jdbcTemplate.query("select order_item_id, order_id, product_id, quantity, price from OrderItem", new OrderItemRowMapper());
+	}
+
+	public List<OrderItem> getAllOrderItem() {
+		return jdbcTemplate.query("select order_item_id, order_id, product_id, quantity, price  from OrderItem", new OrderItemRowMapper());
+	}
+
+	public void saveOrderItem(OrderItem orderItem) {
+		jdbcTemplate.update("insert into OrderItem(order_item_id, order_id, product_id, quantity, price) values(?,?,?,?,?)", orderItem.getOrderItemId(), orderItem.getOrderId(), orderItem.getProductId(), orderItem.getQuantity(), orderItem.getPrice());
+	}
+
+	public void updateOrderItem(OrderItem orderItem) {
+		jdbcTemplate.update("update OrderItem set order_item_id=?, order_id=?, product_id=?, quantity=?, price =? where order_item_id = ?", orderItem.getOrderItemId(), orderItem.getOrderId(), orderItem.getProductId(), orderItem.getQuantity(), orderItem.getPrice(), orderItem.getOrderItemId());
+	}
+
+	public void deleteOrderItem(int orderItemId) {
+		jdbcTemplate.update("delete from OrderItem where order_item_id = ?", orderItemId);
+	}
 }
