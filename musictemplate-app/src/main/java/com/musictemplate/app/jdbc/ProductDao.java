@@ -101,7 +101,7 @@ public class ProductDao {
 	public Product findProductById(Long id) {
 		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("id", id);
 		return namedParameterJdbcTemplate.queryForObject(
-				"select product_id, product_type_id, name, genre_id, price from Product where product_id = :product_id",
+				"select product_id, product_type_id, name, genre_id, price from Product where product_id = :id",
 				namedParameters, new ProductRowMapper());
 	}
 
