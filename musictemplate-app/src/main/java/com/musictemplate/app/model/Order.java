@@ -23,6 +23,9 @@ public class Order {
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}
+	public BigDecimal set() {
+		return totalPrice;
+	}
 	public BigDecimal getTotalPrice() {
 		return totalPrice;
 	}

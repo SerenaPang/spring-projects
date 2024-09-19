@@ -71,7 +71,7 @@ public class ProductDao {
 		}
 	}
 
-	static class OrderSRowMapper implements RowMapper<Order> {
+	static class OrdersRowMapper implements RowMapper<Order> {
 		@Override
 		public Order mapRow(ResultSet rs, int rowNum) throws SQLException {
 			Order order = new Order();
@@ -214,4 +214,31 @@ public class ProductDao {
 	public void deleteGenre(int genreId) {
 		jdbcTemplate.update("delete from Genre where genre_id = ?", genreId);
 	}
+	
+	public Order findOrdersById(Long id) {
+		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("id", id);
+		return namedParameterJdbcTemplate.queryForObject("select order_id, user_id, total_price, discount_percentage, sale_date, status from Orders where order_id = :order_id",
+				namedParameters, new OrdersRowMapper());
+	}
+
+	public List<Order> findAllOrders() {
+		return this.jdbcTemplate.query("select order_id, user_id, total_price, discount_percentage, sale_date, status from Orders", new OrdersRowMapper());
+	}
+
+	public List<Order> getAllOrders() {
+		return jdbcTemplate.query("select order_id, user_id, total_price, discount_percentage, sale_date, status from Orders", new OrdersRowMapper());
+	}
+
+	public void saveOrders(Order order) {
+		jdbcTemplate.update("insert into Orders(order_id, user_id, total_price, discount_percentage, sale_date, status) values(?,?,?,?,?,?)", order.getOrderId(), order.getUserId(),order.getTotalPrice(), order.getDiscount(), order.getSaleDate(), order.getStatus());
+	}
+
+	public void updateOrders(Order order) {
+		jdbcTemplate.update("update Orders set order_id=?, user_id=?, total_price=?, discount_percentage=?, sale_date = ? status=?, genre=? where order_id = ?", order.getOrderId(), order.getUserId(),order.getTotalPrice(), order.getDiscount(), order.getSaleDate(), order.getStatus() ,order.getOrderId());
+	}
+
+	public void deleteOrders(int orderId) {
+		jdbcTemplate.update("delete from Orders where order_id = ?", orderId);
+	}
+	
 }
