@@ -69,4 +69,7 @@ public class ProductController {
 			// Update the resource
 			productDao.update(product);
 		}
+		
+		
+		
 }
