@@ -133,7 +133,7 @@ public class ProductDao {
 
 	public User findUserById(Long id) {
 		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("id", id);
-		return namedParameterJdbcTemplate.queryForObject("select user_id,name_user from User where user_id = :user_id",
+		return namedParameterJdbcTemplate.queryForObject("select user_id,name_user from User where user_id = :id",
 				namedParameters, new UserRowMapper());
 	}
 
@@ -161,36 +161,36 @@ public class ProductDao {
 	public ProductType findProductTypeById(Long id) {
 		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("id", id);
 		return namedParameterJdbcTemplate.queryForObject(
-				"select product_type_id, description from ProductType where product_type_id = :product_type_id",
-				namedParameters, new ProductTypeRowMapper());
+				"select product_type_id, description from PRODUCT_TYPE where product_type_id = :id", namedParameters,
+				new ProductTypeRowMapper());
 	}
 
 	public List<ProductType> findAllProductTypes() {
-		return this.jdbcTemplate.query("select product_type_id, description from ProductType",
+		return this.jdbcTemplate.query("select product_type_id, description from PRODUCT_TYPE",
 				new ProductTypeRowMapper());
 	}
 
 	public List<ProductType> getAllProductTypes() {
-		return jdbcTemplate.query("select product_type_id, description from ProductType", new ProductTypeRowMapper());
+		return jdbcTemplate.query("select product_type_id, description from PRODUCT_TYPE", new ProductTypeRowMapper());
 	}
 
 	public void saveProductType(ProductType productType) {
-		jdbcTemplate.update("insert into ProductType(product_type_id, description) values(?,?)", productType.getId(),
+		jdbcTemplate.update("insert into PRODUCT_TYPE(product_type_id, description) values(?,?)", productType.getId(),
 				productType.getDescription());
 	}
 
 	public void updateProductType(ProductType productType) {
-		jdbcTemplate.update("update ProductType set product_type_id=?, description=? where product_type_id = ?",
+		jdbcTemplate.update("update PRODUCT_TYPE set product_type_id=?, description=? where product_type_id = ?",
 				productType.getId(), productType.getDescription(), productType.getId());
 	}
 
 	public void deleteProductType(int productTypeId) {
-		jdbcTemplate.update("delete from ProductType where product_type_id = ?", productTypeId);
+		jdbcTemplate.update("delete from PRODUCT_TYPE where product_type_id = ?", productTypeId);
 	}
 
 	public Genre findGenreById(Long id) {
 		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("id", id);
-		return namedParameterJdbcTemplate.queryForObject("select genre_id, genre from Genre where genre_id = :genre_id",
+		return namedParameterJdbcTemplate.queryForObject("select genre_id, genre from Genre where genre_id = :id",
 				namedParameters, new GenreRowMapper());
 	}
 
@@ -214,56 +214,76 @@ public class ProductDao {
 	public void deleteGenre(int genreId) {
 		jdbcTemplate.update("delete from Genre where genre_id = ?", genreId);
 	}
-	
+
 	public Order findOrdersById(Long id) {
 		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("id", id);
-		return namedParameterJdbcTemplate.queryForObject("select order_id, user_id, total_price, discount_percentage, sale_date, status from Orders where order_id = :order_id",
+		return namedParameterJdbcTemplate.queryForObject(
+				"select order_id, user_id, total_price, discount_percentage, sale_date, status from Orders where order_id = :id",
 				namedParameters, new OrdersRowMapper());
 	}
 
 	public List<Order> findAllOrders() {
-		return this.jdbcTemplate.query("select order_id, user_id, total_price, discount_percentage, sale_date, status from Orders", new OrdersRowMapper());
+		return this.jdbcTemplate.query(
+				"select order_id, user_id, total_price, discount_percentage, sale_date, status from Orders",
+				new OrdersRowMapper());
 	}
 
 	public List<Order> getAllOrders() {
-		return jdbcTemplate.query("select order_id, user_id, total_price, discount_percentage, sale_date, status from Orders", new OrdersRowMapper());
+		return jdbcTemplate.query(
+				"select order_id, user_id, total_price, discount_percentage, sale_date, status from Orders",
+				new OrdersRowMapper());
 	}
 
 	public void saveOrders(Order order) {
-		jdbcTemplate.update("insert into Orders(order_id, user_id, total_price, discount_percentage, sale_date, status) values(?,?,?,?,?,?)", order.getOrderId(), order.getUserId(),order.getTotalPrice(), order.getDiscount(), order.getSaleDate(), order.getStatus());
+		jdbcTemplate.update(
+				"insert into Orders(order_id, user_id, total_price, discount_percentage, sale_date, status) values(?,?,?,?,?,?)",
+				order.getOrderId(), order.getUserId(), order.getTotalPrice(), order.getDiscount(), order.getSaleDate(),
+				order.getStatus());
 	}
 
 	public void updateOrders(Order order) {
-		jdbcTemplate.update("update Orders set order_id=?, user_id=?, total_price=?, discount_percentage=?, sale_date = ? status=?, genre=? where order_id = ?", order.getOrderId(), order.getUserId(),order.getTotalPrice(), order.getDiscount(), order.getSaleDate(), order.getStatus() ,order.getOrderId());
+		jdbcTemplate.update(
+				"update Orders set order_id=?, user_id=?, total_price=?, discount_percentage=?, sale_date = ? status=?, genre=? where order_id = ?",
+				order.getOrderId(), order.getUserId(), order.getTotalPrice(), order.getDiscount(), order.getSaleDate(),
+				order.getStatus(), order.getOrderId());
 	}
 
 	public void deleteOrders(int orderId) {
 		jdbcTemplate.update("delete from Orders where order_id = ?", orderId);
 	}
-	
+
 	public OrderItem findOrderItemById(Long id) {
 		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("id", id);
-		return namedParameterJdbcTemplate.queryForObject("select order_item_id, order_id, product_id, quantity, price from OrderItem where order_item_id = :order_item_id",
+		return namedParameterJdbcTemplate.queryForObject(
+				"select order_item_id, order_id, product_id, quantity, price from ORDER_ITEM where order_item_id = :id",
 				namedParameters, new OrderItemRowMapper());
 	}
 
 	public List<OrderItem> findAllOrderItem() {
-		return this.jdbcTemplate.query("select order_item_id, order_id, product_id, quantity, price from OrderItem", new OrderItemRowMapper());
+		return this.jdbcTemplate.query("select order_item_id, order_id, product_id, quantity, price from ORDER_ITEM",
+				new OrderItemRowMapper());
 	}
 
 	public List<OrderItem> getAllOrderItem() {
-		return jdbcTemplate.query("select order_item_id, order_id, product_id, quantity, price  from OrderItem", new OrderItemRowMapper());
+		return jdbcTemplate.query("select order_item_id, order_id, product_id, quantity, price from ORDER_ITEM",
+				new OrderItemRowMapper());
 	}
 
 	public void saveOrderItem(OrderItem orderItem) {
-		jdbcTemplate.update("insert into OrderItem(order_item_id, order_id, product_id, quantity, price) values(?,?,?,?,?)", orderItem.getOrderItemId(), orderItem.getOrderId(), orderItem.getProductId(), orderItem.getQuantity(), orderItem.getPrice());
+		jdbcTemplate.update(
+				"insert into ORDER_ITEM(order_item_id, order_id, product_id, quantity, price) values(?,?,?,?,?)",
+				orderItem.getOrderItemId(), orderItem.getOrderId(), orderItem.getProductId(), orderItem.getQuantity(),
+				orderItem.getPrice());
 	}
 
 	public void updateOrderItem(OrderItem orderItem) {
-		jdbcTemplate.update("update OrderItem set order_item_id=?, order_id=?, product_id=?, quantity=?, price =? where order_item_id = ?", orderItem.getOrderItemId(), orderItem.getOrderId(), orderItem.getProductId(), orderItem.getQuantity(), orderItem.getPrice(), orderItem.getOrderItemId());
+		jdbcTemplate.update(
+				"update ORDER_ITEM set order_item_id=?, order_id=?, product_id=?, quantity=?, price =? where order_item_id = ?",
+				orderItem.getOrderItemId(), orderItem.getOrderId(), orderItem.getProductId(), orderItem.getQuantity(),
+				orderItem.getPrice(), orderItem.getOrderItemId());
 	}
 
 	public void deleteOrderItem(int orderItemId) {
-		jdbcTemplate.update("delete from OrderItem where order_item_id = ?", orderItemId);
+		jdbcTemplate.update("delete from ORDER_ITEM where order_item_id = ?", orderItemId);
 	}
 }

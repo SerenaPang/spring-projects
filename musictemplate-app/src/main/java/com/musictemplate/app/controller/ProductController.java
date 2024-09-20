@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.musictemplate.app.jdbc.ProductDao;
 import com.musictemplate.app.model.Product;
+import com.musictemplate.app.model.ProductType;
 
 
 @RestController
@@ -40,7 +41,7 @@ public class ProductController {
 			return prodcuts;
 		}
 
-		// curl -H 'Content-Type: application/json' -d '{ "id":"25", "name":"AAAB"}' -X
+		// curl -H 'Content-Type: application/json' -d '{ "product_id":"25", "product_type_id":"1", "name":"Pen", "genre_id":"1", "price","12.5"}' -X
 		// POST http://localhost:8080/saveProduct
 		@PostMapping("/saveProduct{product}")
 		public void saveProduct(@RequestBody Product product) {
@@ -55,7 +56,7 @@ public class ProductController {
 
 		}
 
-		// curl -H 'Content-Type: application/json' -d '{ "id":"5", "name":"MMMMM"}' -X
+		// curl -H 'Content-Type: application/json' -d '{"product_id":"25", "product_type_id":"1", "name":"Pencil", "genre_id":"1", "price","11.5"}' -X
 		// PUT http://localhost:8080/updateProduct
 		@PutMapping(path = "/updateProduct", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 		public void updateProduct(@RequestBody Product product) {
@@ -70,6 +71,51 @@ public class ProductController {
 			productDao.update(product);
 		}
 		
-		
-		
+		// curl -X GET "http://localhost:8080/findProductTypeById?id=2"
+				@GetMapping("/findProductTypeById")
+				public ProductType findProductTypeById(@RequestParam(value = "id", defaultValue = "-1") Long id) {
+					System.out.println("AuthorController.findById()");
+					ProductType productType = productDao.findProductTypeById(id);
+					return productType;
+				}
+
+				// curl -X GET "http://localhost:8080/findAllProductTypes"
+				@GetMapping("/findAllProductTypes")
+				public List<ProductType> findAllProductTypes() {
+					List<ProductType> productTypes = productDao.findAllProductTypes();
+					if (productTypes.isEmpty()) {
+						return null;
+					}
+					return productTypes;
+				}
+
+				// curl -H 'Content-Type: application/json' -d '{ "product_type_id":"5", "description":"Album"}' -X POST http://localhost:8080/saveProductType
+				@PostMapping("/saveProductType{product}")
+				public void saveProductType(@RequestBody ProductType productType) {
+					productDao.saveProductType(productType);
+				}
+
+				// curl -H 'Content-Type: application/json' -X DELETE http://localhost:8080/deleteProductType/1
+				@DeleteMapping(path = "/deleteProductType/{idProductType}")
+				public void deleteProductType(@PathVariable(name = "idProduct") Integer idProductType) {
+					productDao.delete(idProductType);
+
+				}
+
+				// curl -H 'Content-Type: application/json' -d '{ "product_type_id":"5", "description":"Song"}' -X
+				// PUT http://localhost:8080/updateProductType
+				@PutMapping(path = "/updateProductType", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+				public void updateProductType(@RequestBody ProductType productType) {
+					// Retrieve the resource from the database
+					long idProductType = productType.getId();
+					ProductType target = productDao.findProductTypeById(idProductType);
+					// If the resource is not found, return a 404 (not found) status code
+					if (target == null) {
+						System.out.println("no product type exist");
+					}
+					// Update the resource
+					productDao.updateProductType(productType);
+				}
+				
+				
 }
