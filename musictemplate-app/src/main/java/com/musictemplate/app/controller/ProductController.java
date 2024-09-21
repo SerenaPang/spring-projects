@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.musictemplate.app.jdbc.ProductDao;
+import com.musictemplate.app.model.Genre;
 import com.musictemplate.app.model.Product;
 import com.musictemplate.app.model.ProductType;
 import com.musictemplate.app.model.User;
@@ -123,49 +124,100 @@ public class ProductController {
 	}
 
 	// curl -X GET "http://localhost:8080/findUserById?id=2"
-		@GetMapping("/findUserById")
-		public User findUserById(@RequestParam(value = "id", defaultValue = "-1") Long id) {
-			System.out.println("findUserById()");
-			User user = productDao.findUserById(id);
-			return user;
-		}
+	@GetMapping("/findUserById")
+	public User findUserById(@RequestParam(value = "id", defaultValue = "-1") Long id) {
+		System.out.println("findUserById()");
+		User user = productDao.findUserById(id);
+		return user;
+	}
 
-		// curl -X GET "http://localhost:8080/findAllUsers"
-		@GetMapping("/findAllUsers")
-		public List<User> findAllUsers() {
-			List<User> users = productDao.findAllUsers();
-			if (users.isEmpty()) {
-				return null;
-			}
-			return users;
+	// curl -X GET "http://localhost:8080/findAllUsers"
+	@GetMapping("/findAllUsers")
+	public List<User> findAllUsers() {
+		List<User> users = productDao.findAllUsers();
+		if (users.isEmpty()) {
+			return null;
 		}
+		return users;
+	}
 
-		// curl -H 'Content-Type: application/json' -d '{ "user_id":"25", "name_user":"Serena"}' -X POST http://localhost:8080/saveUser
-		@PostMapping("/saveUser{user}")
-		public void saveUser(@RequestBody User user) {
-			productDao.saveUser(user);
+	// curl -H 'Content-Type: application/json' -d '{ "user_id":"25",
+	// "name_user":"Serena"}' -X POST http://localhost:8080/saveUser
+	@PostMapping("/saveUser{user}")
+	public void saveUser(@RequestBody User user) {
+		productDao.saveUser(user);
+	}
+
+	// curl -H 'Content-Type: application/json' -X DELETE
+	// http://localhost:8080/deleteUser/1
+	@DeleteMapping(path = "/deleteUser/{idUser}")
+	public void deleteUser(@PathVariable(name = "idUser") Integer idUser) {
+		productDao.delete(idUser);
+
+	}
+
+	// curl -H 'Content-Type: application/json' -d '{"user_id":"25",
+	// "name_user":"Serina"}' -X
+	// PUT http://localhost:8080/updateUser
+	@PutMapping(path = "/updateUser", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public void updateUser(@RequestBody User user) {
+		// Retrieve the resource from the database
+		long idUser = user.getId();
+		User target = productDao.findUserById(idUser);
+		// If the resource is not found, return a 404 (not found) status code
+		if (target == null) {
+			System.out.println("no user exist");
 		}
+		// Update the resource
+		productDao.updateUser(user);
+	}
 
-		// curl -H 'Content-Type: application/json' -X DELETE http://localhost:8080/deleteUser/1
-		@DeleteMapping(path = "/deleteUser/{idUser}")
-		public void deleteUser(@PathVariable(name = "idUser") Integer idUser) {
-			productDao.delete(idUser);
+	// curl -X GET "http://localhost:8080/findGenreById?id=2"
+	@GetMapping("/findGenreById")
+	public Genre findGenreById(@RequestParam(value = "id", defaultValue = "-1") Long id) {
+		System.out.println("findUserById()");
+		Genre genre = productDao.findGenreById(id);
+		return genre;
+	}
 
+	// curl -X GET "http://localhost:8080/findAllGenres"
+	@GetMapping("/findAllGenres")
+	public List<Genre> findAllGenres() {
+		List<Genre> genres = productDao.findAllGenres();
+		if (genres.isEmpty()) {
+			return null;
 		}
+		return genres;
+	}
 
-		// curl -H 'Content-Type: application/json' -d '{"user_id":"25", "name_user":"Serina"}' -X
-		// PUT http://localhost:8080/updateUser
-		@PutMapping(path = "/updateUser", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-		public void updateUser(@RequestBody User user) {
-			// Retrieve the resource from the database
-			long idUser = user.getId();
-			User target = productDao.findUserById(idUser);
-			// If the resource is not found, return a 404 (not found) status code
-			if (target == null) {
-				System.out.println("no user exist");
-			}
-			// Update the resource
-			productDao.updateUser(user);
+	// curl -H 'Content-Type: application/json' -d '{ "genre_id":"2", "genre":"pop"}' -X POST http://localhost:8080/saveGenre
+	@PostMapping("/saveGenre{genre}")
+	public void saveGenre(@RequestBody Genre genre) {
+		productDao.saveGenre(genre);
+	}
+
+	// curl -H 'Content-Type: application/json' -X DELETE
+	// http://localhost:8080/deleteGenre/1
+	@DeleteMapping(path = "/deleteGenre/{idGenre}")
+	public void deleteGenre(@PathVariable(name = "idGenre") Integer idGenre) {
+		productDao.delete(idGenre);
+
+	}
+
+	// curl -H 'Content-Type: application/json' -d '{"genre_id":"2", "genre":"pop"}'
+	// -X PUT http://localhost:8080/updateGenre
+	@PutMapping(path = "/updateGenre", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public void updateGenre(@RequestBody Genre genre) {
+		// Retrieve the resource from the database
+		long idGenre = genre.getId();
+		Genre target = productDao.findGenreById(idGenre);
+		// If the resource is not found, return a 404 (not found) status code
+		if (target == null) {
+			System.out.println("no genre exist");
 		}
+		// Update the resource
+		productDao.updateGenre(genre);
+	}
+
 	
 }
