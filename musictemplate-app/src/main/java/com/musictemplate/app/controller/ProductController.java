@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.musictemplate.app.jdbc.ProductDao;
 import com.musictemplate.app.model.Genre;
+import com.musictemplate.app.model.Order;
 import com.musictemplate.app.model.Product;
 import com.musictemplate.app.model.ProductType;
 import com.musictemplate.app.model.User;
@@ -152,7 +153,7 @@ public class ProductController {
 	// http://localhost:8080/deleteUser/1
 	@DeleteMapping(path = "/deleteUser/{idUser}")
 	public void deleteUser(@PathVariable(name = "idUser") Integer idUser) {
-		productDao.delete(idUser);
+		productDao.deleteUser(idUser);
 
 	}
 
@@ -172,52 +173,97 @@ public class ProductController {
 		productDao.updateUser(user);
 	}
 
-	// curl -X GET "http://localhost:8080/findGenreById?id=2"
-	@GetMapping("/findGenreById")
-	public Genre findGenreById(@RequestParam(value = "id", defaultValue = "-1") Long id) {
-		System.out.println("findUserById()");
-		Genre genre = productDao.findGenreById(id);
-		return genre;
+	// curl -X GET "http://localhost:8080/findOrderById?id=2"
+	@GetMapping("/findOrderById")
+	public Order findOrderById(@RequestParam(value = "id", defaultValue = "-1") Long id) {
+		System.out.println("findOrderById()");
+		Order order = productDao.findOrdersById(id);
+		return order;
 	}
 
-	// curl -X GET "http://localhost:8080/findAllGenres"
-	@GetMapping("/findAllGenres")
-	public List<Genre> findAllGenres() {
-		List<Genre> genres = productDao.findAllGenres();
-		if (genres.isEmpty()) {
+	// curl -X GET "http://localhost:8080/findAllOrders"
+	@GetMapping("/findAllOrders")
+	public List<Order> findAllOrders() {
+		List<Order> orders = productDao.findAllOrders();
+		if (orders.isEmpty()) {
 			return null;
 		}
-		return genres;
+		return orders;
 	}
 
-	// curl -H 'Content-Type: application/json' -d '{ "genre_id":"2", "genre":"pop"}' -X POST http://localhost:8080/saveGenre
-	@PostMapping("/saveGenre{genre}")
-	public void saveGenre(@RequestBody Genre genre) {
-		productDao.saveGenre(genre);
+	// curl -H 'Content-Type: application/json' -d '{ "order_id":"2", "user_id":"1","total_price":"20","discount_percentage":"0","sale_date":"2024-08-27 09:15:07", "status":"ORDER PLACED"}' -X POST http://localhost:8080/saveOrder
+	@PostMapping("/saveOrder{order}")
+	public void saveOrder(@RequestBody Order order) {
+		productDao.saveOrders(order);
 	}
 
-	// curl -H 'Content-Type: application/json' -X DELETE
-	// http://localhost:8080/deleteGenre/1
-	@DeleteMapping(path = "/deleteGenre/{idGenre}")
-	public void deleteGenre(@PathVariable(name = "idGenre") Integer idGenre) {
-		productDao.delete(idGenre);
+	// curl -H 'Content-Type: application/json' -X DELETE http://localhost:8080/deleteOrder/1
+	@DeleteMapping(path = "/deleteOrder/{idOrder}")
+	public void deleteOrder(@PathVariable(name = "idOrder") Integer idOrder) {
+		productDao.deleteOrders(idOrder);
 
 	}
 
-	// curl -H 'Content-Type: application/json' -d '{"genre_id":"2", "genre":"pop"}'
-	// -X PUT http://localhost:8080/updateGenre
-	@PutMapping(path = "/updateGenre", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public void updateGenre(@RequestBody Genre genre) {
+	// curl -H 'Content-Type: application/json' -d '{"order_id":"2", "user_id":"1","total_price":"20","discount_percentage":"0","sale_date":"2024-08-27 09:15:07", "status":"Order Processing"}' -X PUT http://localhost:8080/updateOrder
+	@PutMapping(path = "/updateOrder", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public void updateOrder(@RequestBody Order order) {
 		// Retrieve the resource from the database
-		long idGenre = genre.getId();
-		Genre target = productDao.findGenreById(idGenre);
+		long idOrder = order.getOrderId();
+		Order target = productDao.findOrdersById(idOrder);
 		// If the resource is not found, return a 404 (not found) status code
 		if (target == null) {
-			System.out.println("no genre exist");
+			System.out.println("no order exist");
 		}
 		// Update the resource
-		productDao.updateGenre(genre);
+		productDao.updateOrders(order);
 	}
 
-	
+	// curl -X GET "http://localhost:8080/findGenreById?id=2"
+		@GetMapping("/findGenreById")
+		public Genre findGenreById(@RequestParam(value = "id", defaultValue = "-1") Long id) {
+			System.out.println("findUserById()");
+			Genre genre = productDao.findGenreById(id);
+			return genre;
+		}
+
+		// curl -X GET "http://localhost:8080/findAllGenres"
+		@GetMapping("/findAllGenres")
+		public List<Genre> findAllGenres() {
+			List<Genre> genres = productDao.findAllGenres();
+			if (genres.isEmpty()) {
+				return null;
+			}
+			return genres;
+		}
+
+		// curl -H 'Content-Type: application/json' -d '{ "genre_id":"2",
+		// "genre":"pop"}' -X POST http://localhost:8080/saveGenre
+		@PostMapping("/saveGenre{genre}")
+		public void saveGenre(@RequestBody Genre genre) {
+			productDao.saveGenre(genre);
+		}
+
+		// curl -H 'Content-Type: application/json' -X DELETE
+		// http://localhost:8080/deleteGenre/1
+		@DeleteMapping(path = "/deleteGenre/{idGenre}")
+		public void deleteGenre(@PathVariable(name = "idGenre") Integer idGenre) {
+			productDao.delete(idGenre);
+
+		}
+
+		// curl -H 'Content-Type: application/json' -d '{"genre_id":"2", "genre":"pop"}'
+		// -X PUT http://localhost:8080/updateGenre
+		@PutMapping(path = "/updateGenre", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+		public void updateGenre(@RequestBody Genre genre) {
+			// Retrieve the resource from the database
+			long idGenre = genre.getId();
+			Genre target = productDao.findGenreById(idGenre);
+			// If the resource is not found, return a 404 (not found) status code
+			if (target == null) {
+				System.out.println("no genre exist");
+			}
+			// Update the resource
+			productDao.updateGenre(genre);
+		}
+
 }
