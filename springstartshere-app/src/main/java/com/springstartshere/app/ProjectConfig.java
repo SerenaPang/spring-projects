@@ -19,6 +19,8 @@ public class ProjectConfig {
 	public Person person() {
 		Person p = new Person();
 		p.setName("Ella");
+		//establish relationship btw person and parrot
+		p.setParrot(parrot());
 		return p;
 	}
 
