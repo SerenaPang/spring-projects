@@ -15,12 +15,23 @@ public class ProjectConfig {
 		return p;
 	}
 
+	//direct wiring
+//	@Bean
+//	public Person person() {
+//		Person p = new Person();
+//		p.setName("Ella");
+//		//establish relationship btw person and parrot
+//		p.setParrot(parrot());
+//		return p;
+//	}
+	
+	//injecting bean by parameter
 	@Bean
-	public Person person() {
+	public Person person(Parrot parrot) {
 		Person p = new Person();
 		p.setName("Ella");
 		//establish relationship btw person and parrot
-		p.setParrot(parrot());
+		p.setParrot(parrot);
 		return p;
 	}
 
