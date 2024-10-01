@@ -291,7 +291,9 @@ public class ProductController {
 		return orderItems;
 	}
 
-	// curl -H 'Content-Type: application/json' -d '{"order_item_id":"2","order_id":"1", "product_id":"1", "quantity":"10", "price","12.5"}' -X POST http://localhost:8080/saveOrderItem
+	// curl -H 'Content-Type: application/json' -d
+	// '{"order_item_id":"2","order_id":"1", "product_id":"1", "quantity":"10",
+	// "price","12.5"}' -X POST http://localhost:8080/saveOrderItem
 	@PostMapping("/saveOrderItem{orderItem}")
 	public void saveOrderItem(@RequestBody OrderItem orderItem) {
 		productDao.saveOrderItem(orderItem);
@@ -305,7 +307,9 @@ public class ProductController {
 
 	}
 
-	// curl -H 'Content-Type: application/json' -d '{"order_item_id":"2","order_id":"1", "product_id":"1", "quantity":"10", "price","12.5"}' -X PUT http://localhost:8080/updateOrderItem
+	// curl -H 'Content-Type: application/json' -d
+	// '{"order_item_id":"2","order_id":"1", "product_id":"1", "quantity":"10",
+	// "price","12.5"}' -X PUT http://localhost:8080/updateOrderItem
 	@PutMapping(path = "/updateOrderItem", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public void updateOrderItem(@RequestBody OrderItem orderItem) {
 		// Retrieve the resource from the database
