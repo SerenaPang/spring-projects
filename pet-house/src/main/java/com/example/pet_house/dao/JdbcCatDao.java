@@ -20,7 +20,24 @@ public class JdbcCatDao implements CatDao{
 
 	@Override
 	public Cat saveCat(Cat cat) {
-		// TODO Auto-generated method stub
+		System.out.println("jdbc save Cat");
+		Cat catExist = findCatById(cat.getId());
+		if (catExist != cat) {
+			try (Connection connection = dataSource.getConnection()) {
+				PreparedStatement ps = connection.prepareStatement("INSERT INTO Pet(name, age, breed, description) " + "VALUES(?,?,?,?)");
+				ps.setString(1, cat.getName());
+				ps.setInt(3, cat.getAge());
+				ps.setString(4, cat.getBreed());
+				ps.setString(5, cat.getDescription());
+				int i = ps.executeUpdate();
+
+				if (i == 1) {
+					System.out.println("jdbc saved Cat info to database");
+				}
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+		}
 		return null;
 	}
 
