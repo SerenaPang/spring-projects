@@ -26,9 +26,9 @@ public class JdbcCatDao implements CatDao{
 			try (Connection connection = dataSource.getConnection()) {
 				PreparedStatement ps = connection.prepareStatement("INSERT INTO Pet(name, age, breed, description) " + "VALUES(?,?,?,?)");
 				ps.setString(1, cat.getName());
-				ps.setInt(3, cat.getAge());
-				ps.setString(4, cat.getBreed());
-				ps.setString(5, cat.getDescription());
+				ps.setInt(2, cat.getAge());
+				ps.setString(3, cat.getBreed());
+				ps.setString(4, cat.getDescription());
 				int i = ps.executeUpdate();
 
 				if (i == 1) {
@@ -61,7 +61,25 @@ public class JdbcCatDao implements CatDao{
 
 	@Override
 	public Cat updateCat(Cat cat) {
-		// TODO Auto-generated method stub
+		System.out.println("jdbc update Cat");
+		Cat target = findCatById(cat.getId());
+		if (target != null) {
+			try (Connection connection = dataSource.getConnection()) {
+				PreparedStatement ps = connection.prepareStatement("UPDATE Pet SET name=?, age=?, breed=?, description=? WHERE id_pet=?");
+				ps.setString(1, cat.getName());
+				ps.setInt(2, cat.getAge());
+				ps.setString(3, cat.getBreed());
+				ps.setString(4, cat.getDescription());
+				ps.setInt(5, cat.getId());
+				int i = ps.executeUpdate();
+				if (i == 1) {
+					System.out.println("jdbc update Cat " + target.toString());
+					return target;
+				}
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+		}
 		return null;
 	}
 }
