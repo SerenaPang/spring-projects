@@ -14,9 +14,9 @@ import org.springframework.stereotype.Repository;
 import com.example.pet_house.model.Cat;
 
 @Repository
-public class JdbcCatDao implements CatDao{
+public class JdbcCatDao implements CatDao {
 	@Autowired
-	private  JdbcDataSource dataSource;
+	private JdbcDataSource dataSource;
 
 	@Override
 	public Cat saveCat(Cat cat) {
@@ -24,7 +24,8 @@ public class JdbcCatDao implements CatDao{
 		Cat catExist = findCatById(cat.getId());
 		if (catExist != cat) {
 			try (Connection connection = dataSource.getConnection()) {
-				PreparedStatement ps = connection.prepareStatement("INSERT INTO Pet(name, age, breed, description) " + "VALUES(?,?,?,?)");
+				PreparedStatement ps = connection
+						.prepareStatement("INSERT INTO Pet(name, age, breed, description) " + "VALUES(?,?,?,?)");
 				ps.setString(1, cat.getName());
 				ps.setInt(2, cat.getAge());
 				ps.setString(3, cat.getBreed());
@@ -45,7 +46,8 @@ public class JdbcCatDao implements CatDao{
 	public Cat findCatById(Integer id) {
 		System.out.println("jdbc find cat by id " + id);
 		try (Connection connection = dataSource.getConnection()) {
-			PreparedStatement ps = connection.prepareStatement("SELECT id_pet, name, age, breed, description FROM Pet WHERE id_pet =?");
+			PreparedStatement ps = connection
+					.prepareStatement("SELECT id_pet, name, age, breed, description FROM Pet WHERE id_pet =?");
 			ps.setInt(1, id);
 			Cat cat = new Cat();
 			try (ResultSet rs = ps.executeQuery()) {
@@ -68,8 +70,27 @@ public class JdbcCatDao implements CatDao{
 
 	@Override
 	public List<Cat> findAllCats() {
-		// TODO Auto-generated method stub
-		return null;
+		System.out.println("jdbc find all pets");
+		List<Cat> cats = new ArrayList<>();
+		try (Connection connection = dataSource.getConnection()) {
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT id_pet, name, age, breed, description from Pet");
+
+			while (rs.next()) {
+				Cat cat = new Cat();
+				cat.setId(rs.getInt("id_pet"));
+				cat.setName(rs.getString("name"));
+				cat.setAge(rs.getInt("age"));
+				cat.setBreed(rs.getString("breed"));
+				cat.setDescription(rs.getString("description"));
+				cats.add(cat);
+			}
+			System.out.println(cats);
+			return cats;
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return cats;
 	}
 
 	@Override
@@ -99,7 +120,8 @@ public class JdbcCatDao implements CatDao{
 		Cat target = findCatById(cat.getId());
 		if (target != null) {
 			try (Connection connection = dataSource.getConnection()) {
-				PreparedStatement ps = connection.prepareStatement("UPDATE Pet SET name=?, age=?, breed=?, description=? WHERE id_pet=?");
+				PreparedStatement ps = connection
+						.prepareStatement("UPDATE Pet SET name=?, age=?, breed=?, description=? WHERE id_pet=?");
 				ps.setString(1, cat.getName());
 				ps.setInt(2, cat.getAge());
 				ps.setString(3, cat.getBreed());
