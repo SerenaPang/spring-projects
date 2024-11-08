@@ -43,7 +43,26 @@ public class JdbcCatDao implements CatDao{
 
 	@Override
 	public Cat findCatById(Integer id) {
-		// TODO Auto-generated method stub
+		System.out.println("jdbc find cat by id " + id);
+		try (Connection connection = dataSource.getConnection()) {
+			PreparedStatement ps = connection.prepareStatement("SELECT id_pet, name, age, breed, description FROM Pet WHERE id_pet =?");
+			ps.setInt(1, id);
+			Cat cat = new Cat();
+			try (ResultSet rs = ps.executeQuery()) {
+				if (rs.next()) {
+					cat.setId(rs.getInt("id_pet"));
+					cat.setName(rs.getString("name"));
+					cat.setAge(rs.getInt("age"));
+					cat.setBreed(rs.getString("breed"));
+					cat.setDescription(rs.getString("description"));
+					cat.setId(rs.getInt("id_pet"));
+					System.out.println(cat.toString());
+				}
+				return cat;
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
 		return null;
 	}
 
