@@ -55,7 +55,22 @@ public class JdbcCatDao implements CatDao{
 
 	@Override
 	public Cat deleteCat(Integer idCat) {
-		// TODO Auto-generated method stub
+		System.out.println("jdbc delete cat");
+
+		Cat target = findCatById(idCat);
+		if (target != null) {
+			try (Connection connection = dataSource.getConnection()) {
+				PreparedStatement ps = connection.prepareStatement("DELETE FROM Pet WHERE id_pet= ?");
+				ps.setInt(1, idCat);
+				int i = ps.executeUpdate();
+				if (i == 1) {
+					System.out.println("jdbc delete Pet " + target.toString());
+					return target;
+				}
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+		}
 		return null;
 	}
 
