@@ -19,11 +19,11 @@ import com.example.pet_house.dao.JdbcCatDao;
 import com.example.pet_house.model.Cat;
 
 @RestController
-public class CatContoller {
+public class CatController {
 	@Autowired
 	private JdbcCatDao jdbcCatDao;
 
-	public CatContoller() {
+	public CatController() {
 		System.out.println("Cat controller");
 	}
 
