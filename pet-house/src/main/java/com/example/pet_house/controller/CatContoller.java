@@ -39,4 +39,15 @@ public class CatContoller {
 		// Return the created resource with a 201 (created) status code
 		return ResponseEntity.status(HttpStatus.CREATED).body(petSaved);
 	}
+	
+	// curl -X GET "http://localhost:8080/findAllCats"
+		@GetMapping("/findAllCats")
+		public ResponseEntity<List<Cat>> findAllCats() {
+			List<Cat> cats = jdbcCatDao.findAllCats();
+			if (cats.isEmpty()) {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			}
+			// Return the resource with a 200 (OK) status code
+			return ResponseEntity.status(HttpStatus.OK).body(cats);
+		}
 }
