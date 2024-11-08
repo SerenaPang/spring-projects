@@ -30,9 +30,9 @@ public class CatContoller {
 	// curl -H 'Content-Type: application/json' -d '{ "id":"6", "name":"Bilibii",
 	// "age": "1", "breed":"Calico", "description":"Available" }' -X POST
 	// http://localhost:8080/saveCat
-	@PostMapping("/saveCat{pet}")
+	@PostMapping("/saveCat{cat}")
 	public ResponseEntity<Cat> savePet(@RequestBody Cat cat) {
-		Cat petSaved = jdbcCatDao.savePet(cat);
+		Cat petSaved = jdbcCatDao.saveCat(cat);
 		if (petSaved == null) {
 			return null;
 		}
