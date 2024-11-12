@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 /**
  * A simple data source for getting database connections.
  */
-@Component
+//@Component
 public class JdbcDataSource {
 	private String propertiesFileName = "mysqldb.properties";
 	private static String url;
