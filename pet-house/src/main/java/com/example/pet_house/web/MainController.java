@@ -13,10 +13,7 @@ import com.example.pet_house.model.Cat;
 @Controller
 public class MainController {
 	private final CatService catService;
-	@Autowired
-	private JdbcCatDao jdbcCatDao;
-	
-	
+
 	public MainController(CatService catService) {
 		this.catService = catService;
 	}
@@ -33,7 +30,7 @@ public class MainController {
 	public String viewCats(Model model) {
 		var cats = catService.findAll();
 		model.addAttribute("cats", cats);
-		jdbcCatDao.findAllCats();
+		//jdbcCatDao.findAllCats();
 		return "cats.html";
 	}
 	
@@ -53,7 +50,7 @@ public class MainController {
 		var cats = catService.findAll();
 		model.addAttribute("cats", cats);
 		
-		jdbcCatDao.saveCat(c);
+		//jdbcCatDao.saveCat(c);
 		return "cats.html";
 	}
 }
