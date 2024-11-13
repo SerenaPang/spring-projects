@@ -13,9 +13,9 @@ import org.springframework.stereotype.Repository;
 
 import com.example.pet_house.model.Cat;
 
-//@Repository
+@Repository
 public class JdbcCatDao implements CatDao {
-//	@Autowired
+	@Autowired
 	private JdbcDataSource dataSource;
 
 	@Override
