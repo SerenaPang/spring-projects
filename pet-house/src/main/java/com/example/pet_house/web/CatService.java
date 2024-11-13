@@ -1,24 +1,33 @@
 package com.example.pet_house.web;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.pet_house.dao.JdbcCatDao;
 import com.example.pet_house.model.Cat;
 
 @Service
 public class CatService {
-private List<Cat> cats = new ArrayList<>();
 
-	// TODO inject the dao class to do inserts, and findall, etc.
+	@Autowired
+	private JdbcCatDao catDao;
 
-	public void addCat(Cat c) {
-		cats.add(c);
+	public void addCat(Cat cat) {
+		catDao.saveCat(cat);
+	}
+
+	public List<Cat> findAll() {
+		return catDao.findAllCats();
 	}
 	
-	public List<Cat> findAll(){
-		return cats;
+	public Cat updateCat(Cat cat) {
+		return catDao.updateCat(cat);
+	}
+
+	public Cat findCatById(Integer idCat) {
+		return catDao.findCatById(idCat);
 	}
 	
 	

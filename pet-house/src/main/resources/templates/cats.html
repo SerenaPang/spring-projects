@@ -5,7 +5,9 @@
       <title>Home Page</title>
    </head>
    <body>
-         
+	
+	<a th:href="@{/home}">Go to home</a>
+	
 	 <h1>Cats</h1>
 
 	       <h2>View cats</h2>
@@ -19,7 +21,7 @@
 				   <th>CAT DESCRIPTION</th>
 	           </tr>
 	           <tr th:each="c: ${cats}" >
-	               <td th:text="${c.id}"></td>
+	               <td><a th:href="@{'/update/' + ${c.id}}"><span th:text="${c.id}"></a></td>
 	               <td th:text="${c.name}"></td>
 				   <td th:text="${c.age}"></td>
 				   <td th:text="${c.breed}"></td>
