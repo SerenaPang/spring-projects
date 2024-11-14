@@ -21,6 +21,7 @@
 				   <th>CAT DESCRIPTION</th>
 	           </tr>
 	           <tr th:each="c: ${cats}" >
+				
 	               <td><a th:href="@{'/update/' + ${c.id}}"><span th:text="${c.id}"></a></td>
 	               <td th:text="${c.name}"></td>
 				   <td th:text="${c.age}"></td>

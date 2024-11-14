@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -54,15 +55,24 @@ public class MainController {
 	}
 	
 	// curl -H 'Content-Type: application/json' -d '{ "id":"6", "name":"Bilibii", "age": "1", "breed":"Calico", "description":"Available" }' -X PUT http://localhost:8080/updateCat
-//	@PutMapping("/update/{id}")
-//	public String updateCat(@RequestBody Cat cat, @PathVariable final String id) {
-//		
-//		// Update the resource
-//		catService.updateCat(cat);
-//		//catService.addCat(cat);
-//		return "cats.html";
-//	}
+	@GetMapping("/update/{id}")
+	public String updateCat(@PathVariable final String id) {
+		int catId = Integer.parseInt(id);
+		Cat currentCat= catService.findCatById(catId);
+		// Update the resource
+		catService.updateCat(currentCat);
+		//catService.addCat(cat);
+		return "update.html";
+	}
 	
+	
+
+//@PatchMapping("/update")
+//public String patchCat(@RequestBody Cat cat) {
+//	catService.addCat(cat);
+//	return "cats.html";
+//}
+
 //	@PutMapping("cat/{id}")
 //	public String updateCat(@PathVariable String id, @RequestBody Cat cat) {
 //		//Cat currentCat= catService.findCatById(id);
@@ -71,22 +81,5 @@ public class MainController {
 //		return "cats.html";
 //	}
 	
-	@RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
-	public String updateCat(@PathVariable String id, @RequestParam String name, int age, String breed, String description, Model model){
-		int catId = Integer.parseInt(id);
-	    // Cat currentCat= catService.findCatById(catId);
-		
-		Cat c = new Cat();
-		c.setId(catId);
-		c.setName(name);
-		c.setAge(age);
-		c.setBreed(breed);
-		c.setDescription(description);
-		catService.addCat(c);
-	    catService.updateCat(c);
-	
-	    var cats = catService.findAll();
-		model.addAttribute("cats", cats);
-		return "cats.html";
-	}
+
 }

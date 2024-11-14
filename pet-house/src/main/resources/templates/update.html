@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Update Page</title>
+</head>
+
+<body>
+	<h1> Update Cat</h1>
+	
+	     <form action="/update" method="get">
+		Id: <input 
+		                 type="number" 
+		                 name="id"><br />
+	       Name: <input 
+	                 type="text" 
+	                 name="name"><br />
+	       Age: <input 
+	                 type="number" 
+	                 step="any" 
+	                 name="age"><br />
+				  
+		Breed: <input 
+				type="text" 
+				name="breed"><br />
+				
+		Description: <input 
+				type="text" 
+				name="description"><br />
+				  
+	       <button type="submit">Update cat</button>
+	      </form>
+
+	<a th:href="@{/cats}">Go to cats</a>
+</body>
+	
+</html>
