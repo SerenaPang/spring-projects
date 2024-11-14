@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import com.example.pet_house.model.Cat;
 
 @Controller
@@ -61,25 +60,24 @@ public class MainController {
 		Cat currentCat= catService.findCatById(catId);
 		// Update the resource
 		catService.updateCat(currentCat);
-		//catService.addCat(cat);
+		
 		return "update.html";
 	}
 	
-	
-
-//@PatchMapping("/update")
-//public String patchCat(@RequestBody Cat cat) {
-//	catService.addCat(cat);
-//	return "cats.html";
-//}
-
-//	@PutMapping("cat/{id}")
-//	public String updateCat(@PathVariable String id, @RequestBody Cat cat) {
-//		//Cat currentCat= catService.findCatById(id);
-//	   catService.updateCat(cat);
-//	   //catService.addCat(cat);
-//		return "cats.html";
-//	}
-	
+	@PostMapping("/update")
+	public String updateCat(@RequestParam int id, @RequestParam String name, int age, String breed, String description) {		
+		// Update the resource
+		Cat c = new Cat();
+		c.setId(id);
+		c.setName(name);
+		c.setAge(age);
+		c.setBreed(breed);
+		c.setDescription(description);
+		
+		catService.updateCat(c);
+		System.out.println("updated cat: " + c.toString());
+		return "update.html";
+	}
+		
 
 }
