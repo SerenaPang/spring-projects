@@ -1,8 +1,10 @@
 package com.example.pet_house.web;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -79,5 +81,11 @@ public class MainController {
 		return "update.html";
 	}
 		
-
+	// curl -H 'Content-Type: application/json' -X DELETE http://localhost:8080/deleteCat/1
+	@DeleteMapping(path = "/deleteCat/{id}")
+	public String deleteCat(@PathVariable(name = "id") Integer id) {
+		Cat target = catService.findCatById(id);
+		catService.deleteCat(id);
+		return "delete.html";
+	}
 }

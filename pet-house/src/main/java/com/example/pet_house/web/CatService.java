@@ -29,6 +29,8 @@ public class CatService {
 	public Cat findCatById(Integer idCat) {
 		return catDao.findCatById(idCat);
 	}
-	
-	
+
+	public Cat deleteCat(Integer id) {
+		return catDao.deleteCat(id);
+	}	
 }
