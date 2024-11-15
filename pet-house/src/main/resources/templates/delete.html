@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Delete Page</title>
+</head>
+
+<body>
+	<h1> Delete Cat</h1>
+
+	       <h2>View cats</h2>
+
+	       <table>
+	           <tr>
+				   <th>CAT ID</th>
+	               <th>CAT NAME</th>
+				   <th>CAT AGE</th>
+	               <th>CAT BREED</th>
+				   <th>CAT DESCRIPTION</th>
+	           </tr>
+	           <tr th:each="c: ${cats}" >
+				
+	               <td><a th:href="@{'/delete/' + ${c.id}}"><span th:text="${c.id}"></a></td>
+	               <td th:text="${c.name}"></td>
+				   <td th:text="${c.age}"></td>
+				   <td th:text="${c.breed}"></td>
+				   <td th:text="${c.description}"></td>
+	           </tr>
+	       </table>
+
+
+	<a th:href="@{/cats}">Go to cats</a>
+</body>
+	
+</html>
