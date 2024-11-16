@@ -1,18 +1,11 @@
 package com.example.pet_house.web;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.example.pet_house.model.Cat;
 
@@ -31,7 +24,6 @@ public class MainController {
 		return "home.html";
 	}
 	
-	// curl -X GET "http://localhost:8080/viewCats"
 	@GetMapping("/cats")
 	public String viewCats(Model model) {
 		var cats = catService.findAll();
@@ -39,7 +31,6 @@ public class MainController {
 		return "cats.html";
 	}
 	
-	// curl -H 'Content-Type: application/json' -d '{ "id":"6", "name":"Bilibii", "age": "1", "breed":"Calico", "description":"Available" }' -X POST http://localhost:8080/addCat
 	@PostMapping("/cats")
 	public String addCat(@RequestParam int id, @RequestParam String name, int age, String breed, String description, Model model) {
 		Cat c = new Cat();
@@ -55,7 +46,6 @@ public class MainController {
 		return "cats.html";
 	}
 	
-	// curl -H 'Content-Type: application/json' -d '{ "id":"6", "name":"Bilibii", "age": "1", "breed":"Calico", "description":"Available" }' -X PUT http://localhost:8080/updateCat
 	@GetMapping("/update/{id}")
 	public String updateCat(@PathVariable final String id) {
 		int catId = Integer.parseInt(id);
@@ -81,10 +71,11 @@ public class MainController {
 		return "update.html";
 	}
 		
-	// curl -H 'Content-Type: application/json' -X DELETE http://localhost:8080/deleteCat/1
-	@DeleteMapping(path = "/deleteCat/{id}")
-	public String deleteCat(@PathVariable(name = "id") Integer id) {
+	@PostMapping("/delete")
+	public String deleteCat(int id, Model model) {
+		System.out.println("Deleting " + id);
 		Cat target = catService.findCatById(id);
+		model.addAttribute("deadCat", target);
 		catService.deleteCat(id);
 		return "delete.html";
 	}

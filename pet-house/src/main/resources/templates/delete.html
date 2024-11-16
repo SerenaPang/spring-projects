@@ -19,13 +19,12 @@
 	               <th>CAT BREED</th>
 				   <th>CAT DESCRIPTION</th>
 	           </tr>
-	           <tr th:each="c: ${cats}" >
-				
-	               <td><a th:href="@{'/delete/' + ${c.id}}"><span th:text="${c.id}"></a></td>
-	               <td th:text="${c.name}"></td>
-				   <td th:text="${c.age}"></td>
-				   <td th:text="${c.breed}"></td>
-				   <td th:text="${c.description}"></td>
+	           <tr>
+	               <td><span th:text="${deadCat.id}"></td>
+	               <td th:text="${deadCat.name}"></td>
+				   <td th:text="${deadCat.age}"></td>
+				   <td th:text="${deadCat.breed}"></td>
+				   <td th:text="${deadCat.description}"></td>
 	           </tr>
 	       </table>
 
