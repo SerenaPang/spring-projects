@@ -13,7 +13,11 @@ import org.springframework.stereotype.Repository;
 
 import com.example.pet_house.model.Cat;
 
-
+/**
+ * This class does save, find cat by id, find all cats, delete cat, update cat in mysql database. 
+ * 
+ * 
+ * */
 @Repository
 public class JdbcCatDao implements CatDao {
 	@Autowired

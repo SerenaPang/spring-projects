@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.example.pet_house.model.Cat;
 
+/**
+ * This class does save cat, update cat, delete cat, find all cat in the website.
+ * 
+ * */
 @Controller
 public class MainController {
 	private final CatService catService;

@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 
 import com.example.pet_house.dao.JdbcCatDao;
 import com.example.pet_house.model.Cat;
-
+/**
+ * This class calls the method from the repository to save/find/update/delete data from the database
+ * */
 @Service
 public class CatService {
 
