@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Home Page</title>
+</head>
+
+<body>
+	<h1> Welcome
+	<span th:style="'color:' + ${color}"
+		  th:text="${username}"></span>!</h1>
+
+	<a th:href="@{/theatre}">Find a Theatre</a>
+	<a th:href="@{/movies}">See a Movie</a>
+	<a th:href="@{/food}">Food & Drink</a>
+</body>
+	
+</html>
