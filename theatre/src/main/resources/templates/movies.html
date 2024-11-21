@@ -10,6 +10,20 @@
 	<h1> Welcome
 	<span th:style="'color:' + ${color}"
 		  th:text="${username}"></span>!</h1>
+		  
+		  <h2>View movies</h2>
+
+		         <table>
+		             <tr>
+		  			   <th>MOVIE ID</th>
+		                 <th>MOVIE NAME</th>
+		             </tr>
+		             <tr th:each="m: ${movies}" >
+		  			
+		                 <td><a th:href="@{'/tickets/' + ${m.id}}"><span th:text="${m.id}"></a></td>
+		                 <td th:text="${m.name}"></td>
+		             </tr>
+		         </table>
 
 	<a th:href="@{/theater}">Find a Theatre</a>
 	<a th:href="@{/tickets}">Book a Ticket</a>

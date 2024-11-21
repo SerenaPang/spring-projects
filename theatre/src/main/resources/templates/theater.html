@@ -10,6 +10,15 @@
 	<h1> Welcome
 	<span th:style="'color:' + ${color}"
 		  th:text="${username}"></span>!</h1>
+		  
+		  
+	<h2>Enter your ZipCode</h2>
+	<form action="/findtheaterbyzipcode" method="post">
+		   Zipcode: <input 
+		     	type="text" 
+		     	name="zipcode"><br />    			  
+	<button type="submit">Find theater</button>
+	</form>
 
 	<a th:href="@{/movies}">See a Movie</a>
 	<a th:href="@{/food}">Food & Drink</a>

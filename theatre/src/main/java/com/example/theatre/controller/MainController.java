@@ -22,4 +22,32 @@ public class MainController {
 		return "home.html";
 	}
 	
+	@RequestMapping("/theater")
+	public String theater(Model page) {
+		page.addAttribute("username", "Kity");
+		page.addAttribute("color", "blue");
+		return "theater.html";
+	}
+	
+	@RequestMapping("/movies")
+	public String movies(Model page) {
+		page.addAttribute("username", "Kity");
+		page.addAttribute("color", "blue");
+		return "movies.html";
+	}
+	
+	@RequestMapping("/food")
+	public String food(Model page) {
+		page.addAttribute("username", "Kity");
+		page.addAttribute("color", "blue");
+		return "food.html";
+	}
+	
+	@RequestMapping("/tickets")
+	public String tickets(Model page) {
+		page.addAttribute("username", "Kity");
+		page.addAttribute("color", "blue");
+		return "tickets.html";
+	}
+	
 }
