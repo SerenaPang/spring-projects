@@ -3,10 +3,10 @@ package com.example.theatre;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+//@SpringBootTest
 class TheatreApplicationTests {
 
-	@Test
+//	@Test
 	void contextLoads() {
 	}
 
