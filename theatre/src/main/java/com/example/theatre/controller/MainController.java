@@ -29,6 +29,14 @@ public class MainController {
 		return "theater.html";
 	}
 	
+	@RequestMapping("/findtheaterbyzipcode")
+	public String findTheater(Model page) {
+		page.addAttribute("username", "Kity");
+		page.addAttribute("color", "blue");
+		return "findtheaterbyzipcode.html";
+	}
+	
+	
 	@RequestMapping("/movies")
 	public String movies(Model page) {
 		page.addAttribute("username", "Kity");
