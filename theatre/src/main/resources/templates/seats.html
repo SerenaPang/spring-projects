@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>Book A Ticket</title>
+	<title>Select your seats</title>
 </head>
 
 <body>
@@ -11,17 +11,15 @@
 	<span th:style="'color:' + ${color}"
 		  th:text="${username}"></span>!</h1>
 		  		  
-		  <h2>View movies</h2>
+		  <h2>Seats</h2>
 
 		  	         <table>
 		  	             <tr>
-		  	  			   <th>MOVIE ID</th>
-		  	                 <th>MOVIE NAME</th>
+		  	                 <th>Seats Avaliable</th>
 		  	             </tr>
-		  	             <tr th:each="m: ${movies}" >
-		  	  			
-		  	                 <td><a th:href="@{'/showtimes/' + ${m.id}}"><span th:text="${m.id}"></a></td>
-		  	                 <td th:text="${m.name}"></td>
+		  	             <tr th:each="s: ${seats}" >		  	  			
+		  	                 <td><a th:href="@{'/orders/' + ${s.id}}"><span th:text="${s.id}"></a></td>
+		  	                 <td th:text="${s.number}"></td>
 		  	             </tr>
 		  	         </table>
 
