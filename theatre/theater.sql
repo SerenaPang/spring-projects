@@ -18,11 +18,33 @@ CREATE TABLE MOVIE(
 	movie_name VARCHAR(255),
 	theater_id INTEGER,
 	availability INTEGER,
-	showtime DATETIME,
+	showtime_id INTEGER,
 	price DECIMAL(6,2),
 	PRIMARY KEY(movie_id),
+	FOREIGN KEY(theater_id) REFERENCES THEATER(theater_id),
+	FOREIGN KEY(showtime_id) REFERENCES SHOWTIME(showtime_id)
+);
+
+CREATE TABLE SHOWTIME(
+	showtime_id INTEGER NOT NULL AUTO_INCREMENT,
+	movie_id INTEGER,
+	theater_id INTEGER,
+	availability INTEGER,
+	showtime DATETIME,
+	PRIMARY KEY(showtime_id),
+	FOREIGN KEY(movie_id) REFERENCES MOVIE(movie_id),
 	FOREIGN KEY(theater_id) REFERENCES THEATER(theater_id)
 );
+
+CREATE TABLE SHOWTIME_THEATER(){
+	showtime_id INTEGER,
+	theater_id INTEGER,
+	movie_id INTEGER,
+	PRIMARY KEY (showtime_id, theater_id,movie_id),
+	FOREIGN KEY(showtime_id) REFERENCES SHOWTIME(showtime_id),
+	FOREIGN KEY(theater_id) REFERENCES THEATER(theater_id),
+	FOREIGN KEY(movie_id) REFERENCES MOVIE(movie_id)
+}
 
 CREATE TABLE TICKET(
 	ticket_id INTEGER NOT NULL AUTO_INCREMENT,
@@ -31,12 +53,12 @@ CREATE TABLE TICKET(
 	movie_name VARCHAR(255),
 	theater_id INTEGER,
 	availability INTEGER,
-	showtime DATETIME,
+	showtime_id INTEGER,
 	seat VARCHAR(255),
 	price DECIMAL(6,2),
 	PRIMARY KEY(ticket_id),
 	FOREIGN KEY(movie_id) REFERENCES MOVIE(movie_id),
-	FOREIGN KEY(movie_id) REFERENCES MOVIE(movie_id),
+	FOREIGN KEY(showtime_id) REFERENCES SHOWTIME(showtime_id),
 	FOREIGN KEY(theater_id) REFERENCES THEATER(theater_id)
 );
 
