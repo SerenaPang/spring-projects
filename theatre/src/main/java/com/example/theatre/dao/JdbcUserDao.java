@@ -1,10 +1,14 @@
 package com.example.theatre.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.example.pet_house.model.Cat;
 import com.example.theatre.model.User;
 /**
  * This class does save, find user by id, find all users, delete user, update user in mysql database. 
@@ -16,7 +20,22 @@ public class JdbcUserDao implements UserDao{
 	
 	@Override
 	public User saveUser(User user) {
-		// TODO Auto-generated method stub
+		System.out.println("jdbc save User");
+		User catExist = findUserById(user.getId());
+		if (catExist != user) {
+			try (Connection connection = dataSource.getConnection()) {
+				PreparedStatement ps = connection
+						.prepareStatement("INSERT INTO User(name) " + "VALUES(?)");
+				ps.setString(1, user.getName());
+				int i = ps.executeUpdate();
+
+				if (i == 1) {
+					System.out.println("jdbc saved User info to database");
+				}
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+		}
 		return null;
 	}
 
