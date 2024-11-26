@@ -11,23 +11,25 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.example.pet_house.model.Cat;
 import com.example.theatre.model.User;
+
 /**
- * This class does save, find user by id, find all users, delete user, update user in mysql database. 
- * */
+ * This class does save, find user by id, find all users, delete user, update
+ * user in mysql database.
+ */
 @Repository
-public class JdbcUserDao implements UserDao{
+public class JdbcUserDao implements UserDao {
 	@Autowired
 	private JdbcDataSource dataSource;
-	
+
 	@Override
 	public User saveUser(User user) {
 		System.out.println("jdbc save User");
 		User userExist = findUserById(user.getId());
 		if (userExist != user) {
 			try (Connection connection = dataSource.getConnection()) {
-				PreparedStatement ps = connection
-						.prepareStatement("INSERT INTO User(user_name) " + "VALUES(?)");
+				PreparedStatement ps = connection.prepareStatement("INSERT INTO User(user_name) " + "VALUES(?)");
 				ps.setString(1, user.getName());
 				int i = ps.executeUpdate();
 
@@ -45,8 +47,7 @@ public class JdbcUserDao implements UserDao{
 	public User findUserById(Integer id) {
 		System.out.println("jdbc find user by id " + id);
 		try (Connection connection = dataSource.getConnection()) {
-			PreparedStatement ps = connection
-					.prepareStatement("SELECT user_id, user_name FROM User WHERE user_id =?");
+			PreparedStatement ps = connection.prepareStatement("SELECT user_id, user_name FROM User WHERE user_id =?");
 			ps.setInt(1, id);
 			User user = new User();
 			try (ResultSet rs = ps.executeQuery()) {
@@ -107,8 +108,24 @@ public class JdbcUserDao implements UserDao{
 
 	@Override
 	public User updateUser(User user) {
-		// TODO Auto-generated method stub
+		System.out.println("jdbc update User");
+		User target = findUserById(user.getId());
+		if (target != null) {
+			try (Connection connection = dataSource.getConnection()) {
+				PreparedStatement ps = connection
+						.prepareStatement("UPDATE User SET user_id=?, user_name=? WHERE user_id=?");
+				ps.setInt(1, user.getId());
+				ps.setString(2, user.getName());
+				ps.setInt(3, user.getId());
+				int i = ps.executeUpdate();
+				if (i == 1) {
+					System.out.println("jdbc update User " + target.toString());
+					return target;
+				}
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+		}
 		return null;
 	}
-
 }
