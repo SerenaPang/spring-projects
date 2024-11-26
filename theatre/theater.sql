@@ -16,13 +16,7 @@ CREATE TABLE THEATER (
 CREATE TABLE MOVIE(
 	movie_id INTEGER NOT NULL AUTO_INCREMENT,
 	movie_name VARCHAR(255),
-	theater_id INTEGER,
-	availability INTEGER,
-	showtime_id INTEGER,
-	price DECIMAL(6,2),
-	PRIMARY KEY(movie_id),
-	FOREIGN KEY(theater_id) REFERENCES THEATER(theater_id),
-	FOREIGN KEY(showtime_id) REFERENCES SHOWTIME(showtime_id)
+	price DECIMAL(6,2)
 );
 
 CREATE TABLE SHOWTIME(

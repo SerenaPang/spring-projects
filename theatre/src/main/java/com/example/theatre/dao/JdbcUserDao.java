@@ -10,8 +10,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
-import com.example.pet_house.model.Cat;
 import com.example.theatre.model.User;
 
 /**
