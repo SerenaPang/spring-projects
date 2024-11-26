@@ -11,7 +11,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.example.pet_house.model.Cat;
 import com.example.theatre.model.User;
 /**
  * This class does save, find user by id, find all users, delete user, update user in mysql database. 
@@ -24,11 +23,11 @@ public class JdbcUserDao implements UserDao{
 	@Override
 	public User saveUser(User user) {
 		System.out.println("jdbc save User");
-		User catExist = findUserById(user.getId());
-		if (catExist != user) {
+		User userExist = findUserById(user.getId());
+		if (userExist != user) {
 			try (Connection connection = dataSource.getConnection()) {
 				PreparedStatement ps = connection
-						.prepareStatement("INSERT INTO User(name) " + "VALUES(?)");
+						.prepareStatement("INSERT INTO User(user_name) " + "VALUES(?)");
 				ps.setString(1, user.getName());
 				int i = ps.executeUpdate();
 
@@ -47,13 +46,13 @@ public class JdbcUserDao implements UserDao{
 		System.out.println("jdbc find user by id " + id);
 		try (Connection connection = dataSource.getConnection()) {
 			PreparedStatement ps = connection
-					.prepareStatement("SELECT id, name FROM User WHERE id =?");
+					.prepareStatement("SELECT user_id, user_name FROM User WHERE user_id =?");
 			ps.setInt(1, id);
 			User user = new User();
 			try (ResultSet rs = ps.executeQuery()) {
 				if (rs.next()) {
-					user.setId(rs.getInt("id"));
-					user.setName(rs.getString("name"));
+					user.setId(rs.getInt("user_id"));
+					user.setName(rs.getString("user_name"));
 					System.out.println(user.toString());
 				}
 				return user;
@@ -70,12 +69,12 @@ public class JdbcUserDao implements UserDao{
 		List<User> users = new ArrayList<>();
 		try (Connection connection = dataSource.getConnection()) {
 			Statement stmt = connection.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT id, name from User");
+			ResultSet rs = stmt.executeQuery("SELECT user_id, user_name from User");
 
 			while (rs.next()) {
 				User user = new User();
-				user.setId(rs.getInt("id"));
-				user.setName(rs.getString("name"));
+				user.setId(rs.getInt("user_id"));
+				user.setName(rs.getString("user_name"));
 				users.add(user);
 			}
 			System.out.println(users);
@@ -88,7 +87,21 @@ public class JdbcUserDao implements UserDao{
 
 	@Override
 	public User deleteUser(Integer idUser) {
-		// TODO Auto-generated method stub
+		System.out.println("jdbc delete user");
+		User target = findUserById(idUser);
+		if (target != null) {
+			try (Connection connection = dataSource.getConnection()) {
+				PreparedStatement ps = connection.prepareStatement("DELETE FROM User WHERE user_id= ?");
+				ps.setInt(1, idUser);
+				int i = ps.executeUpdate();
+				if (i == 1) {
+					System.out.println("jdbc delete User " + target.toString());
+					return target;
+				}
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+		}
 		return null;
 	}
 
