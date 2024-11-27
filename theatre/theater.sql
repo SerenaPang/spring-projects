@@ -1,4 +1,4 @@
-CREATE DATABASE MUSICSTORE;
+CREATE DATABASE THEATER;
 
 CREATE TABLE USER (
   user_id INTEGER NOT NULL AUTO_INCREMENT,
@@ -7,25 +7,27 @@ CREATE TABLE USER (
 );
 
 CREATE TABLE THEATER (
-	theater_id INTEGER NOT NULL,
+	theater_id INTEGER NOT NULL AUTO_INCREMENT,
 	zipcode VARCHAR(255),
-	city VARCHAR(255)
+	city VARCHAR(255),
+	PRIMARY KEY (theater_id)
 );
 
 CREATE TABLE MOVIE(
 	movie_id INTEGER NOT NULL AUTO_INCREMENT,
 	movie_name VARCHAR(255),
-	price DECIMAL(6,2)
+	price DECIMAL(6,2),
+	PRIMARY KEY(movie_id)
 );
 
 CREATE TABLE SHOWTIME(
-	showtime_id INTEGER,
-	theater_id INTEGER,
+	showtime_id INTEGER NOT NULL AUTO_INCREMENT,
 	movie_id INTEGER,
+	theater_id INTEGER,	
 	showtime DATETIME,
-	PRIMARY KEY (showtime_id, theater_id, movie_id),
-	FOREIGN KEY(theater_id) REFERENCES THEATER(theater_id),
-	FOREIGN KEY(movie_id) REFERENCES MOVIE(movie_id)
+	PRIMARY KEY (showtime_id, movie_id),
+	FOREIGN KEY(movie_id) REFERENCES MOVIE(movie_id),
+	FOREIGN KEY(theater_id) REFERENCES THEATER(theater_id)	
 );
 
 
@@ -35,7 +37,7 @@ CREATE TABLE TICKET(
 	showtime_id INTEGER,
 	movie_id INTEGER,
 	PRIMARY KEY(ticket_id),
-	FOREIGN KEY(user_id) REFERENCES TICKET(user_id),
+	FOREIGN KEY(user_id) REFERENCES USER(user_id),
 	FOREIGN KEY(showtime_id) REFERENCES SHOWTIME(showtime_id),
 	FOREIGN KEY(movie_id) REFERENCES MOVIE(movie_id)
 );
@@ -43,13 +45,15 @@ CREATE TABLE TICKET(
 CREATE TABLE FOOD (
 	food_id INTEGER NOT NULL AUTO_INCREMENT,
 	name VARCHAR(255),
-	price DECIMAL(6,2)
+	price DECIMAL(6,2),
+	PRIMARY KEY (food_id)
 );
 
 CREATE TABLE DRINK (
 	drink_id INTEGER NOT NULL AUTO_INCREMENT,
 	name VARCHAR(255),
-	price DECIMAL(6,2)
+	price DECIMAL(6,2),
+	PRIMARY KEY (drink_id)
 );
 
 CREATE TABLE ORDERS (
@@ -74,7 +78,7 @@ CREATE TABLE ORDER_ITEM (
 	FOREIGN KEY (order_id) REFERENCES ORDERS(order_id),
 	FOREIGN KEY (ticket_id) REFERENCES TICKET(ticket_id),
 	FOREIGN KEY (food_id) REFERENCES FOOD(food_id),
-	FOREIGN KEY (drink_id) REFERENCES DRINK(drink_id),
+	FOREIGN KEY (drink_id) REFERENCES DRINK(drink_id)
 );
 
 -- USER
