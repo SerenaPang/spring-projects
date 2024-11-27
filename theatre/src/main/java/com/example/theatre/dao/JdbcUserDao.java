@@ -27,8 +27,9 @@ public class JdbcUserDao implements UserDao {
 		User userExist = findUserById(user.getId());
 		if (userExist != user) {
 			try (Connection connection = dataSource.getConnection()) {
-				PreparedStatement ps = connection.prepareStatement("INSERT INTO User(user_name) " + "VALUES(?)");
+				PreparedStatement ps = connection.prepareStatement("INSERT INTO User(user_name, user_password) " + "VALUES(?,?)");
 				ps.setString(1, user.getName());
+				ps.setString(2, user.getPassword());
 				int i = ps.executeUpdate();
 
 				if (i == 1) {
@@ -111,10 +112,11 @@ public class JdbcUserDao implements UserDao {
 		if (target != null) {
 			try (Connection connection = dataSource.getConnection()) {
 				PreparedStatement ps = connection
-						.prepareStatement("UPDATE User SET user_id=?, user_name=? WHERE user_id=?");
+						.prepareStatement("UPDATE User SET user_id=?, user_name=?, user_password=? WHERE user_id=?");
 				ps.setInt(1, user.getId());
 				ps.setString(2, user.getName());
-				ps.setInt(3, user.getId());
+				ps.setString(3, user.getPassword());
+				ps.setInt(4, user.getId());
 				int i = ps.executeUpdate();
 				if (i == 1) {
 					System.out.println("jdbc update User " + target.toString());
