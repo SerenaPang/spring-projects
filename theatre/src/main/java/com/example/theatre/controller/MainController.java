@@ -21,7 +21,7 @@ public class MainController {
 		this.loggedUserManagementService = loggedUserManagementService;
 	}
 	
-	@GetMapping("/main")
+	@GetMapping("/home")
 	public String home(@RequestParam(required = false) String logout, Model model) {
 		if (logout != null) {
 			loggedUserManagementService.setUsername(null);
@@ -43,20 +43,32 @@ public class MainController {
 		return "login.html";
 	}
 
-	//redirect the user to the main page after login
 	@PostMapping("/")
 	public String loginPost(@RequestParam String username, @RequestParam String password, Model model) {
-		loginProcessor.setUsername(username);
-		loginProcessor.setPassword(password);
-		boolean loggedIn = loginProcessor.login();
-
+		boolean loggedIn = false;
 		if (loggedIn) {
-			return "redirect:/main";
+			model.addAttribute("message", "You are now logged in.");
+		} else {
+			model.addAttribute("message", "Login failed");
 		}
-
-		model.addAttribute("message", "Login failed!");
 		return "login.html";
 	}
+	
+//	//redirect the user to the main page after login
+//	@PostMapping("/")
+//	public String loginPost(@RequestParam String username, @RequestParam String password, Model model) {
+//		loginProcessor.setUsername(username);
+//		loginProcessor.setPassword(password);
+//		boolean loggedIn = loginProcessor.login();
+//
+//		if (loggedIn) {
+//			return "redirect:/main";
+//		}
+//
+//		model.addAttribute("message", "Login failed!");
+//		return "login.html";
+//	}
+	
 	
 	@RequestMapping("/home")
 	public String home(Model page) {
