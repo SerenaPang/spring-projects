@@ -2,6 +2,7 @@ package com.example.theatre.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -20,6 +21,12 @@ public class MainController {
 		page.addAttribute("username", "Kity");
 		page.addAttribute("color", "blue");
 		return "home.html";
+	}
+	
+	@GetMapping("/")
+	public String loginGet() {
+		
+		return "login.html";
 	}
 	
 	@RequestMapping("/theater")
