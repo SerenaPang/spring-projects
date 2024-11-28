@@ -27,7 +27,8 @@ public class JdbcUserDao implements UserDao {
 		User userExist = findUserById(user.getId());
 		if (userExist != user) {
 			try (Connection connection = dataSource.getConnection()) {
-				PreparedStatement ps = connection.prepareStatement("INSERT INTO User(user_name, user_password) " + "VALUES(?,?)");
+				PreparedStatement ps = connection
+						.prepareStatement("INSERT INTO User(user_name, user_password) " + "VALUES(?,?)");
 				ps.setString(1, user.getName());
 				ps.setString(2, user.getPassword());
 				int i = ps.executeUpdate();

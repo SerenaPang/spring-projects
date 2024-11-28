@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class MainController {
 	private final UserService userService;
 	private final LoggedUserManagementService loggedUserManagementService;
-
+	LoginProcessor loginProcessor;
+	
 	public MainController(UserService userService, LoggedUserManagementService loggedUserManagementService) {
 		this.userService = userService;
 		this.loggedUserManagementService = loggedUserManagementService;
+		this.loginProcessor = new LoginProcessor(loggedUserManagementService);
 	}
 
 	@GetMapping("/home")
@@ -42,21 +44,20 @@ public class MainController {
 		return "login.html";
 	}
 
+	//redirect the user to the main page after login
+	@PostMapping("/")
+	public String loginPost(@RequestParam String username, @RequestParam String password, Model model) {
+		loginProcessor.setUsername(username);
+		loginProcessor.setPassword(password);
+		boolean loggedIn = loginProcessor.login();
 
-//	//redirect the user to the main page after login
-//	@PostMapping("/")
-//	public String loginPost(@RequestParam String username, @RequestParam String password, Model model) {
-//		loginProcessor.setUsername(username);
-//		loginProcessor.setPassword(password);
-//		boolean loggedIn = loginProcessor.login();
-//
-//		if (loggedIn) {
-//			return "redirect:/main";
-//		}
-//
-//		model.addAttribute("message", "Login failed!");
-//		return "login.html";
-//	}
+		if (loggedIn) {
+			return "redirect:/theater";
+		}
+
+		model.addAttribute("message", "Login failed!");
+		return "login.html";
+	}
 	
 	@RequestMapping("/home")
 	public String home(Model page) {
