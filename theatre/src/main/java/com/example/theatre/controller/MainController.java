@@ -15,12 +15,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class MainController {
 	private final UserService userService;
 	private final LoggedUserManagementService loggedUserManagementService;
-	LoginProcessor loginProcessor;
-	
-	public MainController(UserService userService, LoggedUserManagementService loggedUserManagementService) {
+	private final LoginProcessor loginProcessor;
+
+	public MainController(UserService userService, LoggedUserManagementService loggedUserManagementService,
+			LoginProcessor loginProcessor) {
 		this.userService = userService;
 		this.loggedUserManagementService = loggedUserManagementService;
-		this.loginProcessor = new LoginProcessor(loggedUserManagementService);
+		this.loginProcessor = loginProcessor;
 	}
 
 	@GetMapping("/home")
@@ -44,57 +45,56 @@ public class MainController {
 		return "login.html";
 	}
 
-	//redirect the user to the main page after login
+	// redirect the user to the theater page after login
 	@PostMapping("/")
 	public String loginPost(@RequestParam String username, @RequestParam String password, Model model) {
-		loginProcessor.setUsername(username);
-		loginProcessor.setPassword(password);
-		boolean loggedIn = loginProcessor.login();
+		boolean loggedIn = loginProcessor.login(username, password);
+		System.out.println("MainController.loginPost() " + loggedIn);
 
 		if (loggedIn) {
+			loggedUserManagementService.setUsername(username);
 			return "redirect:/theater";
 		}
 
 		model.addAttribute("message", "Login failed!");
 		return "login.html";
 	}
-	
+
 	@RequestMapping("/home")
 	public String home(Model page) {
 		page.addAttribute("username", "Kity");
 		page.addAttribute("color", "blue");
 		return "home.html";
 	}
-	
+
 	@RequestMapping("/theater")
 	public String theater(Model page) {
 		page.addAttribute("username", "Kity");
 		page.addAttribute("color", "blue");
 		return "theater.html";
 	}
-	
+
 	@RequestMapping("/findtheaterbyzipcode")
 	public String findTheater(Model page) {
 		page.addAttribute("username", "Kity");
 		page.addAttribute("color", "blue");
 		return "findtheaterbyzipcode.html";
 	}
-	
-	
+
 	@RequestMapping("/movies")
 	public String movies(Model page) {
 		page.addAttribute("username", "Kity");
 		page.addAttribute("color", "blue");
 		return "movies.html";
 	}
-	
+
 	@RequestMapping("/food")
 	public String food(Model page) {
 		page.addAttribute("username", "Kity");
 		page.addAttribute("color", "blue");
 		return "food.html";
 	}
-	
+
 	@RequestMapping("/tickets")
 	public String tickets(Model page) {
 		page.addAttribute("username", "Kity");
