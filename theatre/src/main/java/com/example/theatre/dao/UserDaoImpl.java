@@ -17,7 +17,8 @@ import com.example.theatre.model.User;
  * user in mysql database.
  */
 @Repository
-public class JdbcUserDao implements UserDao {
+public class UserDaoImpl implements UserDao {
+	// TODO: Use Spring JDBC template
 	@Autowired
 	private JdbcDataSource dataSource;
 
@@ -128,5 +129,25 @@ public class JdbcUserDao implements UserDao {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public boolean validUserAndPassword(String user, String password) {
+		try (Connection connection = dataSource.getConnection()) {
+			PreparedStatement ps = connection.prepareStatement("SELECT user_id FROM User WHERE user_name =? and user_password = ?");
+			ps.setString(1, user);
+			ps.setString(2, password);
+			try (ResultSet rs = ps.executeQuery()) {
+				if (rs.next()) {
+					// One row was found.
+					return true;
+				}
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+
+		// User and password were not found.
+		return false;
 	}
 }

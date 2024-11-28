@@ -4,17 +4,25 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.annotation.ApplicationScope;
 
-import com.example.theatre.dao.JdbcUserDao;
+import com.example.theatre.dao.UserDao;
 import com.example.theatre.model.User;
+
 /**
- * This class calls the method from the repository to save/find/update/delete data from the database
- * */
+ * This class calls the method from the repository to save/find/update/delete
+ * data from the database
+ */
 @Service
+@ApplicationScope
 public class UserService {
 
 	@Autowired
-	private JdbcUserDao userDao;
+	private UserDao userDao;
+
+	public boolean login(String username, String password) {
+		return userDao.validUserAndPassword(username, password);
+	}
 
 	public void addUser(User user) {
 		userDao.saveUser(user);
@@ -23,7 +31,7 @@ public class UserService {
 	public List<User> findAll() {
 		return userDao.findAllUsers();
 	}
-	
+
 	public User updateUser(User user) {
 		return userDao.updateUser(user);
 	}
@@ -34,5 +42,5 @@ public class UserService {
 
 	public User deleteUser(Integer id) {
 		return userDao.deleteUser(id);
-	}	
+	}
 }

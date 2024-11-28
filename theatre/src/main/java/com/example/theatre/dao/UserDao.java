@@ -9,4 +9,5 @@ public interface UserDao {
 	public List<User> findAllUsers();
 	public User deleteUser(Integer idUser);
 	public User updateUser(User user);
+	public boolean validUserAndPassword(String user, String password);
 }
