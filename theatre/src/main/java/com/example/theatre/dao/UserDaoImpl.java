@@ -146,7 +146,6 @@ public class UserDaoImpl implements UserDao {
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
-
 		// User and password were not found.
 		return false;
 	}
