@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.theatre.model.Theater;
+
 /**
  * This class does save user, update user, delete user, find all users in the
  * website.
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class MainController {
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private TheaterService theaterService;
 	@Autowired
 	private LoggedUserManagementService loggedUserManagementService;
 
@@ -68,11 +72,18 @@ public class MainController {
 		page.addAttribute("color", "blue");
 		return "theater.html";
 	}
+	
+	@GetMapping("/theater")
+	public String viewTheaters(Model model) {
+		var theaters = theaterService.findAll();
+		model.addAttribute("theaters", theaters);
+		return "theater.html";
+	}
 
-	@RequestMapping("/findtheaterbyzipcode")
-	public String findTheater(Model page) {
-		page.addAttribute("username", "Kity");
-		page.addAttribute("color", "blue");
+	@PostMapping("/findtheaterbyzipcode")
+	public String findTheaterByZip(@RequestParam String zipcode) {
+		Theater theater = theaterService.findTheaterByZipcode(zipcode);
+		System.out.println(theater.toString());
 		return "findtheaterbyzipcode.html";
 	}
 
