@@ -20,7 +20,7 @@
 		             </tr>
 		             <tr th:each="m: ${movies}" >
 		  			
-		                 <td><a th:href="@{'/showtimes/' + ${m.id}}"><span th:text="${m.id}"></a></td>
+		                 <td><a th:href="@{'/showtimes/' + ${m.name}}"><span th:text="${m.id}"></a></td>
 		                 <td th:text="${m.name}"></td>
 		             </tr>
 		         </table>

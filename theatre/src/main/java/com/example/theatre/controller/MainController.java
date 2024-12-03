@@ -21,6 +21,8 @@ public class MainController {
 	@Autowired
 	private TheaterService theaterService;
 	@Autowired
+	private MovieService movieService;
+	@Autowired
 	private LoggedUserManagementService loggedUserManagementService;
 
 
@@ -88,9 +90,9 @@ public class MainController {
 	}
 
 	@RequestMapping("/movies")
-	public String movies(Model page) {
-		page.addAttribute("username", "Kity");
-		page.addAttribute("color", "blue");
+	public String movies(Model model) {
+		var movies =  movieService.findAll();
+		model.addAttribute("movies", movies);
 		return "movies.html";
 	}
 
