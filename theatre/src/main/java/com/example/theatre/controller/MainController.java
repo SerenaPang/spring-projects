@@ -98,9 +98,9 @@ public class MainController {
 	}
 
 	@RequestMapping("/food")
-	public String food(Model page) {
-		page.addAttribute("username", "Kity");
-		page.addAttribute("color", "blue");
+	public String food(Model model) {
+//		var foods = 
+//		model.addAttribute("foods", foods);
 		return "food.html";
 	}
 
