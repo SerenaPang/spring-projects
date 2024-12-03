@@ -11,21 +11,21 @@ import org.springframework.stereotype.Repository;
 import com.example.theatre.model.Food;
 
 @Repository
-public class FoodDaoImpl implements FoodDao{
+public class FoodDaoImpl implements FoodDao {
 	@Autowired
 	private JdbcDataSource dataSource;
-	
+
 	@Override
 	public List<Food> FindAllFood() {
 		System.out.println("jdbc find all foods");
 		List<Food> foods = new ArrayList<>();
 		try (Connection connection = dataSource.getConnection()) {
 			Statement stmt = connection.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT id, name, price from Food");
+			ResultSet rs = stmt.executeQuery("SELECT food_id, name, price from Food");
 
 			while (rs.next()) {
 				Food food = new Food();
-				food.setId(rs.getInt("id"));
+				food.setId(rs.getInt("food_id"));
 				food.setName(rs.getString("name"));
 				food.setPrice(rs.getDouble("price"));
 				foods.add(food);

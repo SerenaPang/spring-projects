@@ -23,6 +23,9 @@ public class MainController {
 	@Autowired
 	private MovieService movieService;
 	@Autowired
+	private FoodService foodService;
+	
+	@Autowired
 	private LoggedUserManagementService loggedUserManagementService;
 
 
@@ -99,8 +102,8 @@ public class MainController {
 
 	@RequestMapping("/food")
 	public String food(Model model) {
-//		var foods = 
-//		model.addAttribute("foods", foods);
+		var foods = foodService.findAll();
+		model.addAttribute("foods", foods);
 		return "food.html";
 	}
 

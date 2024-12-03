@@ -7,10 +7,21 @@
 </head>
 
 <body>
-	<h1> Welcome
-	<span th:style="'color:' + ${color}"
-		  th:text="${username}"></span>!</h1>
+	<h1>View Foods</h1>
 
+		<table>
+		    <tr>
+			   <th>Food ID</th>
+		        <th>Name</th>
+			   <th> Price</th>
+		    </tr>
+		    <tr th:each="food: ${foods}" >
+			   <td th:text="${food.id}"></td>
+			   <td th:text="${food.name}"></td>
+			   <td th:text="${food.price}"></td>
+		    </tr>
+		</table>
+	
 	<a th:href="@{/theater}">Find a Theatre</a>
 	<a th:href="@{/movies}">See a Movie</a>
 </body>

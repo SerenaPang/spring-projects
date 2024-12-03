@@ -10,23 +10,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import com.example.theatre.model.Drink;
 
-
 @Repository
-public class DrinkDaoImpl implements DrinkDao{
+public class DrinkDaoImpl implements DrinkDao {
 	@Autowired
 	private JdbcDataSource dataSource;
-	
+
 	@Override
 	public List<Drink> findAllDrinks() {
 		System.out.println("jdbc find all drinks");
 		List<Drink> drinks = new ArrayList<>();
 		try (Connection connection = dataSource.getConnection()) {
 			Statement stmt = connection.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT id, name, price from Drink");
+			ResultSet rs = stmt.executeQuery("SELECT drink_id, name, price from Drink");
 
 			while (rs.next()) {
 				Drink drink = new Drink();
-				drink.setId(rs.getInt("id"));
+				drink.setId(rs.getInt("drink_id"));
 				drink.setName(rs.getString("name"));
 				drink.setPrice(rs.getDouble("price"));
 				drinks.add(drink);
