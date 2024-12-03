@@ -83,8 +83,9 @@ public class MainController {
 	}
 
 	@PostMapping("/findtheaterbyzipcode")
-	public String findTheaterByZip(@RequestParam String zipcode) {
+	public String findTheaterByZip(@RequestParam String zipcode, Model model) {
 		Theater theater = theaterService.findTheaterByZipcode(zipcode);
+		model.addAttribute("theater", theater);
 		System.out.println(theater.toString());
 		return "findtheaterbyzipcode.html";
 	}

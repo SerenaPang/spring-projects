@@ -12,6 +12,15 @@
 		  th:text="${username}"></span>!</h1>
 		  
 		  <h2>Theater around you</h2>
+		  
+		  <!-- IF CUSTOMER IS ANONYMOUS -->
+		  <div th:if="${null}">
+		     <div>No Theater had been found</div>
+		  </div>
+		  <!-- ELSE -->
+		  <div th:unless="${theater.zipcode}">
+		     <div th:text=" 'Theater' + ${theater.city}"> Found</div>
+		  </div>
 
 		         <table>
 		             <tr>
@@ -19,9 +28,9 @@
 		               <th>ZIPCODE</th>
 		  			   <th>CITY</th>
 		             </tr>	
-					 	<td th:text="${t.id}"></td>
-					 	<td th:text="${t.zipcode}"></td>
-					 	<td th:text="${t.city}"></td>
+					 	<td th:text="${theater.id}"></td>
+					 	<td th:text="${theater.zipcode}"></td>
+					 	<td th:text="${theater.city}"></td>
 		             </tr>
 		         </table>
 

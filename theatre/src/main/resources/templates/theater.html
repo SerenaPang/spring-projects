@@ -19,7 +19,6 @@
 		     	name="zipcode"><br />    			  
 	<button type="submit">Find theater</button>
 	</form>
-	
 
 	<h3>View theaters</h3>
 
@@ -29,10 +28,10 @@
 	        <th>THEATER ZIPCODE</th>
 		   <th>CITY</th>
 	    </tr>
-	    <tr th:each="t: ${theaters}" >
-		   <td th:text="${t.id}"></td>
-		   <td th:text="${t.zipcode}"></td>
-		   <td th:text="${t.city}"></td>
+	    <tr th:each="theater: ${theaters}" >
+		   <td th:text="${theater.id}"></td>
+		   <td th:text="${theater.zipcode}"></td>
+		   <td th:text="${theater.city}"></td>
 	    </tr>
 	</table>
 

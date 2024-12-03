@@ -31,7 +31,7 @@ public class TheaterDaoImpl implements TheaterDao {
 					theater.setCity(rs.getString("city"));
 					System.out.println(theater.toString());
 				}
-				return theater;
+				return null;
 			}
 		} catch (SQLException ex) {
 			ex.printStackTrace();
