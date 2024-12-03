@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Food & Drinks</title>
+</head>
+
+<body>
+	<h1>View Drinks</h1>
+
+		<table>
+		    <tr>
+			   <th>Drink ID</th>
+		        <th>Name</th>
+			   <th> Price</th>
+		    </tr>
+		    <tr th:each="drink: ${drinks}" >
+			   <td th:text="${drink.id}"></td>
+			   <td th:text="${drink.name}"></td>
+			   <td th:text="${drink.price}"></td>
+		    </tr>
+		</table>
+	
+	<a th:href="@{/theater}">Find a Theatre</a>
+	<a th:href="@{/movies}">See a Movie</a>
+</body>
+	
+</html>
