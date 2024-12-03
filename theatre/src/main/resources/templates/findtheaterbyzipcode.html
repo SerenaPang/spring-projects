@@ -11,20 +11,17 @@
 	<span th:style="'color:' + ${color}"
 		  th:text="${username}"></span>!</h1>
 		  
-		  <h2>All theaters around you</h2>
+		  <h2>Theater around you</h2>
 
 		         <table>
 		             <tr>
 		  			   <th>THEATER ID</th>
-		                <th> ZIPCODE</th>
-		  			   <th> CITY</th>
-		             </tr>
-		             <tr th:each="t: ${theaters}" >
-		  			
-		                 <td><a th:href="@{'/tickets/' + ${t.id}}"><span th:text="${t.id}"></a></td>
-		                 <td th:text="${t.id}"></td>
-		  			   <td th:text="${t.zipcode}"></td>
-		  			   <td th:text="${t.city}"></td>
+		               <th>ZIPCODE</th>
+		  			   <th>CITY</th>
+		             </tr>	
+					 	<td th:text="${t.id}"></td>
+					 	<td th:text="${t.zipcode}"></td>
+					 	<td th:text="${t.city}"></td>
 		             </tr>
 		         </table>
 
