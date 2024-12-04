@@ -8,21 +8,13 @@
 
 <body>
 	<h1> Welcome
-	<span th:style="'color:' + ${color}"
+	<span
 		  th:text="${username}"></span>!</h1>
 		  
 		  <h2>Theater around you</h2>
 		  
-		  <!-- IF CUSTOMER IS ANONYMOUS -->
-		  <div th:if="${null}">
-		     <div>No Theater had been found</div>
-		  </div>
-		  <!-- ELSE -->
-		  <div th:unless="${theater.zipcode}">
-		     <div th:text=" 'Theater' + ${theater.city}"> Found</div>
-		  </div>
-
-		         <table>
+		 <span>Theater Data</span>
+		         <table th:if="${theater}">
 		             <tr>
 		  			   <th>THEATER ID</th>
 		               <th>ZIPCODE</th>
@@ -34,6 +26,8 @@
 		             </tr>
 		         </table>
 
+				 <span th:if="${theater == null}"> NOT found </span>
+				 
 	<a th:href="@{/movies}">Showtimes</a>
 </body>
 	

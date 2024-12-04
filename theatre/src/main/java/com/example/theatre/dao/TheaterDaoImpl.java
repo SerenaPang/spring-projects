@@ -23,13 +23,16 @@ public class TheaterDaoImpl implements TheaterDao {
 			PreparedStatement ps = connection
 					.prepareStatement("SELECT theater_id, zipcode, city FROM THEATER WHERE zipcode =?");
 			ps.setString(1, zipcode);
-			Theater theater = new Theater();
+			
 			try (ResultSet rs = ps.executeQuery()) {
 				if (rs.next()) {
+					Theater theater = new Theater();
 					theater.setId(rs.getInt("theater_id"));
 					theater.setZipcode(rs.getString("zipcode"));
 					theater.setCity(rs.getString("city"));
-					System.out.println(theater.toString());
+
+					return theater;
+					
 				}
 				return null;
 			}
