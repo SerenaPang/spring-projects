@@ -1,5 +1,7 @@
 package com.example.theatre.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.theatre.model.Showtime;
 import com.example.theatre.model.Theater;
 
 /**
@@ -122,6 +125,15 @@ public class MainController {
 		var showtimes = showtimeService.findAll();
 		model.addAttribute("showtimes", showtimes);
 		return "showtimes.html";
+	}
+	
+	@PostMapping("/showtimes")
+	public String findShowtimeById(@RequestParam int idMovie, Model model) {
+		List<Showtime> showtimes = showtimeService.findShowtimeByMovieId(idMovie);
+		model.addAttribute("showtimes", showtimes);
+		System.out.println("showtimes " + showtimes);
+		return "showtimes.html";
+		
 	}
 
 	@RequestMapping("/tickets")

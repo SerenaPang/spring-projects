@@ -7,7 +7,8 @@ public class Showtime {
 	private Date showtime;
 	private List<Date> showtimes;
 	private int movieId;
-	private String movieName;
+	private int theaterId;
+	
 
 	public Date getShowtime() {
 		return showtime;
@@ -25,14 +26,6 @@ public class Showtime {
 		this.showtimes = showtimes;
 	}
 
-	public String getMovieName() {
-		return movieName;
-	}
-
-	public void setMovieName(String movieName) {
-		this.movieName = movieName;
-	}
-
 	public int getMovieId() {
 		return movieId;
 	}
@@ -41,9 +34,17 @@ public class Showtime {
 		this.movieId = movieId;
 	}
 
+	public int getTheaterId() {
+		return theaterId;
+	}
+
+	public void setTheaterId(int theaterId) {
+		this.theaterId = theaterId;
+	}
+
 	@Override
 	public String toString() {
-		return "Showtime [showtime=" + showtime + ", showtimes=" + showtimes + ", movieId=" + movieId + ", movieName="
-				+ movieName + "]";
+		return "Showtime [showtime=" + showtime + ", showtimes=" + showtimes + ", movieId=" + movieId + ", theaterId="
+				+ theaterId + "]";
 	}
 }

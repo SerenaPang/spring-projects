@@ -7,8 +7,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
 import com.example.theatre.model.Showtime;
 
+@Repository
 public class ShowtimeDaoImpl implements ShowtimeDao{
 	@Autowired
 	private JdbcDataSource dataSource;
@@ -26,18 +29,21 @@ public class ShowtimeDaoImpl implements ShowtimeDao{
 		List<Showtime> showtimes = new ArrayList<>();
 		try (Connection connection = dataSource.getConnection()) {
 			PreparedStatement ps = connection
-					.prepareStatement("SELECT movie_id, showtime FROM Showtime");
+					.prepareStatement("select movie_id, theater_id, showtime from SHOWTIME");
 			
 			try (ResultSet rs = ps.executeQuery()) {
-				if (rs.next()) {
+				while (rs.next()) {
 					Showtime showtime = new Showtime();
 					showtime.setMovieId(rs.getInt("movie_id"));
+					showtime.setTheaterId(rs.getInt("theater_id"));
 					showtime.setShowtime(rs.getDate("showtime"));
 					showtimes.add(showtime);
-					System.out.println(showtimes.toString());
-					return showtimes;
+					
 				}
-				return null;
+				
+				System.out.println(showtimes.toString());
+				
+				return showtimes;
 			}
 		} catch (SQLException ex) {
 			ex.printStackTrace();
@@ -51,7 +57,7 @@ public class ShowtimeDaoImpl implements ShowtimeDao{
 		List<Showtime> showtimes = new ArrayList<>();
 		try (Connection connection = dataSource.getConnection()) {
 			PreparedStatement ps = connection
-					.prepareStatement("SELECT movie_id, showtime FROM Showtime WHERE movie_id =?");
+					.prepareStatement("select s.showtime_id, m.movie_name from movie m, showtime s where m.movie_id = s.movie_id and m.movie_id =?");
 			ps.setInt(1, id);
 			
 			try (ResultSet rs = ps.executeQuery()) {
