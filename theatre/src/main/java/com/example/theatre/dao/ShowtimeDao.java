@@ -6,5 +6,5 @@ import com.example.theatre.model.Showtime;
 public interface ShowtimeDao {
 	public List<Showtime> findShowtimeByMovieId(int id);
 	public List<Showtime> findShowtimeByMovieName(String name);
-	public Showtime findAllShowtimes();
+	public List<Showtime> findAllShowtimes();
 }

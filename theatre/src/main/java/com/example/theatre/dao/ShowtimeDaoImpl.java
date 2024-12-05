@@ -15,11 +15,13 @@ public class ShowtimeDaoImpl implements ShowtimeDao{
 
 	@Override
 	public List<Showtime> findShowtimeByMovieName(String name) {
+		List<Showtime> showtimes = new ArrayList<>();
 		
+		return showtimes;
 	}
 
 	@Override
-	public Showtime findAllShowtimes() {
+	public List<Showtime> findAllShowtimes() {
 		System.out.println("jdbc find all showtimes");
 		List<Showtime> showtimes = new ArrayList<>();
 		try (Connection connection = dataSource.getConnection()) {
@@ -33,6 +35,7 @@ public class ShowtimeDaoImpl implements ShowtimeDao{
 					showtime.setShowtime(rs.getDate("showtime"));
 					showtimes.add(showtime);
 					System.out.println(showtimes.toString());
+					return showtimes;
 				}
 				return null;
 			}
@@ -66,6 +69,4 @@ public class ShowtimeDaoImpl implements ShowtimeDao{
 		}
 		return null;
 	}
-
-
 }
