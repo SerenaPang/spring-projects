@@ -26,7 +26,8 @@ public class MainController {
 	private FoodService foodService;
 	@Autowired
 	private DrinkService drinkService;
-	
+	@Autowired
+	private ShowtimeService showtimeService;
 	@Autowired
 	private LoggedUserManagementService loggedUserManagementService;
 
@@ -118,8 +119,8 @@ public class MainController {
 	
 	@RequestMapping("/showtimes")
 	public String showtime(Model model) {
-//		var showtimes = ;
-//		model.addAttribute("showtimes", showtimes);
+		var showtimes = showtimeService.findAll();
+		model.addAttribute("showtimes", showtimes);
 		return "showtimes.html";
 	}
 
