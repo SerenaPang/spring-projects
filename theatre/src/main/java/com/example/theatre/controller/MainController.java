@@ -120,21 +120,27 @@ public class MainController {
 		return "drink.html";
 	}
 	
+//	@RequestMapping("/showtimes")
+//	public String showtime(Model model) {
+//		var showtimes = showtimeService.findAll();
+//		model.addAttribute("showtimes", showtimes);
+//		return "showtimes.html";
+//	}
+	
 	@RequestMapping("/showtimes")
 	public String showtime(Model model) {
-		var showtimes = showtimeService.findAll();
+		var showtimes = showtimeService.findShowtimeByMovieName();
 		model.addAttribute("showtimes", showtimes);
 		return "showtimes.html";
 	}
 	
-	@PostMapping("/showtimes")
-	public String findShowtimeById(@RequestParam int idMovie, Model model) {
-		List<Showtime> showtimes = showtimeService.findShowtimeByMovieId(idMovie);
-		model.addAttribute("showtimes", showtimes);
-		System.out.println("showtimes " + showtimes);
-		return "showtimes.html";
-		
-	}
+//	@PostMapping("/showtimes")
+//	public String findShowtimeByName(@RequestParam String movieName, Model model) {
+//		List<Showtime> showtimes = showtimeService.findShowtimeByMovieId(idMovie);
+//		model.addAttribute("showtimes", showtimes);
+//		System.out.println("showtimes " + showtimes);
+//		return "showtimes.html";	
+//	}
 
 	@RequestMapping("/tickets")
 	public String tickets(Model page) {

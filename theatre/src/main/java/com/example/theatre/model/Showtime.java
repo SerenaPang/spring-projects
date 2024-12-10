@@ -8,7 +8,7 @@ public class Showtime {
 	private List<Date> showtimes;
 	private int movieId;
 	private int theaterId;
-	
+	private String name;
 
 	public Date getShowtime() {
 		return showtime;
@@ -40,6 +40,16 @@ public class Showtime {
 
 	public void setTheaterId(int theaterId) {
 		this.theaterId = theaterId;
+	}
+	
+	
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	@Override

@@ -21,6 +21,10 @@ public class ShowtimeService {
 		return showtimeDao.findAllShowtimes();
 	}
 	
+	public List<Showtime> findShowtimeByMovieName(){
+		return showtimeDao.findShowtimeByMovieName();
+	}
+	
 	public List<Showtime> findShowtimeByMovieId(int id) {
 		return showtimeDao.findShowtimeByMovieId(id);
 	}

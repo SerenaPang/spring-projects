@@ -17,10 +17,29 @@ public class ShowtimeDaoImpl implements ShowtimeDao{
 	private JdbcDataSource dataSource;
 
 	@Override
-	public List<Showtime> findShowtimeByMovieName(String name) {
+	public List<Showtime> findShowtimeByMovieName() {
+		System.out.println("jdbc find all showtimes with movie names");
 		List<Showtime> showtimes = new ArrayList<>();
-		
-		return showtimes;
+		try (Connection connection = dataSource.getConnection()) {
+			PreparedStatement ps = connection
+					.prepareStatement("select m.movie_name, s.showtime from movie m, showtime s");
+			
+			try (ResultSet rs = ps.executeQuery()) {
+				while (rs.next()) {
+					Showtime showtime = new Showtime();
+					showtime.setName(rs.getString("movie_name"));
+					showtime.setShowtime(rs.getDate("showtime"));
+					showtimes.add(showtime);
+				}
+				
+				System.out.println(showtimes.toString());
+				
+				return showtimes;
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return null;
 	}
 
 	@Override
