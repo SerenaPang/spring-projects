@@ -1,6 +1,8 @@
 package com.example.theatre.controller;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -129,8 +131,9 @@ public class MainController {
 	
 	@RequestMapping("/showtimes")
 	public String showtime(Model model) {
-		var showtimes = showtimeService.findShowtimeByMovieName();
+		Map<String, List<Date>> showtimes = showtimeService.findShowtimeByMovieName();
 		model.addAttribute("showtimes", showtimes);
+		System.out.println(showtimes);
 		return "showtimes.html";
 	}
 	

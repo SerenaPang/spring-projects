@@ -1,11 +1,15 @@
 package com.example.theatre.dao;
 
 import java.sql.Connection;
+import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -15,32 +19,64 @@ import com.example.theatre.model.Showtime;
 public class ShowtimeDaoImpl implements ShowtimeDao{
 	@Autowired
 	private JdbcDataSource dataSource;
-
+	
+	
 	@Override
-	public List<Showtime> findShowtimeByMovieName() {
+	public Map<String, List<Date>> findShowtimeByMovieName() {
 		System.out.println("jdbc find all showtimes with movie names");
-		List<Showtime> showtimes = new ArrayList<>();
+		Map<String, List<Date>> showtimes = new HashMap<String, List<Date>>();
+		
 		try (Connection connection = dataSource.getConnection()) {
 			PreparedStatement ps = connection
-					.prepareStatement("select m.movie_name, s.showtime from movie m, showtime s");
+					.prepareStatement("select m.movie_name, s.showtime from movie m, showtime s where s.movie_id = m.movie_id order by m.movie_name, s.showtime");
 			
 			try (ResultSet rs = ps.executeQuery()) {
 				while (rs.next()) {
 					Showtime showtime = new Showtime();
+					List<Date> listShowtimes;
 					showtime.setName(rs.getString("movie_name"));
-					showtime.setShowtime(rs.getDate("showtime"));
-					showtimes.add(showtime);
-				}
-				
-				System.out.println(showtimes.toString());
-				
-				return showtimes;
+					showtime.setShowtime(rs.getTimestamp("showtime"));
+					String name = showtime.getName();
+					if (showtimes.containsKey(name)) {
+						listShowtimes = showtimes.get(name);
+						listShowtimes.add(showtime.getShowtime());
+					} else {
+						listShowtimes = new ArrayList<Date>();
+						listShowtimes.add(showtime.getShowtime());
+						showtimes.put(name, listShowtimes);
+					}
+				}			
+				System.out.println(showtimes.toString());			
 			}
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
-		return null;
+		return showtimes;
 	}
+//	@Override
+//	public List<Showtime> findShowtimeByMovieName() {
+//		System.out.println("jdbc find all showtimes with movie names");
+//		List<Showtime> showtimes = new ArrayList<>();
+//		try (Connection connection = dataSource.getConnection()) {
+//			PreparedStatement ps = connection
+//					.prepareStatement("select m.movie_name, s.showtime from movie m, showtime s");
+//			
+//			try (ResultSet rs = ps.executeQuery()) {
+//				while (rs.next()) {
+//					Showtime showtime = new Showtime();
+//					showtime.setName(rs.getString("movie_name"));
+//					showtime.setShowtime(rs.getDate("showtime"));
+//					showtimes.add(showtime);
+//				}			
+//				System.out.println(showtimes.toString());
+//				
+//				return showtimes;
+//			}
+//		} catch (SQLException ex) {
+//			ex.printStackTrace();
+//		}
+//		return null;
+//	}
 
 	@Override
 	public List<Showtime> findAllShowtimes() {

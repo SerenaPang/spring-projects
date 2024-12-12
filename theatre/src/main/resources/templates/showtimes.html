@@ -13,16 +13,25 @@
 		  		  
 		  <h2>Showtimes</h2>
 
-		  <table>
-		  		    <tr>
-		  			   <th>Movie Name</th>
-		  			   <th>Showtime</th>
-		  		    </tr>
-		  		    <tr th:each="showtime: ${showtimes}" >
-					   <td th:text="${showtime.name}"></td>
-		  			   <td th:text="${showtime.showtime}"></td>
-		  		    </tr>
-		  		</table>
+		  <table>					 
+					 <table>
+						<tr>
+						   <th>Movie Name</th>
+						   <th>Showtime</th>
+						</tr>
+					     <tr th:each="show : ${showtimes}">
+					         <td th:text="${show.key}"></td>
+							 <td>
+					         <table>
+					             <tr th:each="time : ${show.value}">
+								    <td th:text="${#dates.format(time, 'dd-MM-yyyy HH:mm')}"></td>
+					             </tr>
+					         </table>
+							 </td>
+					     </tr>
+					 </table>
+				
+				
 	<a th:href="@{/theater}">Find a Theatre</a>
 	<a th:href="@{/movies}">See a Movie</a>
 	<a th:href="@{/food}">Food & Drink</a>

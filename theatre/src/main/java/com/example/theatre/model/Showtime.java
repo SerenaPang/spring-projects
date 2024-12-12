@@ -1,7 +1,8 @@
 package com.example.theatre.model;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public class Showtime {
 	private Date showtime;
@@ -9,6 +10,7 @@ public class Showtime {
 	private int movieId;
 	private int theaterId;
 	private String name;
+	private Map<String, Date> mapOfShowtimes;
 
 	public Date getShowtime() {
 		return showtime;
@@ -41,8 +43,6 @@ public class Showtime {
 	public void setTheaterId(int theaterId) {
 		this.theaterId = theaterId;
 	}
-	
-	
 
 	public String getName() {
 		return name;
@@ -50,6 +50,14 @@ public class Showtime {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Map<String, Date> getMapOfShowtimes() {
+		return mapOfShowtimes;
+	}
+
+	public void setMapOfShowtimes(Map<String, Date> mapOfShowtimes) {
+		this.mapOfShowtimes = mapOfShowtimes;
 	}
 
 	@Override
