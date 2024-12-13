@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import com.example.theatre.model.Showtime;
 import com.example.theatre.model.Theater;
 
 /**
@@ -38,6 +36,7 @@ public class MainController {
 
 
 	@GetMapping("/home")
+//	@GetMapping("/")
 	public String home(@RequestParam(required = false) String logout, Model model) {
 		if (logout != null) {
 			loggedUserManagementService.setUsername(null);
@@ -50,7 +49,8 @@ public class MainController {
 		}
 
 		model.addAttribute("username", username);
-		return "home.html";
+		//return "home.html";
+		return "login.html";
 	}
 
 	@GetMapping("/")
@@ -65,7 +65,8 @@ public class MainController {
 
 		if (loggedIn) {
 			loggedUserManagementService.setUsername(username);
-			return "redirect:/theater";
+			model.addAttribute("username", username);
+			return "redirect:/movies";
 		}
 
 		model.addAttribute("message", "Login failed!");
@@ -104,6 +105,8 @@ public class MainController {
 	@RequestMapping("/movies")
 	public String movies(Model model) {
 		var movies =  movieService.findAll();
+		String user = loggedUserManagementService.getUsername();
+		model.addAttribute("username", user);
 		model.addAttribute("movies", movies);
 		return "movies.html";
 	}
@@ -122,13 +125,6 @@ public class MainController {
 		return "drink.html";
 	}
 	
-//	@RequestMapping("/showtimes")
-//	public String showtime(Model model) {
-//		var showtimes = showtimeService.findAll();
-//		model.addAttribute("showtimes", showtimes);
-//		return "showtimes.html";
-//	}
-	
 	@RequestMapping("/showtimes")
 	public String showtime(Model model) {
 		Map<String, List<Date>> showtimes = showtimeService.findShowtimeByMovieName();
@@ -136,14 +132,6 @@ public class MainController {
 		System.out.println(showtimes);
 		return "showtimes.html";
 	}
-	
-//	@PostMapping("/showtimes")
-//	public String findShowtimeByName(@RequestParam String movieName, Model model) {
-//		List<Showtime> showtimes = showtimeService.findShowtimeByMovieId(idMovie);
-//		model.addAttribute("showtimes", showtimes);
-//		System.out.println("showtimes " + showtimes);
-//		return "showtimes.html";	
-//	}
 
 	@RequestMapping("/tickets")
 	public String tickets(Model page) {
