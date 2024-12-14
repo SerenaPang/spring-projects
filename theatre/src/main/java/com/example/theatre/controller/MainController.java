@@ -81,9 +81,9 @@ public class MainController {
 	}
 
 	@RequestMapping("/theater")
-	public String theater(Model page) {
-		page.addAttribute("username", "Kity");
-		page.addAttribute("color", "blue");
+	public String theater(Model model) {
+		String user = loggedUserManagementService.getUsername();
+		model.addAttribute("username", user);
 		return "theater.html";
 	}
 	
@@ -97,6 +97,8 @@ public class MainController {
 	@PostMapping("/findtheaterbyzipcode")
 	public String findTheaterByZip(@RequestParam String zipcode, Model model) {
 		Theater theater = theaterService.findTheaterByZipcode(zipcode);
+		String user = loggedUserManagementService.getUsername();
+		model.addAttribute("username", user);
 		model.addAttribute("theater", theater);
 		System.out.println("findtheaterbyzipcode " + theater);
 		return "findtheaterbyzipcode.html";
@@ -114,6 +116,8 @@ public class MainController {
 	@RequestMapping("/food")
 	public String food(Model model) {
 		var foods = foodService.findAll();
+		String user = loggedUserManagementService.getUsername();
+		model.addAttribute("username", user);
 		model.addAttribute("foods", foods);
 		return "food.html";
 	}
@@ -121,6 +125,8 @@ public class MainController {
 	@RequestMapping("/drink")
 	public String drink(Model model) {
 		var drinks = drinkService.findAll();
+		String user = loggedUserManagementService.getUsername();
+		model.addAttribute("username", user);
 		model.addAttribute("drinks", drinks);
 		return "drink.html";
 	}
@@ -128,15 +134,17 @@ public class MainController {
 	@RequestMapping("/showtimes")
 	public String showtime(Model model) {
 		Map<String, List<Date>> showtimes = showtimeService.findShowtimeByMovieName();
+		String user = loggedUserManagementService.getUsername();
+		model.addAttribute("username", user);
 		model.addAttribute("showtimes", showtimes);
 		System.out.println(showtimes);
 		return "showtimes.html";
 	}
 
 	@RequestMapping("/tickets")
-	public String tickets(Model page) {
-		page.addAttribute("username", "Kity");
-		page.addAttribute("color", "blue");
+	public String tickets(Model model) {
+		String user = loggedUserManagementService.getUsername();
+		model.addAttribute("username", user);
 		return "tickets.html";
 	}
 }
