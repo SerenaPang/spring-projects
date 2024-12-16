@@ -90,6 +90,8 @@ public class MainController {
 	@GetMapping("/theater")
 	public String viewTheaters(Model model) {
 		var theaters = theaterService.findAll();
+		String user = loggedUserManagementService.getUsername();
+		model.addAttribute("username", user);
 		model.addAttribute("theaters", theaters);
 		return "theater.html";
 	}

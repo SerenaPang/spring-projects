@@ -7,7 +7,11 @@
 </head>
 
 <body>
-	<h1>View Drinks</h1>
+	<h1> Welcome
+			<span th:style="'color:' + ${color}"
+				  th:text="${username}"></span>!</h1>
+				  
+				  <h2>View Drinks</h2>
 
 		<table>
 		    <tr>
@@ -24,6 +28,7 @@
 	
 	<a th:href="@{/theater}">Find a Theatre</a>
 	<a th:href="@{/movies}">See a Movie</a>
+	<a th:href="@{/drink}">Drink</a>
 </body>
 	
 </html>
