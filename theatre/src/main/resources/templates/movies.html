@@ -8,27 +8,26 @@
 
 <body>
 	<h1> Welcome
-	<span th:style="'color:' + ${color}"
-		  th:text="${username}"></span>!</h1>
+	<span th:text="${username}"></span>!</h1>
 		  
-		  <h2>View movies</h2>
+	<h2>Movies for today</h2>
 
-		         <table>
-		             <tr>
-		  			   <th>MOVIE ID</th>
-		                 <th>MOVIE NAME</th>
-		             </tr>
-		             <tr th:each="m: ${movies}" >
-		  			
-		                 <td><a th:href="@{'/showtimes/' + ${m.name}}"><span th:text="${m.id}"></a></td>
-		                 <td th:text="${m.name}"></td>
-		             </tr>
-		         </table>
+	<table style="border: 1px solid; margin: 20px;">
+        <tr th:each="m: ${movies}">
+           <td>
+			   <a th:href="@{'/showtimes?movieId=' + ${m.id}}">
+		         <span th:text="${m.name}"></span>
+		       </a>
+		   </td>
+       </tr>
+    </table>
 
-	<a th:href="@{/theater}">Find a Theatre</a>
-	<a th:href="@{/tickets}">Book a Ticket</a>
-	<a th:href="@{/food}">Food</a>
-	<a th:href="@{/drink}">Drink</a>
+	<div style="margin: 20px">
+		<a th:href="@{/theater}">Find a Theatre</a>
+		<a th:href="@{/tickets}">Book a Ticket</a>
+		<a th:href="@{/food}">Food</a>
+		<a th:href="@{/drink}">Drink</a>
+	</div>
 </body>
 	
 </html>
