@@ -8,6 +8,7 @@ public class OrderItem {
 	private int drinkId;
 	private int quantity;
 	private double price;
+	
 	public int getOrderItemId() {
 		return orderItemId;
 	}
