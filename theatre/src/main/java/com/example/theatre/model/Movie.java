@@ -4,6 +4,7 @@ public class Movie {
 	private int id;
 	private String name;
 	private double price;
+	
 	public int getId() {
 		return id;
 	}

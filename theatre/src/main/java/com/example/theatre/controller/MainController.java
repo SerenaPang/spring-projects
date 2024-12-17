@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.example.theatre.model.Showtime;
 import com.example.theatre.model.Theater;
 
 /**
@@ -133,13 +135,15 @@ public class MainController {
 		return "drink.html";
 	}
 	
-	@RequestMapping("/showtimes")
-	public String showtime(Model model) {
-		Map<String, List<Date>> showtimes = showtimeService.findShowtimeByMovieName();
+	@GetMapping("/showtimes")
+	public String showtime(@RequestParam int movieId, Model model) {
+		System.out.println("MainController.showtime() movieId " + movieId);
+		List<Showtime> showtimes = showtimeService.findShowtimeByMovieId(movieId);
 		String user = loggedUserManagementService.getUsername();
 		model.addAttribute("username", user);
 		model.addAttribute("showtimes", showtimes);
 		System.out.println(showtimes);
+
 		return "showtimes.html";
 	}
 
