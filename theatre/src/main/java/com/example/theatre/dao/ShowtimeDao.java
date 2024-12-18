@@ -8,6 +8,6 @@ import com.example.theatre.model.Showtime;
 public interface ShowtimeDao {
 	public List<Showtime> findShowtimeByMovieId(int id);
 	//public List<Showtime> findShowtimeByMovieName();
-	public Map<String, List<Date>> findShowtimeByMovieName();
+	//public Map<String, List<Date>> findShowtimeByMovieName();
 	public List<Showtime> findAllShowtimes();
 }

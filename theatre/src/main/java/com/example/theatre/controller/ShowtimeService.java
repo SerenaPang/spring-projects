@@ -21,9 +21,9 @@ public class ShowtimeService {
 		return showtimeDao.findAllShowtimes();
 	}
 
-	public Map<String, List<Date>> findShowtimeByMovieName() {
-		return showtimeDao.findShowtimeByMovieName();
-	}
+//	public Map<String, List<Date>> findShowtimeByMovieName() {
+//		return showtimeDao.findShowtimeByMovieName();
+//	}
 
 	public List<Showtime> findShowtimeByMovieId(int id) {
 		return showtimeDao.findShowtimeByMovieId(id);
