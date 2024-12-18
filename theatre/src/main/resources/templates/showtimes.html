@@ -17,17 +17,13 @@
 						<tr>
 						   <th>Movie Name</th>
 						   <th>Showtime</th>
-						</tr>
-					     <tr th:each="show : ${showtimes}">
-					         <td th:text="${show.key}"></td>
-							 <td>
-					         <table>
-					             <tr th:each="time : ${show.value}">
-								    <td th:text="${#dates.format(time, 'dd-MM-yyyy HH:mm')}"></td>
-					             </tr>
-					         </table>
-							 </td>
-					     </tr>
+						   <th>Theater City</th>
+						   
+						   <tr th:each="show: ${showtimes}" >
+						   		   <td th:text="${show.movie.name}"></td>
+						   		   <td th:text="${#dates.format(show.showtime, 'dd-MM-yyyy HH:mm')}"></td>
+						   		   <td th:text="${show.theater.city}"></td>
+						   	    </tr>
 					 </table>
 				
 				

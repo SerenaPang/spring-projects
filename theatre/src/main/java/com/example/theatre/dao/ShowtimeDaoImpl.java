@@ -37,11 +37,9 @@ public class ShowtimeDaoImpl implements ShowtimeDao {
 					// showtime.setTheaterId(rs.getInt("theater_id"));
 					showtime.setShowtime(rs.getDate("showtime"));
 					showtimes.add(showtime);
-
 				}
 
 				System.out.println(showtimes.toString());
-
 				return showtimes;
 			}
 		} catch (SQLException ex) {
@@ -75,7 +73,11 @@ public class ShowtimeDaoImpl implements ShowtimeDao {
 					Showtime showtime = new Showtime();
 					showtime.setShowtime_id(rs.getInt("showtime_id"));
 					showtime.setShowtime(rs.getDate("showtime"));
-
+					showtime.setMovie(movie);
+					showtime.setTheater(theater);
+					System.out.println(movie.toString());
+					System.out.println(theater.toString());
+					System.out.println(showtime.toString());
 					showtimes.add(showtime);
 				}
 
