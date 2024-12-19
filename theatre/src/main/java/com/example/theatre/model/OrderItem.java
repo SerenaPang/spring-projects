@@ -3,9 +3,9 @@ package com.example.theatre.model;
 public class OrderItem {
 	private int orderItemId;
 	private int orderId;
-	private int ticketId;
-	private int foodId;
-	private int drinkId;
+	private Ticket ticket;
+	private Food food;
+	private Drink drink;
 	private int quantity;
 	private double price;
 	
@@ -17,28 +17,7 @@ public class OrderItem {
 	}
 	public int getOrderId() {
 		return orderId;
-	}
-	public void setOrderId(int orderId) {
-		this.orderId = orderId;
-	}
-	public int getTicketId() {
-		return ticketId;
-	}
-	public void setTicketId(int ticketId) {
-		this.ticketId = ticketId;
-	}
-	public int getFoodId() {
-		return foodId;
-	}
-	public void setFoodId(int foodId) {
-		this.foodId = foodId;
-	}
-	public int getDrinkId() {
-		return drinkId;
-	}
-	public void setDrinkId(int drinkId) {
-		this.drinkId = drinkId;
-	}
+	}	
 	public int getQuantity() {
 		return quantity;
 	}
@@ -51,9 +30,30 @@ public class OrderItem {
 	public void setPrice(double price) {
 		this.price = price;
 	}
+	public Ticket getTicket() {
+		return ticket;
+	}
+	public void setTicket(Ticket ticket) {
+		this.ticket = ticket;
+	}
+	public Food getFood() {
+		return food;
+	}
+	public void setFood(Food food) {
+		this.food = food;
+	}
+	public Drink getDrink() {
+		return drink;
+	}
+	public void setDrink(Drink drink) {
+		this.drink = drink;
+	}
+	public void setOrderId(int orderId) {
+		this.orderId = orderId;
+	}
 	@Override
 	public String toString() {
-		return "OrderItem [orderItemId=" + orderItemId + ", orderId=" + orderId + ", ticketId=" + ticketId + ", foodId="
-				+ foodId + ", drinkId=" + drinkId + ", quantity=" + quantity + ", price=" + price + "]";
+		return "OrderItem [orderItemId=" + orderItemId + ", orderId=" + orderId + ", ticket=" + ticket + ", food="
+				+ food + ", drink=" + drink + ", quantity=" + quantity + ", price=" + price + "]";
 	}
 }
