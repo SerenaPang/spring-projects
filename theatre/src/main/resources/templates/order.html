@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Select the time</title>
+</head>
+
+<body>
+	<h1> Welcome
+	<span th:text="${username}"></span>!</h1>
+		  		  
+		  <h2>Order</h2>
+		  <span>Showtime Info</span>
+		  	         <table th:if="${showtime}">
+		  	             <tr>
+							<th>Movie Name</th>
+							<th>Showtime</th>
+							<th>Theater City</th>
+						
+							</tr>	
+								<td th:text="${show.movie.name}"></td>
+								<td th:text="${#dates.format(show.showtime, 'dd-MM-yyyy HH:mm')}"></td>
+								<td th:text="${show.theater.city}"></td>
+							</tr>
+						</table>
+
+		  			 <span th:if="${showtime == null}"> NOT found </span>
+							
+	<a th:href="@{/theater}">Find a Theatre</a>
+	<a th:href="@{/food}">Food</a>
+	<a th:href="@{/drink}">Drink</a>
+</body>
+	
+</html>

@@ -88,4 +88,28 @@ public class ShowtimeDaoImpl implements ShowtimeDao {
 		}
 		return null;
 	}
+
+	@Override
+	public Showtime findShowtimeById(int showtimeId) {
+		System.out.println("jdbc find all showtimes");
+		try (Connection connection = dataSource.getConnection()) {
+			PreparedStatement ps = connection
+					.prepareStatement("select showtime_id, movie_id, theater_id, showtime from SHOWTIME where showtime_id = ?");
+			ps.setInt(1, showtimeId);
+			Showtime showtime;
+			try (ResultSet rs = ps.executeQuery()) {
+				while (rs.next()) {
+					showtime = new Showtime();
+					showtime.setShowtime_id(rs.getInt("showtime_id"));
+					showtime.setMovieId(rs.getInt("movie_id"));
+					showtime.setTheaterId(rs.getInt("theater_id"));
+					showtime.setShowtime(rs.getDate("showtime"));
+					return showtime;
+				}
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return null;
+	}
 }

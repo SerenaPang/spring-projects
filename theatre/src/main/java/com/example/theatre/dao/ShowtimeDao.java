@@ -10,4 +10,5 @@ public interface ShowtimeDao {
 	//public List<Showtime> findShowtimeByMovieName();
 	//public Map<String, List<Date>> findShowtimeByMovieName();
 	public List<Showtime> findAllShowtimes();
+	public Showtime findShowtimeById(int showtimeId);
 }

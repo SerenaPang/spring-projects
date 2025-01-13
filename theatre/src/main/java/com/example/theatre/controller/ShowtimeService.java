@@ -28,4 +28,8 @@ public class ShowtimeService {
 	public List<Showtime> findShowtimeByMovieId(int id) {
 		return showtimeDao.findShowtimeByMovieId(id);
 	}
+
+	public Showtime findShowtimeById(int showtimeId) {
+		return showtimeDao.findShowtimeById(showtimeId);
+	}
 }

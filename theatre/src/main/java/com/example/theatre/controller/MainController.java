@@ -146,6 +146,18 @@ public class MainController {
 
 		return "showtimes.html";
 	}
+	
+	@PostMapping("/order")
+	public String findShowtimeById(@RequestParam int showtimeId, Model model) {
+		Showtime showtime = showtimeService.findShowtimeById(showtimeId);
+		
+//		Theater theater = theaterService.findTheaterByZipcode(zipcode);
+//		String user = loggedUserManagementService.getUsername();
+//		model.addAttribute("username", user);
+//		model.addAttribute("theater", theater);
+//		System.out.println("findtheaterbyzipcode " + theater);
+		return "order.html";
+	}
 
 	@RequestMapping("/tickets")
 	public String tickets(Model model) {

@@ -20,13 +20,16 @@
 						   <th>Theater City</th>
 						   
 						   <tr th:each="show: ${showtimes}" >
-						   		   <td th:text="${show.movie.name}"></td>
-						   		   <td th:text="${#dates.format(show.showtime, 'dd-MM-yyyy HH:mm')}"></td>
+						     <td th:text="${show.movie.name}"></td>
+						     <td>
+						       <a 
+							     th:text="${#dates.format(show.showtime, 'dd-MM-yyyy HH:mm')}"
+							     th:href="@{'/order?showtime=' + ${show.showtime_id}}"></a>
+							  </td>
 						   		   <td th:text="${show.theater.city}"></td>
 						   	    </tr>
 					 </table>
-				
-				
+							
 	<a th:href="@{/theater}">Find a Theatre</a>
 	<a th:href="@{/food}">Food</a>
 	<a th:href="@{/drink}">Drink</a>

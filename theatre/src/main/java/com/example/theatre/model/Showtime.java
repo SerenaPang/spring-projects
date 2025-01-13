@@ -9,6 +9,8 @@ public class Showtime {
 	private Movie movie;
 	private Theater theater;
 	private Date showtime;
+	private int movieId;
+	private int theaterId;
 
 	public int getShowtime_id() {
 		return showtime_id;
@@ -40,5 +42,27 @@ public class Showtime {
 
 	public void setShowtime(Date showtime) {
 		this.showtime = showtime;
+	}
+
+	public int getMovieId() {
+		return movieId;
+	}
+
+	public void setMovieId(int movieId) {
+		this.movieId = movieId;
+	}
+
+	public int getTheaterId() {
+		return theaterId;
+	}
+
+	public void setTheaterId(int theaterId) {
+		this.theaterId = theaterId;
+	}
+
+	@Override
+	public String toString() {
+		return "Showtime [showtime_id=" + showtime_id + ", movie=" + movie + ", theater=" + theater + ", showtime="
+				+ showtime + ", movieId=" + movieId + ", theaterId=" + theaterId + "]";
 	}
 }

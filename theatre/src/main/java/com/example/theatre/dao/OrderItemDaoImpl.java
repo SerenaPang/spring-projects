@@ -29,8 +29,7 @@ public class OrderItemDaoImpl implements OrderItemDao{
 				orderItem.setOrderItemId(rs.getInt(""));
 				orderItem.setOrderId(rs.getInt(""));
 				orderItem.setTicket(null);
-				
-				
+								
 				orderItems.add(orderItem);
 			}
 			System.out.println(orderItems);
