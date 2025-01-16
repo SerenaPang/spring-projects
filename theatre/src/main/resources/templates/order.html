@@ -14,15 +14,13 @@
 		  <span>Showtime Info</span>
 		  	         <table th:if="${showtime}">
 		  	             <tr>
-							<th>Movie Name</th>
-							<th>Showtime</th>
-							<th>Theater City</th>
-						
-							</tr>	
-								<td th:text="${show.movie.name}"></td>
-								<td th:text="${#dates.format(show.showtime, 'dd-MM-yyyy HH:mm')}"></td>
-								<td th:text="${show.theater.city}"></td>
-							</tr>
+							<tr th:each="m: ${movies}">
+							         <td>
+									   <a th:href="@{'/showtimes?movieId=' + ${m.id}}">
+								         <span th:text="${m.name}"></span>
+								       </a>
+								   </td>
+							     </tr>
 						</table>
 
 		  			 <span th:if="${showtime == null}"> NOT found </span>

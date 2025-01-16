@@ -24,7 +24,10 @@
 		  	                 <td th:text="${m.name}"></td>
 		  	             </tr>
 		  	         </table>
-
+					 <form action="/" method="post">
+					     Quantity: <input type="text" name="quantity" /><br />
+					     <button type="submit">Submit Order</button>
+					  </form>
 	<a th:href="@{/theater}">Find a Theatre</a>
 	<a th:href="@{/movies}">See a Movie</a>
 	<a th:href="@{/food}">Food</a>

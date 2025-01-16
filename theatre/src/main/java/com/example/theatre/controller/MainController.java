@@ -35,7 +35,8 @@ public class MainController {
 	private ShowtimeService showtimeService;
 	@Autowired
 	private LoggedUserManagementService loggedUserManagementService;
-
+	@Autowired
+	private OrderService orderService;
 
 	@GetMapping("/home")
 //	@GetMapping("/")
@@ -147,16 +148,18 @@ public class MainController {
 		return "showtimes.html";
 	}
 	
-	@PostMapping("/order")
+	//@PostMapping("/order")
+	@GetMapping("/order")
 	public String findShowtimeById(@RequestParam int showtimeId, Model model) {
 		Showtime showtime = showtimeService.findShowtimeById(showtimeId);
 		
-//		Theater theater = theaterService.findTheaterByZipcode(zipcode);
+		//Theater theater = theaterService.findTheaterByZipcode(showtime.getTheaterId());
 //		String user = loggedUserManagementService.getUsername();
 //		model.addAttribute("username", user);
-//		model.addAttribute("theater", theater);
-//		System.out.println("findtheaterbyzipcode " + theater);
+		model.addAttribute("showtime", showtime);
+		System.out.println(showtime);
 		return "order.html";
+		//return "redirect:/tickets";
 	}
 
 	@RequestMapping("/tickets")
