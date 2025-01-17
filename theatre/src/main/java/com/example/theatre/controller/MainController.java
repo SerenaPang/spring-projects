@@ -172,9 +172,9 @@ public class MainController {
 		return "tickets.html";
 	}
 	
-	@PostMapping("/tickets")
+	@PostMapping("/buyTickets")
 	public String buyTickets(@RequestParam int quantity, Model model) {
-		
+		System.out.println("MainController.buyTickets() quantity " + quantity);
 //				ticketService.setUserId();
 //				ticketService.setShowtime();
 //				ticketService.setMovieId();
