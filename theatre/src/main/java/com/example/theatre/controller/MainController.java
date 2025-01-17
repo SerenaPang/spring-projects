@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.theatre.model.Showtime;
 import com.example.theatre.model.Theater;
+import com.example.theatre.model.Ticket;
 
 /**
  * This class does save user, update user, delete user, find all users in the
@@ -162,10 +163,27 @@ public class MainController {
 		//return "redirect:/tickets";
 	}
 
-	@RequestMapping("/tickets")
+	//@RequestMapping("/tickets")
+	@GetMapping("/tickets")
 	public String tickets(Model model) {
 		String user = loggedUserManagementService.getUsername();
+		
 		model.addAttribute("username", user);
+		return "tickets.html";
+	}
+	
+	@PostMapping("/tickets")
+	public String buyTickets(@RequestParam int quantity, Model model) {
+		
+//				ticketService.setUserId();
+//				ticketService.setShowtime();
+//				ticketService.setMovieId();
+//				ticketService.setQuantity();
+//		
+//		String user = loggedUserManagementService.getUsername();
+//		model.addAttribute("username", user);
+//		model.addAttribute("tickets", tickets);
+//		System.out.println("findtheaterbyzipcode " + tickets);
 		return "tickets.html";
 	}
 }

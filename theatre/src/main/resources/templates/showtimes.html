@@ -23,7 +23,7 @@
 						   					     <td>
 						   					       <a 
 						   						     th:text="${#dates.format(show.showtime, 'dd-MM-yyyy HH:mm')}"
-						   						     th:href="@{'/order?showtimeId=' + ${show.showtime_id}}">
+						   						     th:href="@{'/tickets?showtimeId=' + ${show.showtime_id}}">
 													 <span th:text="${show.showtime_id}"></span>
 												
 												 </a>
