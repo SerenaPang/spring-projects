@@ -7,6 +7,8 @@ public class Ticket {
 	private int userId;
 	private Date showtime;
 	private String movieName;
+	private int quantity;
+	
 	public int getTicketId() {
 		return ticketId;
 	}
@@ -31,9 +33,15 @@ public class Ticket {
 	public void setMovieName(String movieName) {
 		this.movieName = movieName;
 	}
+	public int getQuantity() {
+		return quantity;
+	}
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
 	@Override
 	public String toString() {
 		return "Ticket [ticketId=" + ticketId + ", userId=" + userId + ", showtime=" + showtime + ", movieName="
-				+ movieName + "]";
+				+ movieName + ", quantity=" + quantity + "]";
 	}
 }

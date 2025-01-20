@@ -26,6 +26,7 @@
 		  	         </table>
 					 <form action="/buyTickets" method="post">
 					     Quantity: <input type="text" name="quantity" /><br />
+						 <input type="hidden" name="showtimeId"  th:value="${showtimeId}" />
 					     <button type="submit">Submit Order</button>
 					  </form>
 	<a th:href="@{/theater}">Find a Theatre</a>

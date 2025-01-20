@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.theatre.model.Food;
 import com.example.theatre.model.Showtime;
 import com.example.theatre.model.Theater;
 import com.example.theatre.model.Ticket;
@@ -121,10 +122,11 @@ public class MainController {
 
 	@RequestMapping("/food")
 	public String food(Model model) {
-		var foods = foodService.findAll();
+		List<Food> foods = foodService.findAll();
 		String user = loggedUserManagementService.getUsername();
 		model.addAttribute("username", user);
 		model.addAttribute("foods", foods);
+		System.out.println(foods);
 		return "food.html";
 	}
 	
@@ -145,7 +147,6 @@ public class MainController {
 		model.addAttribute("username", user);
 		model.addAttribute("showtimes", showtimes);
 		System.out.println(showtimes);
-
 		return "showtimes.html";
 	}
 	
@@ -165,16 +166,19 @@ public class MainController {
 
 	//@RequestMapping("/tickets")
 	@GetMapping("/tickets")
-	public String tickets(Model model) {
+	public String tickets(@RequestParam int showtimeId, Model model) {
 		String user = loggedUserManagementService.getUsername();
-		
+		model.addAttribute("showtimeId", showtimeId);
 		model.addAttribute("username", user);
 		return "tickets.html";
 	}
 	
 	@PostMapping("/buyTickets")
-	public String buyTickets(@RequestParam int quantity, Model model) {
+	public String buyTickets(@RequestParam int showtimeId, @RequestParam int quantity, Model model) {
 		System.out.println("MainController.buyTickets() quantity " + quantity);
+		System.out.println("MainController.buyTickets() showtimeId " + showtimeId);
+		Showtime showtime = showtimeService.findShowtimeById(showtimeId);
+	
 //				ticketService.setUserId();
 //				ticketService.setShowtime();
 //				ticketService.setMovieId();
@@ -184,6 +188,10 @@ public class MainController {
 //		model.addAttribute("username", user);
 //		model.addAttribute("tickets", tickets);
 //		System.out.println("findtheaterbyzipcode " + tickets);
-		return "tickets.html";
+		
+		//return "tickets.html";
+		return "order.html";	
 	}
+	
+	
 }
