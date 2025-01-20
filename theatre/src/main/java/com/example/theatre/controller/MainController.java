@@ -16,6 +16,7 @@ import com.example.theatre.model.Food;
 import com.example.theatre.model.Showtime;
 import com.example.theatre.model.Theater;
 import com.example.theatre.model.Ticket;
+import com.example.theatre.model.User;
 
 /**
  * This class does save user, update user, delete user, find all users in the
@@ -69,6 +70,11 @@ public class MainController {
 		boolean loggedIn = userService.login(username, password);
 
 		if (loggedIn) {
+			//find user object and get id
+			User user = userService.findUserByName(username);
+			int userId = user.getId();
+			//set the user id here
+			loggedUserManagementService.setUserId(userId);
 			loggedUserManagementService.setUsername(username);
 			model.addAttribute("username", username);
 			return "redirect:/movies";
@@ -178,7 +184,7 @@ public class MainController {
 		System.out.println("MainController.buyTickets() quantity " + quantity);
 		System.out.println("MainController.buyTickets() showtimeId " + showtimeId);
 		Showtime showtime = showtimeService.findShowtimeById(showtimeId);
-	
+		
 //				ticketService.setUserId();
 //				ticketService.setShowtime();
 //				ticketService.setMovieId();

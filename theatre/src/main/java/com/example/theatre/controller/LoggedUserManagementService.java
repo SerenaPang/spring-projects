@@ -7,6 +7,7 @@ import org.springframework.web.context.annotation.SessionScope;
 @SessionScope
 public class LoggedUserManagementService {
 
+	private int userId;
 	private String username;
 
 	public String getUsername() {
@@ -16,5 +17,12 @@ public class LoggedUserManagementService {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-
+	
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+	
+	public int getUserId() {
+		return userId;
+	}
 }

@@ -134,7 +134,8 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public boolean validUserAndPassword(String user, String password) {
 		try (Connection connection = dataSource.getConnection()) {
-			PreparedStatement ps = connection.prepareStatement("SELECT user_id FROM User WHERE user_name =? and user_password = ?");
+			PreparedStatement ps = connection
+					.prepareStatement("SELECT user_id FROM User WHERE user_name =? and user_password = ?");
 			ps.setString(1, user);
 			ps.setString(2, password);
 			try (ResultSet rs = ps.executeQuery()) {
@@ -148,5 +149,27 @@ public class UserDaoImpl implements UserDao {
 		}
 		// User and password were not found.
 		return false;
+	}
+
+	@Override
+	public User findUserByName(String username) {
+		System.out.println("jdbc find user by username " + username);
+		try (Connection connection = dataSource.getConnection()) {
+			PreparedStatement ps = connection
+					.prepareStatement("SELECT user_id, user_name FROM User WHERE user_name =?");
+			ps.setString(1, username);
+			User user = new User();
+			try (ResultSet rs = ps.executeQuery()) {
+				if (rs.next()) {
+					user.setId(rs.getInt("user_id"));
+					user.setName(rs.getString("user_name"));
+					System.out.println(user.toString());
+				}
+				return user;
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return null;
 	}
 }
