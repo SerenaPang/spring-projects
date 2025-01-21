@@ -13,7 +13,7 @@ public class TicketService {
 	@Autowired
 	private TicketDao ticketDao;
 	
-	private Ticket purchaseTicket(int userId, int showtimeId, int quantity) {
+	public Ticket purchaseTicket(int userId, int showtimeId, int quantity) {
 		return ticketDao.purchaseTicket(userId, showtimeId, quantity);
 	}
 }

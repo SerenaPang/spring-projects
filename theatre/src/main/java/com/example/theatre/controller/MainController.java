@@ -39,6 +39,8 @@ public class MainController {
 	@Autowired
 	private LoggedUserManagementService loggedUserManagementService;
 	@Autowired
+	private TicketService ticketService;
+	@Autowired
 	private OrderService orderService;
 
 	@GetMapping("/home")
@@ -181,19 +183,12 @@ public class MainController {
 	
 	@PostMapping("/buyTickets")
 	public String buyTickets(@RequestParam int showtimeId, @RequestParam int quantity, Model model) {
+		
 		System.out.println("MainController.buyTickets() quantity " + quantity);
 		System.out.println("MainController.buyTickets() showtimeId " + showtimeId);
-		Showtime showtime = showtimeService.findShowtimeById(showtimeId);
-		
-//				ticketService.setUserId();
-//				ticketService.setShowtime();
-//				ticketService.setMovieId();
-//				ticketService.setQuantity();
-//		
-//		String user = loggedUserManagementService.getUsername();
-//		model.addAttribute("username", user);
-//		model.addAttribute("tickets", tickets);
-//		System.out.println("findtheaterbyzipcode " + tickets);
+		int userId = loggedUserManagementService.getUserId();
+		System.out.println("MainController.buyTickets() userId " + userId);
+		ticketService.purchaseTicket(userId, showtimeId, quantity);
 		
 		//return "tickets.html";
 		return "order.html";	
