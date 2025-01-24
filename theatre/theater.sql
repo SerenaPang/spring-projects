@@ -35,11 +35,10 @@ CREATE TABLE TICKET(
 	ticket_id INTEGER NOT NULL AUTO_INCREMENT,
 	user_id INTEGER,
 	showtime_id INTEGER,
-	movie_id INTEGER,
+	quantity INTEGER,
 	PRIMARY KEY(ticket_id),
 	FOREIGN KEY(user_id) REFERENCES USER(user_id),
-	FOREIGN KEY(showtime_id) REFERENCES SHOWTIME(showtime_id),
-	FOREIGN KEY(movie_id) REFERENCES MOVIE(movie_id)
+	FOREIGN KEY(showtime_id) REFERENCES SHOWTIME(showtime_id)
 );
 
 CREATE TABLE FOOD (
